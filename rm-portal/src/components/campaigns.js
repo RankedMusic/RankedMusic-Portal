@@ -69,10 +69,10 @@ const Campaign = props => {
                         <strong>Content?: </strong>
                         {/* {campaign.address.building} {campaign.address.street}, {campaign.address.zipcode} */}
                     </p>
-                    {/* <Link to={"/campaigns/" + props.match.params.id + "/influencer"} className="btn btn-primary variant-outline-dark">
+                    <Link to={"/campaigns/" + props.match.params.id + "/influencer"} className="btn btn-primary variant-outline-dark">
                         Add Influencer
-                    </Link> */}
-                    <Button variant="outline-dark" to={"/campaigns/" + props.match.params.id + "/influencer"}>Add Influencer</Button>
+                    </Link>
+                    {/* <Button variant="outline-dark" to={"/campaigns/" + props.match.params.id + "/influencer"}>Add Influencer</Button> */}
                     <h4> Influencers </h4>
                     <div className="row">
                         {/* if there are influencers (>0) -> otherwise returns no influencers */}
@@ -85,8 +85,9 @@ const Campaign = props => {
                                         <div className="card-body">
                                             <p className="card-text">
                                                 {influencer.text}<br/>
-                                                <strong>User: </strong>{influencer.name}<br/>
-                                                <strong>Date: </strong>{influencer.date}
+                                                <strong>Influencer Link </strong>{influencer.influencer}<br/>
+                                                <strong>Date: </strong>
+                                                {/* {influencer.date} */}
                                             </p>
                                             {/* show buttons depending which user is logged in */}
                                             {/* if there is a user is logged in + is logged in as the creator of the influencer -> && if true = does it*/}
