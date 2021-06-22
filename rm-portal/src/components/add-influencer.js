@@ -48,6 +48,25 @@ const AddInfluencer = props => {
         .catch(e => {
           console.log(e);
         });
+
+
+        CampaignDataService.saveUsername(data)
+        .then(response => {
+          // setSubmitted(true);
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+
+        CampaignDataService.saveAvatar(data)
+        .then(response => {
+          // setSubmitted(true);
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
     // }
 
   };

@@ -4,7 +4,8 @@ export default class InfluencersController {
     static async apiPostInfluencer(req, res, next) {
         try {
             // get info from body of request
-            const campaignId = req.body.campaignId
+            const campaignId = req.body.campaign_id
+            console.log(req.body.campaign_id)
             const influencer = req.body.influencer
             const date = new Date()
             // const userInfo = {
@@ -13,6 +14,7 @@ export default class InfluencersController {
             // }
             // get new date
             // put data tg and send over to to db
+            
             const InfluencerResponse = await InfluencersDAO.addInfluencer(
                 campaignId,
                 influencer,

@@ -25,6 +25,24 @@ class CampaignDataService {
     deleteInfluencer(id, user_Id){
         return http.delete(`/influencer?id=${id}`, {data:{user_id: user_Id}});
     }
+
+    saveUsername(data){
+        return http.post('/save-username', data);
+    }
+    saveAvatar(data){
+        return http.post('/save-avatar', data);
+    }
+    getVideoLikes(data){
+        // console.log(data)
+        return http.post('/video_likes', data)
+    }
+    getVideoComments(data){
+        // console.log(data)
+        return http.post('/video_comments', data)
+    }
+
+
+
     loginUser(data){
         return http.post("/thisUser", data);
     }

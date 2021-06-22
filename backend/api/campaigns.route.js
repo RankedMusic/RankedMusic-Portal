@@ -2,6 +2,7 @@ import express from "express"
 import UsersController from "./users.controller.js"
 import CampaignsCtrl from "./campaigns.controller.js"
 import InfluencersCtrl from "./influencers.controller.js"
+import DataScrapeCtrl from "./datascrape.controller.js"
 // get acess to express router
 const router = express.Router()
 // get list of all campaigns
@@ -20,6 +21,12 @@ router.route("/add-user").post(UsersController.PostUser)
 
 router.route("/").get(CampaignsCtrl.apiGetCampaigns)
 router.route("/").get(CampaignsCtrl.PostCampaign)
+
+// ROUTE TO GET VIDEOS DEPENDING ON THE VIDEO URL PASSED IN VideoLikes.js. Now go to RestaurantsCtrl
+router.route("/video_likes").post(DataScrapeCtrl.getVideoLikes)
+router.route("/video_comments").post(DataScrapeCtrl.getVideoComments)
+router.route("/save-username").post(DataScrapeCtrl.getInfluencerUsername)
+// router.route("/save-avatar").post(DataScrapeCtrl.getInfluencerAvatar)
 
 
 // get list of a specific campaign w specific id 

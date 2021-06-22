@@ -118,7 +118,7 @@ export default class CampaignsDAO {
                                 {
                                     $match: {
                                         $expr: {
-                                            $eq: ["$campaign_id", "$$id"],
+                                            $eq: ["$campaignId", "$$id"],
                                         },
                                     },
                                 },
