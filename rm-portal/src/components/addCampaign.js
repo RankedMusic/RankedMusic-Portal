@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Form, Row, Col, FormControl, Button } from 'react-bootstrap';
+import { Form, Row, Col, FormControl, Button, Select } from 'react-bootstrap';
 import FloatingLabel from "react-bootstrap-floating-label";
+
 import { Link } from "react-router-dom";
 import CampaignDataService from "../services/campaign";
 import DropdownButton from 'react-bootstrap/DropdownButton';
@@ -144,7 +145,6 @@ const NewCampaign = props => {
                         <Form.Group className="mb-3" controlId="validationName">
                             <FloatingLabel controlId="floatingSelect" label="Campaign Title">
                             <FormControl
-                                required
                                 type="text"
                                 className="form-control"
                                 name="text"
@@ -158,12 +158,7 @@ const NewCampaign = props => {
                         </Form.Group>
                         {/* <Form.Group className="mb-3" controlId="validationGenre"> */}
                             {/* <FloatingLabel controlId="floatingSelect" label="Select Genre"> */}
-                                {/* <Form.Label>Campaign ID</Form.Label>
-                                <Form.Select defaultValue="Non" variant="outline-dark" onClick={handleGenreChange} aria-label="None">
-                                    <option value={genre}>Latin</option>
-                                    <option value={genre}>Pop</option>
-                                    <option value={genre}>Hip-Hop</option>
-                                </Form.Select> */}
+                                {/* <Form.Label>Campaign ID</Form.Label>}
                             {/* </FloatingLabel> */}
                             {/* <Form.Text className="text-muted">
                                 Optional
@@ -171,23 +166,32 @@ const NewCampaign = props => {
                             {/* placeholder="Name Your Campaign" */}
                             {/* <Form.Control.Feedback>Great!</Form.Control.Feedback>
                         </Form.Group> */}
-                        <Form.Group className="mb-3" controlId="validationGenre">
+                        <Form.Group controlId="validationGenre">
                             <Form.Label>Select Genre</Form.Label>
-                            <DropdownButton variant="outline-dark" onChange={handleGenreChange} value={genre} id="dropdown-basic-button" title="None">
+                            <DropdownButton variant="outline-dark" onClick={handleGenreChange} value={genre} id="dropdown-basic-button" title="None">
                                 <Dropdown.Item value={genre}>Latin</Dropdown.Item>
                                 <Dropdown.Item value={genre}>Pop</Dropdown.Item>
                                 <Dropdown.Item value={genre}>Hip-Hop</Dropdown.Item>
+                                {/* <FormControl
+                                    as="select"
+                                    value={genre}
+                                    onChange={handleGenreChange}
+                                />
+                                <Form.Select defaultValue="None" variant="outline-dark">
+                                    <option value={genre}>Latin</option>
+                                    <option value={genre}>Pop</option>
+                                    <option value={genre}>Hip-Hop</option>
+                                </Form.Select>  */}
                             </DropdownButton>
-                            <Form.Text className="text-muted">
+                            {/* <Form.Text className="text-muted">
                                 Optional
-                            </Form.Text>
+                            </Form.Text> */}
                             {/* placeholder="Name Your Campaign" */}
                             <Form.Control.Feedback>Great!</Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="validationID">
                             <Form.Label>Campaign ID</Form.Label>
                             <FormControl
-                                required
                                 type="text"
                                 className="form-control"
                                 id="text"
@@ -201,7 +205,6 @@ const NewCampaign = props => {
                         <Form.Group className="mb-3" controlId="validationPlatform">
                             <Form.Label>Platform</Form.Label>
                             <FormControl
-                                required
                                 type="text"
                                 className="form-control"
                                 platform="text"
@@ -216,7 +219,6 @@ const NewCampaign = props => {
                         <Form.Group className="mb-3" controlId="validationAE">
                             <Form.Label>Account Executive</Form.Label>
                             <FormControl
-                                required
                                 type="text"
                                 className="form-control"
                                 platform="text"
@@ -231,7 +233,6 @@ const NewCampaign = props => {
                         <Form.Group className="mb-3" controlId="validationManager">
                             <Form.Label>Manager</Form.Label>
                             <FormControl
-                                required
                                 type="text"
                                 className="form-control"
                                 platform="text"
@@ -246,7 +247,6 @@ const NewCampaign = props => {
                         <Form.Group className="mb-3" controlId="validationCC">
                             <Form.Label>Client Contact</Form.Label>
                             <FormControl
-                                required
                                 type="text"
                                 className="form-control"
                                 platform="text"
@@ -261,7 +261,6 @@ const NewCampaign = props => {
                         <Form.Group className="mb-3" controlId="validationArtist">
                             <Form.Label>Artist</Form.Label>
                             <FormControl
-                                required
                                 type="text"
                                 className="form-control"
                                 platform="text"
@@ -276,7 +275,6 @@ const NewCampaign = props => {
                         <Form.Group className="mb-3" controlId="validationSong">
                             <Form.Label>Song</Form.Label>
                             <FormControl
-                                required
                                 type="text"
                                 className="form-control"
                                 platform="text"
@@ -291,7 +289,6 @@ const NewCampaign = props => {
                         <Form.Group className="mb-3" controlId="validationLink">
                             <Form.Label>Link</Form.Label>
                             <FormControl
-                                required
                                 type="text"
                                 className="form-control"
                                 platform="text"
