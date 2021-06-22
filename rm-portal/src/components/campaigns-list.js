@@ -116,10 +116,9 @@ const CampaignsList = props => {
               >
                 Search
               </Button>
-              
             </div>
         </div>
-        <div className="input-group col-lg-4">
+        {/* <div className="input-group col-lg-4">
           <input
             type="text"
             className="form-control"
@@ -137,7 +136,7 @@ const CampaignsList = props => {
               Search
             </Button>
           </div>
-        </div>
+        </div> */}
         <div className="input-group col-lg-4">
 
         {/* going to set cusiine var to selected -> going to map each cuisine in array going to add value to search box*/}
