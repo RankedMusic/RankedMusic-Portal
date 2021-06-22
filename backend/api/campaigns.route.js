@@ -33,7 +33,7 @@ router.route("/save-username").post(DataScrapeCtrl.getInfluencerUsername)
 // -> once got -> give all the info when get all campaigns and list of influencers associated w that campaign
 router.route("/id/:id").get(CampaignsCtrl.apiGetCampaignById)
 // return a list of cuisines -> on front end user can select cuisine from a dropdown (populated from this)
-router.route("/cuisines").get(CampaignsCtrl.apiGetCampaignCuisines)
+router.route("/genre").get(CampaignsCtrl.apiGetCampaignGenre)
 
 router
     .route("/influencer")

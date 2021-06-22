@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { Form, Row, Col, FormControl, Button } from 'react-bootstrap';
+import FloatingLabel from "react-bootstrap-floating-label";
 import { Link } from "react-router-dom";
 import CampaignDataService from "../services/campaign";
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const NewCampaign = props => {
 
     // Campaign ID, Platform, Account Executive, Campaign Manager, Client Contact, Artist, Song, Audio Link
     let initialCampaignState = {
         name: "",
+        genre: "",
         id:"",
         platform:"",
         accountExec:"",
@@ -26,6 +30,7 @@ const NewCampaign = props => {
 
 
     const [name, setCampaign] = useState(initialCampaignState.name);
+    const [genre, setGenre] = useState(initialCampaignState.genre);
     const [id, setCampaignID] = useState(initialCampaignState.id);
     const [platform, setCampaignPlat] = useState(initialCampaignState.platform);
     const [accountExec, setCampaignAE] = useState(initialCampaignState.accountExec);
@@ -41,6 +46,7 @@ const NewCampaign = props => {
         event.preventDefault();
         var data = {
             name:name,
+            genre:genre,
             id:id,
             platform:platform,
             accountExec:accountExec,
@@ -81,6 +87,9 @@ const NewCampaign = props => {
     const handleNameChange = event => {
         setCampaign(event.target.value);
     }
+    const handleGenreChange = event => {
+        setGenre(event.target.value);
+    }
     const handleIDChange = event => {
         setCampaignID(event.target.value);
     }
@@ -111,6 +120,7 @@ const NewCampaign = props => {
   
     return (
         <div>
+            
             {/* {props.user ? (
             <div className="submit-form">
               {submitted ? (
@@ -122,11 +132,17 @@ const NewCampaign = props => {
             </div>
               ) : ( */}
     {/* // Campaign ID, Platform, Account Executive, Campaign Manager, Client Contact, Artist, Song, Audio Link */}
-
+                {/* <div  style={{fontSize:'large'},{fontWeight: '900'}}>
+                    <p>Add Campaign</p>
+                </div>
+                <div
+                    style={{paddingBottom: '5%'}}
+                ></div> */}
                 <Form onSubmit={addCampaign}>
                     {/* <Row className="mb-3"> */}
+                        <Form.Label size='100' style={{fontWeight: '900'}}>Add Campaign</Form.Label>
                         <Form.Group className="mb-3" controlId="validationName">
-                            <Form.Label>Campaign Title</Form.Label>
+                            <FloatingLabel controlId="floatingSelect" label="Campaign Title">
                             <FormControl
                                 required
                                 type="text"
@@ -137,6 +153,35 @@ const NewCampaign = props => {
                                 onChange={handleNameChange}
                                 placeholder="Name Your Campaign"
                             />
+                             </FloatingLabel>
+                            <Form.Control.Feedback>Great!</Form.Control.Feedback>
+                        </Form.Group>
+                        {/* <Form.Group className="mb-3" controlId="validationGenre"> */}
+                            {/* <FloatingLabel controlId="floatingSelect" label="Select Genre"> */}
+                                {/* <Form.Label>Campaign ID</Form.Label>
+                                <Form.Select defaultValue="Non" variant="outline-dark" onClick={handleGenreChange} aria-label="None">
+                                    <option value={genre}>Latin</option>
+                                    <option value={genre}>Pop</option>
+                                    <option value={genre}>Hip-Hop</option>
+                                </Form.Select> */}
+                            {/* </FloatingLabel> */}
+                            {/* <Form.Text className="text-muted">
+                                Optional
+                            </Form.Text> */}
+                            {/* placeholder="Name Your Campaign" */}
+                            {/* <Form.Control.Feedback>Great!</Form.Control.Feedback>
+                        </Form.Group> */}
+                        <Form.Group className="mb-3" controlId="validationGenre">
+                            <Form.Label>Select Genre</Form.Label>
+                            <DropdownButton variant="outline-dark" onChange={handleGenreChange} value={genre} id="dropdown-basic-button" title="None">
+                                <Dropdown.Item value={genre}>Latin</Dropdown.Item>
+                                <Dropdown.Item value={genre}>Pop</Dropdown.Item>
+                                <Dropdown.Item value={genre}>Hip-Hop</Dropdown.Item>
+                            </DropdownButton>
+                            <Form.Text className="text-muted">
+                                Optional
+                            </Form.Text>
+                            {/* placeholder="Name Your Campaign" */}
                             <Form.Control.Feedback>Great!</Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="validationID">
@@ -258,11 +303,13 @@ const NewCampaign = props => {
                             <Form.Control.Feedback>Great!</Form.Control.Feedback>
                         </Form.Group>
                     {/* </Row> */}
-                    <Button variant="primary" type="submit">Upload New Campaign</Button>
+                    <Button variant="outline-dark" type="submit">Upload New Campaign</Button>
                 </Form>
 
 
-
+<div
+    style={{paddingBottom: '10%'}}
+></div>
 
 
 {/* 

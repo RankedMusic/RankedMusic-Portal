@@ -12,14 +12,14 @@ const CampaignsList = props => {
   const [campaigns, setCampaigns] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [searchZip, setSearchZip] = useState("");
-  const [searchCuisine, setSearchCuisine] = useState("");
-  const [cuisines, setCuisines] = useState(["All Cuisines"]);
+  const [searchGenre, setSearchGenre] = useState("");
+  const [genre, setGenre] = useState(["All Genres"]);
   
 
   // Retrieve campaign and cuisine after render
   useEffect(() => {
     retrieveCampaigns();
-    retrieveCuisines();
+    retrieveGenre();
   }, []);
 
   // when someone types in search + set below to whatever typed in
@@ -31,9 +31,9 @@ const CampaignsList = props => {
     const searchZip = e.target.value;
     setSearchZip(searchZip);
   };
-  const onChangeSearchCuisine = e => {
-    const searchCuisine = e.target.value;
-    setSearchCuisine(searchCuisine);
+  const onChangeSearchGenre = e => {
+    const searchGenre = e.target.value;
+    setSearchGenre(searchGenre);
   };
 
     
@@ -48,12 +48,12 @@ const CampaignsList = props => {
       });
   } 
 
-  const retrieveCuisines = () => {
-    CampaignDataService.getCuisines()
+  const retrieveGenre = () => {
+    CampaignDataService.getGenre()
       .then(response => {
         console.log(response.data);
         // drop down menu -> going to start w all cuisines if dont want specific cuisine
-        setCuisines(["All Cuisines"].concat(response.data));
+        setGenre(["All Genres"].concat(response.data));
 
 
       })
@@ -85,11 +85,11 @@ const CampaignsList = props => {
   const findByZip = () => {
     find(searchZip, "zipcode")
   };
-  const findByCuisine = () => {
-    if (searchCuisine == "All Cuisines") {
+  const findByGenre = () => {
+    if (searchGenre == "All Genres") {
       refreshList();
     } else {
-      find(searchCuisine, "cuisine")
+      find(searchGenre, "genre")
     }
   };
 
@@ -140,10 +140,10 @@ const CampaignsList = props => {
         <div className="input-group col-lg-4">
 
         {/* going to set cusiine var to selected -> going to map each cuisine in array going to add value to search box*/}
-          <select onChange={onChangeSearchCuisine}>
-            {cuisines.map(cuisine => {
+          <select onChange={onChangeSearchGenre}>
+            {genre.map(genre => {
               return(
-                <option value={cuisine}> {cuisine.substr(0,20)}</option>
+                <option value={genre}> {genre.substr(0,20)}</option>
               )
             })}
           </select>
@@ -152,7 +152,7 @@ const CampaignsList = props => {
               // className="btn btn-outline-secondary"
               variant="outline-dark"
               type="button"
-              onClick={findByCuisine}
+              onClick={findByGenre}
             >
               Search
             </Button>
@@ -173,8 +173,8 @@ const CampaignsList = props => {
                 <Card.Body>
                   <Card.Title as="h5">{campaign.name}</Card.Title>
                   <Card.Text>
-                    <strong>Start Date: </strong>{campaign.cuisine}<br/>
-                    <strong>Content?: </strong>
+                    <strong>Start Date: </strong>{campaign.date}<br/>
+                    <strong>Genre?: </strong>{campaign.genre}
                     {/* {address} */}
                   </Card.Text>
                   <div className="row">
