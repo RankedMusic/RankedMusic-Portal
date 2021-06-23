@@ -143,7 +143,7 @@ const NewCampaign = props => {
                     {/* <Row className="mb-3"> */}
                         <Form.Label size='100' style={{fontWeight: '900'}}>Add Campaign</Form.Label>
                         <Form.Group className="mb-3" controlId="validationName">
-                            <FloatingLabel controlId="floatingSelect" label="Campaign Title">
+                            {/* <FloatingLabel controlId="floatingSelect" label="Campaign Title"> */}
                             <FormControl
                                 type="text"
                                 className="form-control"
@@ -151,42 +151,21 @@ const NewCampaign = props => {
                                 required
                                 value={name}
                                 onChange={handleNameChange}
-                                placeholder="Name Your Campaign"
+                                placeholder="Campaign Title"
                             />
-                             </FloatingLabel>
+                             {/* </FloatingLabel> */}
                             <Form.Control.Feedback>Great!</Form.Control.Feedback>
                         </Form.Group>
-                        {/* <Form.Group className="mb-3" controlId="validationGenre"> */}
-                            {/* <FloatingLabel controlId="floatingSelect" label="Select Genre"> */}
-                                {/* <Form.Label>Campaign ID</Form.Label>}
-                            {/* </FloatingLabel> */}
-                            {/* <Form.Text className="text-muted">
-                                Optional
-                            </Form.Text> */}
-                            {/* placeholder="Name Your Campaign" */}
-                            {/* <Form.Control.Feedback>Great!</Form.Control.Feedback>
-                        </Form.Group> */}
                         <Form.Group controlId="validationGenre">
-                            <Form.Label>Select Genre</Form.Label>
-                            <DropdownButton variant="outline-dark" onClick={handleGenreChange} value={genre} id="dropdown-basic-button" title="None">
-                                <Dropdown.Item value={genre}>Latin</Dropdown.Item>
-                                <Dropdown.Item value={genre}>Pop</Dropdown.Item>
-                                <Dropdown.Item value={genre}>Hip-Hop</Dropdown.Item>
-                                {/* <FormControl
-                                    as="select"
-                                    value={genre}
-                                    onChange={handleGenreChange}
-                                />
-                                <Form.Select defaultValue="None" variant="outline-dark">
-                                    <option value={genre}>Latin</option>
-                                    <option value={genre}>Pop</option>
-                                    <option value={genre}>Hip-Hop</option>
-                                </Form.Select>  */}
-                            </DropdownButton>
-                            {/* <Form.Text className="text-muted">
+                                <Form.Control as="select" variant="outline-dark" controlId="floatingSelect" value={genre} onChange={handleGenreChange}>
+                                    <option>Select Genre</option>
+                                    <option value="Latin">Latin</option>
+                                    <option value="Pop">Pop</option>
+                                    <option value="Hip-Hop">Hip-Hop</option>
+                                </Form.Control>
+                            <Form.Text className="text-muted" style={{marginLeft:"2%"}}>
                                 Optional
-                            </Form.Text> */}
-                            {/* placeholder="Name Your Campaign" */}
+                            </Form.Text>
                             <Form.Control.Feedback>Great!</Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="validationID">
