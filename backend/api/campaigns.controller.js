@@ -99,6 +99,53 @@ export default class CampaignsController {
         }
     }
 
+// method that gets info from body, send over to db
+static async UpdateCampaign(req, res, next) {
+    try {
+        const _id = req.body.campaignId
+        const genre = req.body.genre
+        const platform = req.body.platform
+        const accountExec = req.body.accountExec
+        const campManager = req.body.campManager
+        const clientContact = req.body.clientContact
+        const artist = req.body.artist
+        const song = req.body.song
+        const songLink = req.body.songLink
+
+        const CampaignResponse = await CampaignsDAO.updateCampaign(
+            _id,
+            // req.body.user_id,
+            genre,
+            platform,
+            accountExec,
+            campManager,
+            clientContact,
+            artist,
+            song,
+            songLink,
+        )
+
+        var{error} = CampaignResponse
+        if (error) {
+            res.status(400).json({error})
+        }
+        // if mod count = 0 -> not updated and throw error
+        if (CampaignResponse.modifiedCount === 0) {
+            throw new Error(
+                "unable to update",
+            )
+        }
+            res.json({ status: "success"})
+        } catch (e) {
+            res.status(500).json({error:e.message})
+        }
+    }
+
+
+
+
+
+
     static async getVideoLikes(req, res, next) {
         try {
             console.log(req.body.video_url)

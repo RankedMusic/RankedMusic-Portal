@@ -62,9 +62,8 @@ class CampaignDataService {
     createCampaign(data){
         return http.post("/addCampaign", data);
     }
-    // 
-    updateCampaign(data){
-    return http.put("/addCampaign", data);
+    updateCampaign(data, id){
+        return http.put(`/addCampaign?id=${id}`, {data:{_id: id}});
     }
     deleteCampaign(id, user_Id){
         return http.delete(`/addCampaign?id=${id}`, {data:{user_id: user_Id}});

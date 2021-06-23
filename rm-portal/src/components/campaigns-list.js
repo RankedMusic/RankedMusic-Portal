@@ -3,7 +3,8 @@ import CampaignDataService from "../services/campaign";
 import {Link} from "react-router-dom";
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
-
+import { Switch, Route } from "react-router-dom";
+import NewCampaign from "./addCampaign";
 
 // take and use props as part of this function
 // create react hooks to make a bunch of state vars
@@ -78,6 +79,21 @@ const CampaignsList = props => {
         console.log(e);
       });
   };
+//   const deleteCampaign = (campaignId, index) => {
+//     RestaurantDataService.deleteCampaign(campaignId)
+//       .then(response => {
+//           // set restaurant array to be the same array without deleted restaurant
+//           setRestaurant((prevState) => {
+//               prevState.reviews.splice(index, 1)
+//               return({
+//                   ...prevState
+//               })
+//           })
+//       })
+//       .catch(e => {
+//           console.log(e);
+//       });
+// };
 // user types + clicks search then run functions below -> go to find function above
   const findByName = () => {
     find(searchName, "name")
@@ -174,13 +190,26 @@ const CampaignsList = props => {
                   <Card.Title as="h5">{campaign.name}</Card.Title>
                   <Card.Text>
                     <strong>Start Date: </strong>{campaign.date}<br/>
-                    <strong>Genre?: </strong>{campaign.genre}
+                    <strong>Genre: </strong>{campaign.genre}
                     {/* {address} */}
                   </Card.Text>
                   <div className="row">
                   <Link to={"/campaigns/"+campaign._id} className="btn btn-outline-dark">Campaign Overview</Link>
-                  {/* <Button to={"/campaigns/"+campaign._id} variant="outline-dark"></Button>  */}
-                  <Button variant="outline-secondary" className="col-lg-5 mt-1" size="sm">Update</Button> 
+                  <Link to={{
+                    pathname: "/campaigns/addCampaign/"+campaign._id,
+                    state: {
+                      currentCampaign: campaign
+                    }
+                    }} className="btn btn-outline-primary col-lg-6 mt-1">Edit</Link>
+                    <Route
+                      path="/campaigns/addCampaign/:id"
+                      render={(props) => (
+                        <NewCampaign {...props} user={props.user} />
+                      )}
+                    />
+                  <Link to={"/campaigns/"+campaign._id} className="btn btn-outline-danger col-lg-6 mt-1">delete</Link>
+
+
 
                   {/* <a target="_blank" href={"https://www.google.com/maps/place/" + address} className="btn btn-primary col-lg-5 mx-1 mb-1">View Map</a> */}
                   </div>

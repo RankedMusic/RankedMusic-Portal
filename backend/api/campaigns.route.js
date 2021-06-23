@@ -21,6 +21,7 @@ router.route("/add-user").post(UsersController.PostUser)
 
 router.route("/").get(CampaignsCtrl.apiGetCampaigns)
 router.route("/").get(CampaignsCtrl.PostCampaign)
+router.route("/addCampaign").put(CampaignsCtrl.UpdateCampaign)
 
 // ROUTE TO GET VIDEOS DEPENDING ON THE VIDEO URL PASSED IN VideoLikes.js. Now go to RestaurantsCtrl
 router.route("/video_likes").post(DataScrapeCtrl.getVideoLikes)
