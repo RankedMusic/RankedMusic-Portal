@@ -18,12 +18,14 @@ export default class InfluencersDAO {
         }
     }
     // add influencer -> create a influencer doc + create an object Id
-    static async addInfluencer(campaignId, influencer, date) {
+    static async addInfluencer(campaignId, influencer, date, influencer_username, avatar_src) {
         try {
             const influencerDoc = {
                 influencer: influencer,
                 date: date,
-                campaignId: ObjectId(campaignId), }
+                campaignId: ObjectId(campaignId),
+                influencer_username: influencer_username,
+                avatar_src: avatar_src }
             // insert into DB (w restaurtant id converted to a MongoDb object ID)
             return await influencers.insertOne(influencerDoc)
         } catch(e) {

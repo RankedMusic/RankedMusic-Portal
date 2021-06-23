@@ -24,10 +24,10 @@ const Campaign = props => {
   const [influencers_map, setInfluencersMap] = useState(null)
 
   const getCampaign = id => {
-    console.log('The id is ' + id)
+    // console.log('The id is ' + id)
     CampaignDataService.get(id)
         .then(response => {
-            console.log(response.data)
+            // console.log(response.data)
             setCampaign(response.data);
             
         })
@@ -45,7 +45,7 @@ const Campaign = props => {
   }, [props.match.params.id]);
 
   useEffect(() => {
-    console.log(campaign)
+    // console.log(campaign)
     console.log(campaign.influencers)
      {/* NOTE retaurant.review sshould be campaign.videos or something like that */}
         // let videos_array = []
@@ -53,7 +53,7 @@ const Campaign = props => {
         let influencer_map =  campaign.influencers.map((influencer, index) => {
           // return <VideoBox></VideoBox>
           // console.log(video, index)
-          console.log(influencer)
+        //   console.log(influencer)
           return <VideoBox influencer = {influencer} index = {index} setCampaign = {setCampaign} ></VideoBox>
           // console.log(videos)
           
@@ -61,7 +61,7 @@ const Campaign = props => {
         );
         setInfluencersMap(influencer_map)
         
-        console.log(Object.values(influencer_map))
+        // console.log(Object.values(influencer_map))
     
   },[campaign]);
   

@@ -42,6 +42,8 @@ const deleteInfluencer = (influencerId, index) => {
                         </p>
                         <VideoLikes video_link = {props.influencer.influencer}></VideoLikes>
                         <VideoComments video_link = {props.influencer.influencer}></VideoComments>
+                        {/* <InfluencerUsername video_link = {props.influencer.influencer}></InfluencerUsername> */}
+                        {/* <VideoComments video_link = {props.influencer.influencer}></VideoComments> */}
                         {/* show buttons depending which user is logged in */}
                         {/* if there is a user is logged in + is logged in as the creator of the influencer -> && if true = does it*/}
                         {/* going to give a delete and edit button */}

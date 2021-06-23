@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import CampaignDataService from "../services/campaign";
 import { Link } from "react-router-dom";
 import { Form, Row, Col, FormControl, Button } from 'react-bootstrap';
@@ -18,7 +18,13 @@ const AddInfluencer = props => {
   const [influencer, setInfluencer] = useState(initialInfluencerState);
 //   keeping track of whether submitted or not
   const [submitted, setSubmitted] = useState(false);
+  const [username, setUsername] = useState(null);
+  const [avatar, setAvatar] = useState(null);
+  const [finishedGrab, setFinishedGrab] = useState(false);
+  const isFirstRun = useRef(true);
 
+
+  //NOTE SET USERNAME AND AVATAR AND THEN PASS INTO THE USE EFFECT AND THEN INPUT ALL OF IT INTO DATABASE
   async function saveInfluencer(event) {
     event.preventDefault();
     var data = {
@@ -40,36 +46,58 @@ const AddInfluencer = props => {
     //       console.log(e);
     //     });
     // } else {
-      CampaignDataService.createInfluencer(data)
-        .then(response => {
-          setSubmitted(true);
-          console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
-        });
+      
 
 
         CampaignDataService.saveUsername(data)
         .then(response => {
-          // setSubmitted(true);
-          console.log(response.data);
+
+          setUsername(response.data);
+          // console.log(response.data);
+            CampaignDataService.saveAvatar(data)
+          .then(response => {
+            setAvatar(response.data);
+            // console.log(response.data);
+            setFinishedGrab(true)
+          })
+          .catch(e => {
+            console.log(e);
+          });
         })
         .catch(e => {
           console.log(e);
         });
 
-        CampaignDataService.saveAvatar(data)
+        
+    }
+
+  
+
+    useEffect(() => {
+      if (isFirstRun.current) {
+        isFirstRun.current = false;
+        return;
+      }
+      var data = {
+        influencer: influencer,
+        // name: props.user.name,
+        // user_id: props.user.id,
+      //   getting right from url
+        campaign_id: props.match.params.id,
+        influencer_user: username,
+        avatar: avatar
+      };
+      // console.log(data)
+      CampaignDataService.createInfluencer(data)
         .then(response => {
-          // setSubmitted(true);
-          console.log(response.data);
+          setSubmitted(true);
+          // console.log(response.data);
         })
         .catch(e => {
           console.log(e);
         });
-    // }
+      }, [finishedGrab]);
 
-  };
   const handleInfluencerChange = event => {
     // event.preventDefault();
     setInfluencer(event.target.value);

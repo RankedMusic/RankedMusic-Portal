@@ -111,7 +111,7 @@ export default class CampaignsDAO {
                         $lookup: {
                             from: "influencers",
                             let: {
-                                id: "$campaignId",
+                                id: "$_id",
                             },
                             // create pipe from influencers -> going to match restraunt id and going to find all influencers that match campaign id
                             pipeline: [

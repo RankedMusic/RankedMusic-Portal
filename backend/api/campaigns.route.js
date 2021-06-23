@@ -26,7 +26,7 @@ router.route("/").get(CampaignsCtrl.PostCampaign)
 router.route("/video_likes").post(DataScrapeCtrl.getVideoLikes)
 router.route("/video_comments").post(DataScrapeCtrl.getVideoComments)
 router.route("/save-username").post(DataScrapeCtrl.getInfluencerUsername)
-// router.route("/save-avatar").post(DataScrapeCtrl.getInfluencerAvatar)
+router.route("/save-avatar").post(DataScrapeCtrl.getInfluencerAvatar)
 
 
 // get list of a specific campaign w specific id 

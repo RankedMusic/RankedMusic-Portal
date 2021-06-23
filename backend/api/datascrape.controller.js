@@ -90,7 +90,7 @@ export default class ReviewsController {
 
     static async getInfluencerUsername(req, res, next) {
         try {
-            console.log('The url should be ' + req.body.influencer)
+            // console.log('The url should be ' + req.body.influencer)
             
             const get_influencer_username = async (url) => {
     
@@ -110,7 +110,7 @@ export default class ReviewsController {
                   await page.waitForXPath('/html/body/div/div/div[2]/div[2]/div/div/main/div/div[1]/span[1]/div/div[1]/div[1]/a[1]/h3')
                   let username = await page.$x("/html/body/div/div/div[2]/div[2]/div/div/main/div/div[1]/span[1]/div/div[1]/div[1]/a[1]/h3");
                   let username_text = await page.evaluate(element => element.textContent, username[0]);
-                  let username_string = 'The influencer is ' + username_text
+                  let username_string = 'Influencer username: ' + username_text
                   let username_object = {username_string: username_string}
                   await browser.close();
                   return username_object
@@ -123,9 +123,9 @@ export default class ReviewsController {
                 (async () => {
                     //Run async functions and console.log the results
                     let username_object = await get_influencer_username(req.body.influencer)
-                    console.log(username_object)
+                    // console.log(username_object)
                     
-                    // res.json(username_object)
+                    res.json(username_object)
 
                     // console.log(await scraper.get_num_comments("https://www.tiktok.com/@tuckercomedy/video/6971234748236647685"))
                     // console.log(await scraper.get_shares("https://www.tiktok.com/@tuckercomedy/video/6971234748236647685"))
@@ -142,34 +142,34 @@ export default class ReviewsController {
 
     static async getInfluencerAvatar(req, res, next) {
         try {
-            console.log(req.body.video_url)
+            // console.log(req.body.influencer)
             
-            const get_likes = async (url) => {
+            const get_influencer_avatar = async (url) => {
+    
                 // open the browser and prepare a page
                 const browser = await puppeteer.launch({ headless : false });
                 const page = await browser.newPage();
                 page.setDefaultNavigationTimeout(0)
-                // open the page to scrape
-            //   "https://www.tiktok.com/@bbmoods/video/6971426257842064646"
                 await page.goto(url, {waitUntil: 'domcontentloaded'});
-                // execute the JS in the context of the page to get all the links
-                // Note, for XPath, we need to use the FULL XPATH from Chrome Dev Ops
-                await page.waitForXPath('/html/body/div/div/div[2]/div[2]/div/div/main/div/div[1]/span[1]/div/div[1]/div[5]/div[2]/div[2]/strong')
-                let comments = await page.$x("/html/body/div/div/div[2]/div[2]/div/div/main/div/div[1]/span[1]/div/div[1]/div[5]/div[2]/div[2]/strong");
-                //   console.log(likes)
-                let comment_text = await page.evaluate(element => element.textContent, comments[0]);
-                let comment_string = 'Comments: ' + comment_text
-                let comment_object = {comment_string: comment_string}
-                //   console.log(like_object)
+                await page.waitForXPath('/html/body/div/div/div[2]/div[2]/div/div/main/div/div[1]/span[1]/div/a/span/img')
+                await page.evaluate(() => document.querySelector('#main > div.jsx-3867589354.main-body.page-with-header.middle.em-follow > div.jsx-523345860.video-detail.video-detail-v4.middle > div > div > main > div > div.jsx-1860510881.video-feed-container > span:nth-child(1) > div > a > span > img').setAttribute('class', 'avatar'));  
+                const avatar_src = await page.$$eval('img.avatar[src]', imgs => imgs.map(img => img.getAttribute('src')));
+            
+                let avatar_string = 'The avatar src is ' + avatar_src
                 await browser.close();
-                return comment_object
-                };
+                let avatar_object = {src: avatar_src}
+                return avatar_object
+            
+                  // await browser.close();
+              
+                  await page.waitFor( 1000 );
+              };
                 
                 (async () => {
                     //Run async functions and console.log the results
-                    let comments_object = await get_likes(req.body.video_url)
-                    console.log(comments_object)
-                    res.json(comments_object)
+                    let avatar_obj = await get_influencer_avatar(req.body.influencer)
+                    // console.log(comments_object)
+                    res.json(avatar_obj)
 
                     // console.log(await scraper.get_num_comments("https://www.tiktok.com/@tuckercomedy/video/6971234748236647685"))
                     // console.log(await scraper.get_shares("https://www.tiktok.com/@tuckercomedy/video/6971234748236647685"))
