@@ -8,6 +8,7 @@ export default class CampaignsController {
         try {
             // get info from body of request
             const name = req.body.name
+            const genre = req.body.genre
             const id = req.body.id
             const platform = req.body.platform
             const accountExec = req.body.accountExec
@@ -20,6 +21,7 @@ export default class CampaignsController {
             // put data tg and send over to to db
             const CampaignResponse = await CampaignsDAO.addCampaign(
                 name,
+                genre,
                 id,
                 platform,
                 accountExec,
@@ -45,12 +47,13 @@ export default class CampaignsController {
         const page = req.query.page ? parseInt(req.query.page, 10) : 0
 
         let filters = {}
-        if (req.query.cuisine) {
-            filters.cuisine = req.query.cuisine
+        if (req.query.genre) {
+            filters.genre = req.query.genre
         } 
-        else if (req.query.zipcode) {
-            filters.zipcode = req.query.zipcode
-        }else if (req.query.name) {
+        // else if (req.query.zipcode) {
+        //     filters.zipcode = req.query.zipcode
+        // }
+        else if (req.query.name) {
             filters.name = req.query.name
         }
     
@@ -86,10 +89,10 @@ export default class CampaignsController {
         }
     }
 
-    static async apiGetCampaignCuisines(req, res, next) {
+    static async apiGetCampaignGenre(req, res, next) {
         try{
-            let cuisines = await CampaignsDAO.getCuisines()
-            res.json(cuisines)
+            let genre = await CampaignsDAO.getGenre()
+            res.json(genre)
         } catch (e) {
             console.log(`api, ${e}`)
             res.status(500).json({error:e})

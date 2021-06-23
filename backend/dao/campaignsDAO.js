@@ -19,10 +19,11 @@ export default class CampaignsDAO {
         }
     }
 
-    static async addCampaign(name, id, platform, accountExec, campManager, clientContact, artist, song, songLink) {
+    static async addCampaign(name, genre, id, platform, accountExec, campManager, clientContact, artist, song, songLink) {
         try {
             const campDoc = { 
                 name: name,
+                genre: genre,
                 id: id,
                 platform: platform,
                 accountExec: accountExec,
@@ -60,13 +61,13 @@ export default class CampaignsDAO {
                 // any where in text -> going to search name -> specificed in mongodb
                 query = { $text: {$search: filters["name"]}}
             } 
-            // else if ("cuisine" in filters) {
-            //     // if cuisine = filter passed in -> compare to what was passed in ^
-            //     query = { "cuisine": {$eq: filters["cuisine"]}}
-            // }
-            else if ("zipcode" in filters) {
-                query = { "address.zipcode": {$eq: filters["zipcode"]}}
+            else if ("genre" in filters) {
+                // if cuisine = filter passed in -> compare to what was passed in ^
+                query = { "genre": {$eq: filters["genre"]}}
             }
+            // else if ("zipcode" in filters) {
+            //     query = { "address.zipcode": {$eq: filters["zipcode"]}}
+            // }
         }
 
         let cursor
@@ -146,15 +147,15 @@ export default class CampaignsDAO {
         }
     }
 
-    static async getCuisines() {
-        let cuisines = []
+    static async getGenre() {
+        let genre = []
         try {
             // get all distinct cuisines (each one, one time) and return
-            cuisines = await campaigns.distinct("cuisine")
-            return cuisines
+            genre = await campaigns.distinct("genre")
+            return genre
         } catch (e){
-            console.error(`Unable to get cuisines, ${e}`)
-            return cuisines
+            console.error(`Unable to get genre, ${e}`)
+            return genre
         }
     }
 }

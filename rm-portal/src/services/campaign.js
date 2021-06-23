@@ -69,8 +69,8 @@ class CampaignDataService {
     deleteCampaign(id, user_Id){
         return http.delete(`/addCampaign?id=${id}`, {data:{user_id: user_Id}});
     }
-    getCuisines(id){
-        return http.get(`/cuisines`);
+    getGenre(id){
+        return http.get(`/genre`);
     }
 }
 
