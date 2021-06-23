@@ -8,7 +8,7 @@ export default class ReviewsController {
             
             const get_likes = async (url) => {
                 // open the browser and prepare a page
-                const browser = await puppeteer.launch({ headless : false });
+                const browser = await puppeteer.launch({ headless : false, args: ["--window-size=0,0", "--window-position=1000,0"]  });
                 const page = await browser.newPage();
                 page.setDefaultNavigationTimeout(0)
                 // open the page to scrape
@@ -51,7 +51,7 @@ export default class ReviewsController {
             
             const get_likes = async (url) => {
                 // open the browser and prepare a page
-                const browser = await puppeteer.launch({ headless : false });
+                const browser = await puppeteer.launch({ headless : false , args: ["--window-size=0,0", "--window-position=1000,0"] });
                 const page = await browser.newPage();
                 page.setDefaultNavigationTimeout(0)
                 // open the page to scrape
@@ -95,7 +95,7 @@ export default class ReviewsController {
             const get_influencer_username = async (url) => {
     
                 // open the browser and prepare a page
-                const browser = await puppeteer.launch({ headless : false });
+                const browser = await puppeteer.launch({ headless : false , args: ["--window-size=0,0", "--window-position=1000,0"] });
                 
                 const page = await browser.newPage();
                 page.setDefaultNavigationTimeout(0)
@@ -147,7 +147,7 @@ export default class ReviewsController {
             const get_influencer_avatar = async (url) => {
     
                 // open the browser and prepare a page
-                const browser = await puppeteer.launch({ headless : false });
+                const browser = await puppeteer.launch({ headless : false , args: ["--window-size=0,0", "--window-position=1000,0"] });
                 const page = await browser.newPage();
                 page.setDefaultNavigationTimeout(0)
                 await page.goto(url, {waitUntil: 'domcontentloaded'});

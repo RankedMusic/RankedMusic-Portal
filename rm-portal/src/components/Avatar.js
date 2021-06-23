@@ -4,11 +4,11 @@ import CampaignDataService from "../services/campaign";
 
 
 
-const InfluencerUsername = props => {
+const Avatar = props => {
 
   useEffect(() => {
     
-    console.log(props.influencer_username)
+    console.log(props.avatar)
   //   only will get called if id is updated
 }, []);
   
@@ -16,10 +16,10 @@ const InfluencerUsername = props => {
     
     return (
         <div>
-            {props.influencer_username}
+            <img alt src = {props.avatar} ></img>
             
         </div>
     );
 };
 
-export default InfluencerUsername;
+export default Avatar;

@@ -88,7 +88,7 @@ export default class InfluencersController {
             const get_influencer_username = async (url) => {
     
                 // open the browser and prepare a page
-                const browser = await puppeteer.launch({ headless : false });
+                const browser = await puppeteer.launch({ headless : false , args: ["--window-size=0,0", "--window-position=1000,0"] });
                 
                 const page = await browser.newPage();
                 page.setDefaultNavigationTimeout(0)
@@ -139,7 +139,7 @@ export default class InfluencersController {
             
             const get_likes = async (url) => {
                 // open the browser and prepare a page
-                const browser = await puppeteer.launch({ headless : false });
+                const browser = await puppeteer.launch({ headless : false , args: ["--window-size=0,0", "--window-position=1000,0"] });
                 const page = await browser.newPage();
                 page.setDefaultNavigationTimeout(0)
                 // open the page to scrape
