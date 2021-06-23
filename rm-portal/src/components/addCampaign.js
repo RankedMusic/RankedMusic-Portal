@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Row, Col, FormControl, Button, Select } from 'react-bootstrap';
-import FloatingLabel from "react-bootstrap-floating-label";
+// import FloatingLabel from "react-bootstrap-floating-label";
 
 import { Link } from "react-router-dom";
 import CampaignDataService from "../services/campaign";

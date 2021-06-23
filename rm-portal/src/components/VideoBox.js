@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 // import {Link} from "react-router-dom";
 import VideoLikes from './VideoLikes'
 import VideoComments from './VideoComments'
+import InfluencerUsername from './InfluencerUsername'
 import CampaignDataService from "../services/campaign";
 import {Link} from "react-router-dom";
 
@@ -40,9 +41,10 @@ const deleteInfluencer = (influencerId, index) => {
                             <strong>Date: </strong>{props.influencer.date}
 
                         </p>
+                        {/* NOTE: Kyle made influencer the video url in our influencer object. So influencer.influencer is the video url */}
                         <VideoLikes video_link = {props.influencer.influencer}></VideoLikes>
                         <VideoComments video_link = {props.influencer.influencer}></VideoComments>
-                        {/* <InfluencerUsername video_link = {props.influencer.influencer}></InfluencerUsername> */}
+                        <InfluencerUsername username_object = {props.influencer.influencer_username}></InfluencerUsername>
                         {/* <VideoComments video_link = {props.influencer.influencer}></VideoComments> */}
                         {/* show buttons depending which user is logged in */}
                         {/* if there is a user is logged in + is logged in as the creator of the influencer -> && if true = does it*/}
