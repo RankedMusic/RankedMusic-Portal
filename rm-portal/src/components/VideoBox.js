@@ -12,12 +12,12 @@ import {Link} from "react-router-dom";
 const VideoBox = props => {
 
 
-const deleteInfluencer = (influencerId, index) => {
-    CampaignDataService.deleteInfluencer(influencerId, props.user.id)
+const deleteInfluencer = (influencerId) => {
+    CampaignDataService.deleteInfluencer(influencerId)
         .then(response => {
             // set campaign array to be the same array without deleted campaign
             props.setCampaign((prevState) => {
-                prevState.influencers.splice(index, 1)
+                prevState.influencers.splice(influencerId, 1)
                 return({
                     ...prevState
                 })
@@ -35,6 +35,9 @@ const deleteInfluencer = (influencerId, index) => {
             <div className="col-lg-4 pb-1" key={props.index}>
                 
                     <div className="card-body">
+                        <div className="delButton" style={{float:"right"}}>
+                            <a onClick={() => deleteInfluencer(props.influencer._id)} className="btn btn-outline-danger col-lg-5 mx-1 mb-1" style={{height:"auto"},{width:"auto"}}>x</a>
+                        </div>
                         <p className="video-content">
                             {props.influencer.text}<br/>
                             <strong>Video URL: </strong>{props.influencer.influencer}<br/>
@@ -51,13 +54,12 @@ const deleteInfluencer = (influencerId, index) => {
                         {/* going to give a delete and edit button */}
                         {props.user && props.user.id === props.influencer.user_id &&
                             <div className="row">
-                                <a onClick={() => deleteInfluencer(props.influencer._id, props.index)} className="btn btn-primary col-lg-5 mx-1 mb-1">Delete</a>
-                                <Link to={{
+                                {/* <Link to={{
                                 pathname: "/campaigns/" + props.match.params.id + "/influencer",
                                 state: {
                                     currentInfluencer: props.influencer
                                 }
-                                }} className="btn btn-primary col-lg-5 mx-1 mb-1">Edit</Link>
+                                }} className="btn btn-primary col-lg-5 mx-1 mb-1">Edit</Link> */}
                             </div>                   
                         }
                     </div>

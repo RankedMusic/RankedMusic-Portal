@@ -52,10 +52,9 @@ export default class InfluencersDAO {
     static async deleteInfluencer(influencerId, userId) {
 
         try {
-            // looking for influencer id and user id -> if user id matches creator -> delete influencer
+            // looking for influencer id -> delete influencer
             const deleteResponse = await influencers.deleteOne({
                 _id: ObjectId(influencerId),
-                user_id: userId,
             })
 
             return deleteResponse

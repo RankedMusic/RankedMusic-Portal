@@ -189,7 +189,8 @@ const CampaignsList = props => {
                 <Card.Body>
                   <Card.Title as="h5">{campaign.name}</Card.Title>
                   <Card.Text>
-                    <strong>Start Date: </strong>{campaign.date}<br/>
+                    <strong>Start Date: </strong>{campaign.start}<br/>
+                    <strong>End Date: </strong>{campaign.end}<br/>
                     <strong>Genre: </strong>{campaign.genre}
                     {/* {address} */}
                   </Card.Text>
@@ -201,12 +202,14 @@ const CampaignsList = props => {
                       currentCampaign: campaign
                     }
                     }} className="btn btn-outline-primary col-lg-6 mt-1">Edit</Link>
-                    <Route
-                      path="/campaigns/addCampaign/:id"
-                      render={(props) => (
-                        <NewCampaign {...props} user={props.user} />
-                      )}
-                    />
+                    <Switch>
+                      <Route
+                        path="/campaigns/addCampaign/:id"
+                        render={(props) => (
+                          <NewCampaign {...props} campaign={props.campaign} />
+                        )}
+                      />
+                    </Switch>
                   <Link to={"/campaigns/"+campaign._id} className="btn btn-outline-danger col-lg-6 mt-1">delete</Link>
 
 

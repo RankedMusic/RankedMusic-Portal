@@ -8,6 +8,8 @@ export default class CampaignsController {
         try {
             // get info from body of request
             const name = req.body.name
+            const start = req.body.start
+            const end = req.body.end
             const genre = req.body.genre
             const id = req.body.id
             const platform = req.body.platform
@@ -21,6 +23,8 @@ export default class CampaignsController {
             // put data tg and send over to to db
             const CampaignResponse = await CampaignsDAO.addCampaign(
                 name,
+                start,
+                end,
                 genre,
                 id,
                 platform,

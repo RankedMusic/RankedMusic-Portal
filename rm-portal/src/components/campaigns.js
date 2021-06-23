@@ -65,10 +65,6 @@ const Campaign = props => {
         // console.log(Object.values(influencer_map))
     
   },[campaign]);
-  
-//   only can delete if logged in as creator user
-  
-  
     
     return (
         <div>

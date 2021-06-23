@@ -19,10 +19,12 @@ export default class CampaignsDAO {
         }
     }
 
-    static async addCampaign(name, genre, id, platform, accountExec, campManager, clientContact, artist, song, songLink) {
+    static async addCampaign(name, start, end, genre, id, platform, accountExec, campManager, clientContact, artist, song, songLink) {
         try {
             const campDoc = { 
                 name: name,
+                start: start,
+                end: end,
                 genre: genre,
                 id: id,
                 platform: platform,
