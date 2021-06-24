@@ -19,10 +19,12 @@ export default class CampaignsDAO {
         }
     }
 
-    static async addCampaign(name, genre, id, platform, accountExec, campManager, clientContact, artist, song, songLink) {
+    static async addCampaign(name, start, end, genre, id, platform, accountExec, campManager, clientContact, artist, song, songLink) {
         try {
             const campDoc = { 
                 name: name,
+                start: start,
+                end: end,
                 genre: genre,
                 id: id,
                 platform: platform,
@@ -42,7 +44,29 @@ export default class CampaignsDAO {
         }
     }
 
+    static async updateCampaign(campaignId, genre, platform, accountExec, campManager, clientContact, artist, song, songLink) {
+        try{
+            // looking for campaign w right campaign id 
+            const updateResponse = await campaigns.updateOne(
+                { _id: ObjectId(campaignId)},
+                { $set: { 
+                    genre: genre,
+                    platform: platform,
+                    accountExec: accountExec,
+                    campManager: campManager,
+                    clientContact: clientContact,
+                    artist: artist,
+                    song: song,
+                    songLink: songLink 
+                }},
+            )
 
+            return updateResponse
+        } catch (e) {
+            console.error(`Unable to update campaign ${e}`)
+            return { error: e}
+        }
+    }
 
 
 

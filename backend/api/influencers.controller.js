@@ -66,21 +66,16 @@ export default class InfluencersController {
             try {
                 // have a query  parameter instead of a body
                 const influencerId = req.query.id
-                // checking the user who created is the one deleting before deleting
-                const userId = req.body.user_id
                 console.log(influencerId)
-                // call delete influencer and send over influencer and user id
+                // call delete influencer and send over influencer
                 const influencerResponse = await InfluencersDAO.deleteInfluencer(
                     influencerId,
-                    userId,
                 )
                 res.json({ status:"success"})
             } catch (e) {
                 res.status(500).json({error:e.message})
         }
-
     }
-
      async getInfluencerUsername(req, res, next) {
         try {
             console.log('The url should be ' + req.body.influencer)

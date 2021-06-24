@@ -12,6 +12,8 @@ const NewCampaign = props => {
     // Campaign ID, Platform, Account Executive, Campaign Manager, Client Contact, Artist, Song, Audio Link
     let initialCampaignState = {
         name: "",
+        start: "",
+        end: "",
         genre: "",
         id:"",
         platform:"",
@@ -23,14 +25,16 @@ const NewCampaign = props => {
         songLink:""
     };
 
-    // let editCamp = false;
-    // if (props.location.state && props.location.state.currentCamp) {
-    //     editCamp = true;
-    //     initialCampaignState = props.location.state.currentCamp.text
-    // }
+    let editCamp = false;
+    if (props.location.state && props.location.state.currentCamp) {
+        editCamp = true;
+        initialCampaignState = props.location.state.currentCamp.text
+    }
 
 
     const [name, setCampaign] = useState(initialCampaignState.name);
+    const [start, setStart] = useState(initialCampaignState.start);
+    const [end, setEnd] = useState(initialCampaignState.end);
     const [genre, setGenre] = useState(initialCampaignState.genre);
     const [id, setCampaignID] = useState(initialCampaignState.id);
     const [platform, setCampaignPlat] = useState(initialCampaignState.platform);
@@ -47,6 +51,8 @@ const NewCampaign = props => {
         event.preventDefault();
         var data = {
             name:name,
+            start:start,
+            end:end,
             genre:genre,
             id:id,
             platform:platform,
@@ -61,32 +67,38 @@ const NewCampaign = props => {
         // props.add(campaign)
         // props.history.push('/');
 
-        // if (editCamp){
-        //     data.camp_id = props.location.state.currentCamp.user_id
-        //     // **ADD CAMPAIGN DS**
-        //     CampaignDataService.updateCampaign(data)
-        //         .then(response => {
-        //             setSubmitted(true);
-        //             console.log(response.data);
-        //         })
-        //         .catch(e => {
-        //             console.log(e)
-        //         });
-        // } else{
-        CampaignDataService.createCampaign(data)
-            .then(response => {
-                setSubmitted(true)
-                console.log(response.data);
-            })
-            .catch(e => {
-                console.log(e)
-            });
-        // }
+        if (editCamp){
+            data.camp_id = props.location.state.currentCamp._id
+            // **ADD CAMPAIGN DS**
+            CampaignDataService.updateCampaign(data, props.match.params._id)
+                .then(response => {
+                    setSubmitted(true);
+                    console.log(response.data);
+                })
+                .catch(e => {
+                    console.log(e)
+                });
+        } else{
+            CampaignDataService.createCampaign(data)
+                .then(response => {
+                    setSubmitted(true)
+                    console.log(response.data);
+                })
+                .catch(e => {
+                    console.log(e)
+                });
+            }
     }
 
     // Create new handle input change for each var
     const handleNameChange = event => {
         setCampaign(event.target.value);
+    }
+    const handleStartChange = event => {
+        setStart(event.target.value);
+    }
+    const handleEndChange = event => {
+        setEnd(event.target.value);
     }
     const handleGenreChange = event => {
         setGenre(event.target.value);
@@ -141,7 +153,7 @@ const NewCampaign = props => {
                 ></div> */}
                 <Form onSubmit={addCampaign}>
                     {/* <Row className="mb-3"> */}
-                        <Form.Label size='100' style={{fontWeight: '900'}}>Add Campaign</Form.Label>
+                        <Form.Label htmlFor="description" size='100' style={{fontWeight: '900'}}>{ editCamp ? "Edit" : "Upload" }  Campaign</Form.Label>
                         <Form.Group className="mb-3" controlId="validationName">
                             {/* <FloatingLabel controlId="floatingSelect" label="Campaign Title"> */}
                             <FormControl
@@ -156,7 +168,38 @@ const NewCampaign = props => {
                              {/* </FloatingLabel> */}
                             <Form.Control.Feedback>Great!</Form.Control.Feedback>
                         </Form.Group>
+                        <Form.Group className="mb-3" controlId="validationStart">
+                            {/* <FloatingLabel controlId="floatingSelect" label="Campaign Title"> */}
+                            <Form.Label>Start Date</Form.Label>
+                            <FormControl
+                                type="date"
+                                className="form-control"
+                                start="date"
+                                required
+                                value={start}
+                                onChange={handleStartChange}
+                                // placeholder="Campaign Title"
+                            />
+                             {/* </FloatingLabel> */}
+                            <Form.Control.Feedback>Great!</Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="validationEnd">
+                            {/* <FloatingLabel controlId="floatingSelect" label="Campaign Title"> */}
+                            <Form.Label>End Date</Form.Label>
+                            <FormControl
+                                type="date"
+                                className="form-control"
+                                end="date"
+                                required
+                                value={end}
+                                onChange={handleEndChange}
+                                // placeholder="Campaign Title"
+                            />
+                             {/* </FloatingLabel> */}
+                            <Form.Control.Feedback>Great!</Form.Control.Feedback>
+                        </Form.Group>
                         <Form.Group controlId="validationGenre">
+                        <Form.Label>Genre</Form.Label>
                                 <Form.Control as="select" variant="outline-dark" controlId="floatingSelect" value={genre} onChange={handleGenreChange}>
                                     <option>Select Genre</option>
                                     <option value="Latin">Latin</option>
@@ -286,86 +329,6 @@ const NewCampaign = props => {
 <div
     style={{paddingBottom: '10%'}}
 ></div>
-
-
-{/* 
-
-                <div>
-                  
-                  <div className="form-group"> */}
-                      {/* if edit true or false */}
-                    {/* <label htmlFor="description">{ editCamp ? "Edit" : "Create" } Campaign</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="text"
-                      required
-                      value={campID}
-                      onChange={handleIDChange}
-                    
-                      type="text"
-                      className="form-control"
-                      platform="text"
-                      required
-                      value={campPlat}
-                      onChange={handlePlatChange}
-
-                      type="text"
-                      className="form-control"
-                      accountExec="text"
-                      required
-                      value={campAE}
-                      onChange={handleAEChange}
-
-                      type="text"
-                      className="form-control"
-                      campManager="text"
-                      required
-                      value={campManager}
-                      onChange={handleManagerChange}
-
-                      type="text"
-                      className="form-control"
-                      clientContact="text"
-                      required
-                      value={campCC}
-                      onChange={handleCCChange}
-
-                      type="text"
-                      className="form-control"
-                      artist="text"
-                      required
-                      value={campArtist}
-                      onChange={handleArtistChange}
-
-                      type="text"
-                      className="form-control"
-                      song="text"
-                      required
-                      value={campSong}
-                      onChange={handleSongChange}
-
-                      type="text"
-                      className="form-control"
-                      songLink="text"
-                      required
-                      value={campLink}
-                      onChange={handleLinkChange}
-                    />
-                  </div>
-                  <button onClick={add} className="btn btn-success">
-                    Submit
-                  </button>
-                </div>
-              )}
-            </div>
-      
-        ) : (
-            <div>
-              Please log in.
-            </div>
-            )}
-       */}
         </div>
     );
 };

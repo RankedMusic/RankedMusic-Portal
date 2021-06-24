@@ -65,10 +65,6 @@ const Campaign = props => {
         // console.log(Object.values(influencer_map))
     
   },[campaign]);
-  
-//   only can delete if logged in as creator user
-  
-  
     
     return (
         <div>
@@ -77,9 +73,9 @@ const Campaign = props => {
                 <div>
                     <h5>{campaign.name}</h5>
                     
-                        <strong>Influencer Count?: </strong>
+                        <strong>Influencer Count: </strong>
                         {/* <br/> */}
-                        <strong>Genre?: </strong>{campaign.genre}
+                        <strong>Genre: </strong>{campaign.genre}
                         {/* {campaign.address.building} {campaign.address.street}, {campaign.address.zipcode} */}
                     
                     <Link to={"/campaigns/" + props.match.params.id + "/influencer"} className="btn btn-primary variant-outline-dark">

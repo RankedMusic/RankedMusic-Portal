@@ -106,6 +106,12 @@ function App() {
             <Campaign {...props} user={user} />
           )}
         />
+        {/* <Route
+          path="/campaigns/addCampaign/:id"
+          render={(props) => (
+            <NewCampaign {...props} campaign={props.campaign} />
+          )}
+        /> */}
         <Route
           path="/login"
           render={(props) => (
