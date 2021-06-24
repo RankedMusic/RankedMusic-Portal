@@ -86,7 +86,7 @@ const Login = props => {
                     {/* </div>
         
             <div> */}
-            <Form onSubmit={handleLogin}>
+            <Form onSubmit={handleLogin} className="loginForm">
                 <Form.Group className="mb-3" controlId="validationUname">
                     <Form.Label>Username</Form.Label>
                     <FormControl
@@ -115,11 +115,38 @@ const Login = props => {
                     />
                     <Form.Control.Feedback>Great!</Form.Control.Feedback>
                 </Form.Group>
-                <Button variant="outline-dark" type="submit">Login</Button>
+                <Button variant="outline-light" type="submit">Login</Button>
             </Form>
 
 
-
+<style type="text/css">
+    {`
+     *{
+      color: white;
+    }
+    body > #root > div {
+      height: 100vh;
+    }
+    .css-selector {
+        background: linear-gradient(270deg, #26004f, #3f0350, #830056, #f40060);
+        background-size: 800% 800%;
+      
+        -webkit-animation: AnimationName 21s ease infinite;
+        animation: AnimationName 21s ease infinite;
+      }
+      
+      @-webkit-keyframes AnimationName {
+        0%{background-position:0% 51%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 51%}
+      }
+      @keyframes AnimationName {
+        0%{background-position:0% 51%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 51%}
+      }
+    `}
+</style>
 
         </div>
   );

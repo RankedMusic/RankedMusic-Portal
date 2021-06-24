@@ -23,11 +23,44 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
+#navbarCss{
+  display:inline;
+  margin-bottom: 10%;
+}
+.cssBar{
+  padding-top: 3%;
+  padding-bottom: 4%;
+}
+#navStuff{
+  float: right;
+  text-align: right;
+  color:white;
+  
+  
+  margin-right: 10%;
+  border-bottom: 1px solid white;
+}
 .App-link {
   color: #61dafb;
 }
+.css-selector {
+  background: linear-gradient(270deg, #26004f, #3f0350, #830056, #f40060);
+  background-size: 800% 800%;
 
+  -webkit-animation: AnimationName 21s ease infinite;
+  animation: AnimationName 21s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+  0%{background-position:0% 51%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 51%}
+}
+@keyframes AnimationName {
+  0%{background-position:0% 51%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 51%}
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -35,4 +68,12 @@
   to {
     transform: rotate(360deg);
   }
+}
+html, body, #app, #app>div {
+  height: 100%
+}
+
+#genreButton{
+  padding-left:10px;
+  border-radius: 25px;
 }

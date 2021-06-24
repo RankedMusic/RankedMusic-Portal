@@ -26,6 +26,7 @@ const Campaign = props => {
 
   const getCampaign = id => {
     // console.log('The id is ' + id)
+    console.log(props.user);
     CampaignDataService.get(id)
         .then(response => {
             // console.log(response.data)
@@ -71,19 +72,20 @@ const Campaign = props => {
             {/* if there is a campaign (otherwise return non selected - at bottom) */}
             {campaign ? (
                 <div>
+                  <div className="campTitle">
                     <h5>{campaign.name}</h5>
                     
                         <strong>Influencer Count: </strong>
                         {/* <br/> */}
                         <strong>Genre: </strong>{campaign.genre}
                         {/* {campaign.address.building} {campaign.address.street}, {campaign.address.zipcode} */}
-                    
-                    <Link to={"/campaigns/" + props.match.params.id + "/influencer"} className="btn btn-primary variant-outline-dark">
+                  </div>
+                    <Link to={"/campaigns/" + props.match.params.id + "/influencer"} className="btn btn-outline-light">
                         Add Influencer
                     </Link>
-                    {/* <Button variant="outline-dark" to={"/campaigns/" + props.match.params.id + "/influencer"}>Add Influencer</Button> */}
+                    {/* <Button variant="outline-light" to={"/campaigns/" + props.match.params.id + "/influencer"}>Add Influencer</Button> */}
                     <h4> Influencers </h4>
-                    <div className="row">
+                    <div className="row" id="infl">
                         {/* if there are influencers (>0) -> otherwise returns no influencers */}
                         {/* {campaign.influencers.length > 0 ? ({influencers_map}) : (
                                 <div className="col-sm-4">
@@ -92,7 +94,23 @@ const Campaign = props => {
                         )} */}
                         {influencers_map}
                     </div>
-
+                    <style type="text/css">
+                        {`
+                        body > #root > div {
+                          height: 100vh;
+                        }
+                        h4{
+                          color:white;
+                        }
+                        #infl{
+                          color: black;
+                          margin:auto;
+                        }
+                        .campTitle{
+                          color: white;
+                        }
+                        `}
+                    </style>
                 </div>
             ) : (
             <div>
@@ -101,7 +119,9 @@ const Campaign = props => {
             </div>
             )}
                 </div>
+    
     );
+    
 };
 
 export default Campaign;
