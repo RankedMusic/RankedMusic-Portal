@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CampaignDataService from "../services/campaign";
 import {Link} from "react-router-dom";
-import { Form, Row, Col, FormControl, Button } from 'react-bootstrap';
+import { Form, Row, Col, FormControl, Button, Table} from 'react-bootstrap';
 import VideoBox from './VideoBox'
 
 
@@ -9,6 +9,8 @@ import VideoBox from './VideoBox'
 const Campaign = props => {
   const initialCampaignState = {
     name: "",
+    start: "",
+    end: "",
     genre:"",
     id:"",
     platform:"",
@@ -29,8 +31,7 @@ const Campaign = props => {
     console.log(props.user);
     CampaignDataService.get(id)
         .then(response => {
-            // console.log(response.data)
-            setCampaign(response.data);
+          setCampaign(response.data);
             
         })
         .catch(e => {
@@ -72,13 +73,54 @@ const Campaign = props => {
             {/* if there is a campaign (otherwise return non selected - at bottom) */}
             {campaign ? (
                 <div>
-                  <div className="campTitle">
-                    <h5>{campaign.name}</h5>
-                    
-                        <strong>Influencer Count: </strong>
-                        {/* <br/> */}
+                  <div className="campTitle"  style={{textAlign: "center"}}>
+                    <h1 className="cT">{campaign.name}</h1>
+                    <Row className="cInfo">
+                        <Col>
+                        <strong>Start Date: {campaign.start}</strong>
+                        </Col>
+                        <Col>
+                        <strong>End Date: {campaign.end}</strong>
+                        </Col>
+                        <Col>
                         <strong>Genre: </strong>{campaign.genre}
+                        </Col>
+                        <Col>
+                        {/* <br/> */}
+                        <strong>Influencer Count: </strong>
+                        </Col>
                         {/* {campaign.address.building} {campaign.address.street}, {campaign.address.zipcode} */}
+                        <style type="text/css">{`
+                          .cInfo{
+                            padding-top: 3%;
+                            padding-bottom: 3%;
+                          }
+                          `}</style>
+                      </Row>
+                    <Table style={{color:"white", borderRight: "0"}} bordered hover >
+                      <tbody>
+                        <tr>
+                          <td>Campaign ID: {campaign.id}</td>
+                          <td>Client Contact: {campaign.clientContact}</td>
+                        </tr>
+                        <tr>
+                          <td>Platform: {campaign.platform}</td>
+                          <td>Artist: {campaign.artist}</td>
+                          
+                        </tr>
+                        <tr>
+                        <td>Account Executive: {campaign.accountExec}</td>
+                        <td>Song: {campaign.song}</td>
+                          
+                        </tr>
+                        <tr>
+                        <td>Campaign Manager: {campaign.campManager}</td>
+                        <td> AudioLink: {campaign.songLink}</td>
+                          
+                          
+                        </tr>
+                      </tbody>
+                    </Table>
                   </div>
                     <Link to={"/campaigns/" + props.match.params.id + "/influencer"} className="btn btn-outline-light">
                         Add Influencer
