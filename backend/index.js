@@ -5,6 +5,7 @@ import dotenv from "dotenv"
 import CampaignsDAO from "./dao/campaignsDAO.js"
 import InfluencersDAO from "./dao/influencersDAO.js"
 import UsersDAO from "./dao/usersDAO.js"
+import LinkArrayDAO from "./dao/linkArrayDAO.js"
 dotenv.config()
 const MongoClient = mongodb.MongoClient
 
@@ -28,6 +29,7 @@ MongoClient.connect(
     await UsersDAO.injectDB(client)
     await CampaignsDAO.injectDB(client)
     await InfluencersDAO.injectDB(client)
+    await LinkArrayDAO.injectDB(client)
     // start web server
     app.listen(port, () => {
         console.log(`listening on port ${port}`)

@@ -47,7 +47,15 @@ const AddInfluencer = props => {
     //     });
     // } else {
       
-
+      CampaignDataService.addLinkArray(data)
+      .then(response => {
+        setSubmitted(true);
+        // console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+        
 
         CampaignDataService.saveUsername(data)
         .then(response => {
@@ -97,6 +105,8 @@ const AddInfluencer = props => {
           console.log(e);
         });
       }, [finishedGrab]);
+
+      
 
   const handleInfluencerChange = event => {
     // event.preventDefault();

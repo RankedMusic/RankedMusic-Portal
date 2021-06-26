@@ -4,7 +4,7 @@ import InfluencersDAO from "../dao/influencersDAO.js"
 export default class InfluencersController {
     static async apiPostInfluencer(req, res, next) {
         try {
-            console.log(req.body)
+            // console.log(req.body)
             // get info from body of request
             const campaignId = req.body.campaign_id
             // console.log(req.body.campaign_id)
@@ -12,7 +12,7 @@ export default class InfluencersController {
             const date = new Date()
             const influencer_username = req.body.influencer_user.username_string
             const avatar_src = req.body.avatar.src[0] //NOTE CHANGE COMMENT_STRING TO AVATR STRING
-            console.log('The avatar src is '+ avatar_src)
+            // console.log('The avatar src is '+ avatar_src)
             // const userInfo = {
             //     name: req.body.name,
             //     _id: req.body.user_id
@@ -66,7 +66,7 @@ export default class InfluencersController {
             try {
                 // have a query  parameter instead of a body
                 const influencerId = req.query.id
-                console.log(influencerId)
+                // console.log(influencerId)
                 // call delete influencer and send over influencer
                 const influencerResponse = await InfluencersDAO.deleteInfluencer(
                     influencerId,
@@ -78,7 +78,7 @@ export default class InfluencersController {
     }
      async getInfluencerUsername(req, res, next) {
         try {
-            console.log('The url should be ' + req.body.influencer)
+            // console.log('The url should be ' + req.body.influencer)
             
             const get_influencer_username = async (url) => {
     
@@ -130,7 +130,7 @@ export default class InfluencersController {
 
     static async getInfluencerAvatar(req, res, next) {
         try {
-            console.log(req.body.video_url)
+            // console.log(req.body.video_url)
             
             const get_likes = async (url) => {
                 // open the browser and prepare a page
@@ -156,7 +156,7 @@ export default class InfluencersController {
                 (async () => {
                     //Run async functions and console.log the results
                     let comments_object = await get_likes(req.body.video_url)
-                    console.log(comments_object)
+                    // console.log(comments_object)
                     res.json(comments_object)
 
                     // console.log(await scraper.get_num_comments("https://www.tiktok.com/@tuckercomedy/video/6971234748236647685"))

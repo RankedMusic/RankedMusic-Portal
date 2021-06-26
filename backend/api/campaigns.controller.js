@@ -81,7 +81,7 @@ export default class CampaignsController {
             // look for id parameter -> call get campaigns by id -> get campaign back
             let id = req.params.id || {}
             let campaign = await CampaignsDAO.getCampaignsByID(id)
-            console.log(campaign)
+            // console.log(campaign)
             if (!campaign){
                 res.status(404).json({error: "Not found"})
                 return
@@ -152,7 +152,7 @@ static async UpdateCampaign(req, res, next) {
 
     static async getVideoLikes(req, res, next) {
         try {
-            console.log(req.body.video_url)
+            // console.log(req.body.video_url)
             
             const get_likes = async (url) => {
                 // open the browser and prepare a page
@@ -197,7 +197,7 @@ static async UpdateCampaign(req, res, next) {
 
     static async getVideoComments(req, res, next) {
         try {
-            console.log(req.body.video_url)
+            // console.log(req.body.video_url)
             
             const get_likes = async (url) => {
                 // open the browser and prepare a page

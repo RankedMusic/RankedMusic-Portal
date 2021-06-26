@@ -1,10 +1,11 @@
 import puppeteer from 'puppeteer'
+import LinkArrayDAO from "../dao/linkArrayDAO.js"
 
 
 export default class ReviewsController {
     static async getVideoLikes(req, res, next) {
         try {
-            console.log(req.body.video_url)
+            // console.log(req.body.video_url)
             
             const get_likes = async (url) => {
                 // open the browser and prepare a page
@@ -47,7 +48,7 @@ export default class ReviewsController {
 
     static async getVideoComments(req, res, next) {
         try {
-            console.log(req.body.video_url)
+            // console.log(req.body.video_url)
             
             const get_likes = async (url) => {
                 // open the browser and prepare a page
@@ -182,4 +183,38 @@ export default class ReviewsController {
                 res.status(500).json({error:e.message})
             }
     }
+
+    static async addLinkArray(req, res, next) {
+        try {
+            const influencer_video_link = req.body.influencer
+            console.log('The influencer video link is ' + influencer_video_link)
+            
+            const linkArrayResponse = await LinkArrayDAO.updateLinkArray(
+                influencer_video_link
+            )
+            
+
+            // // get user id bc making sure user who created influencer is updating influencer
+            // const influencerResponse = await InfluencersDAO.updateInfluencer(
+            //     influencerId,
+            //     req.body.user_id,
+            //     text,
+            //     date,
+            // )
+
+            // var{error} = influencerResponse
+            // if (error) {
+            //     res.status(400).json({error})
+            // }
+            // // if mod count = 0 -> not updated and throw error
+            // if (influencerResponse.modifiedCount === 0) {
+            //     throw new Error(
+            //         "unable to influencer - user may not be original poster",
+            //     )
+            // }
+            //     res.json({ status: "success"})
+            } catch (e) {
+                res.status(500).json({error:e.message})
+            }
+        }
 }

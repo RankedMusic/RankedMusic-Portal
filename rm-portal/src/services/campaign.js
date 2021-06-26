@@ -41,6 +41,11 @@ class CampaignDataService {
         return http.post('/video_comments', data)
     }
 
+    addLinkArray(data){
+        // console.log(data)
+        return http.post('/link-array', data)
+    }
+
 
 
     loginUser(data){
