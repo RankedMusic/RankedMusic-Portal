@@ -16,7 +16,7 @@ const Avatar = props => {
     
     return (
         <div>
-            <img alt src = {props.avatar} ></img>
+            <img alt src = {props.avatar}  style={{borderRadius: "50%"}}></img>
             
         </div>
     );

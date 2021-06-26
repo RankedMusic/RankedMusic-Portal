@@ -15,13 +15,14 @@ To-Do
         * make a table??
 
 
-
+Longterm goals
+    * Secure login/password
+    * on Refresh stay logged in
 
 Cool to add
 
     Front-End
         * Appearance based on images/slides
-        * Add modal when campaign added
         * Make off campus for menu bar
         * Add overlay or popovers or tooltips for info on components
         * Add Progress bar for data

@@ -110,7 +110,7 @@ const RestaurantsList = props => {
             <div className="input-group-append">
               <Button
                 // className="btn btn-outline-secondary"
-                variant="outline-dark"
+                variant="outline-light"
                 type="button"
                 onClick={findByName}
               >
@@ -130,7 +130,7 @@ const RestaurantsList = props => {
           <div className="input-group-append">
             <Button
               // className="btn btn-outline-secondary"
-              variant="outline-dark"
+              variant="outline-light"
               type="button"
               onClick={findByZip}
             >
@@ -151,7 +151,7 @@ const RestaurantsList = props => {
           <div className="input-group-append">
             <Button
               // className="btn btn-outline-secondary"
-              variant="outline-dark"
+              variant="outline-light"
               type="button"
               onClick={findByCuisine}
             >
@@ -178,8 +178,8 @@ const RestaurantsList = props => {
                     <strong>Address: </strong>{address}
                   </Card.Text>
                   <div className="row">
-                  <Link to={"/restaurants/"+restaurant._id} className="btn btn-outline-dark">Campaign Overview</Link>
-                  {/* <Button to={"/restaurants/"+restaurant._id} variant="outline-dark"></Button>  */}
+                  <Link to={"/restaurants/"+restaurant._id} className="btn btn-outline-light">Campaign Overview</Link>
+                  {/* <Button to={"/restaurants/"+restaurant._id} variant="outline-light"></Button>  */}
                   <Button variant="outline-secondary" className="col-lg-5 mt-1" size="sm">Update</Button> 
 
                   {/* <a target="_blank" href={"https://www.google.com/maps/place/" + address} className="btn btn-primary col-lg-5 mx-1 mb-1">View Map</a> */}

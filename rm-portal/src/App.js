@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
 import logo from './Logo.png';
-
+import './App.css'
 import AddInfluencer from "./components/add-influencer";
 import Campaign from "./components/campaigns";
 import CampaignsList from "./components/campaigns-list";
@@ -30,24 +30,36 @@ function App() {
   async function logout() {
     setUser(null)
   }
+  // const [show, setShow] = useState(false);
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
 
   return (
-    <div>
+    <div className="css-selector">
+    <div className="cssBar">  
       {/* all from bootstrap documentation*/}
-      <Navbar className="navbar navbar-expand navbar-dark bg-dark">
-        <Navbar.Brand style={{marginLeft: "2%"}}>
+      <Navbar className="navbar navbar-expand" variant="dark" id="navbarCss">
+        <Navbar.Brand style={{marginLeft: "3%", marginTop: "1%"}}>
           <a href="/login" className="navbar-brand">
           <img 
             alt=""
             src={logo}
-            height="45"
+            height="65"
             width="auto"
             className="d-inline-block align-top"
             style={{paddingRight: "3%"}}
             />
-            <a>Ranked Music Portal</a>
+            {/* <a>Campaign Portal</a> */}
           </a>
-          <div className="navbar-nav mr-auto" style={{marginLeft: "4%"}}>
+          {/* <Button variant="primary" onClick={handleShow}>
+            Launch
+          </Button>
+          <Offcanvas show={show} onHide={handleClose}>
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body> */}
+          <div className="navbar-nav mr-auto" id="navStuff">
             { user ? (
               <li className="nav-item">
                 <Link to={"/campaigns"} className="nav-link">
@@ -87,10 +99,11 @@ function App() {
               )}
             </ul>
           </div>
+      {/* </Offcanvas.Body>
+      </Offcanvas> */}
           </Navbar.Brand>
       </Navbar>
-    
-
+      </div>
     <div className="container mt-3">
       <Switch>
         <Route exact path={["/", "/campaigns"]} component={CampaignsList} />
@@ -132,9 +145,21 @@ function App() {
         />
       </Switch>
     </div>
+    <style type="text/css">
+    {/* {`
     
-
-    </div>
+    #navStuff{
+      float: right;
+      text-align: right;
+      color:white;
+      margin-top: %;
+      padding-bottom: 3%;
+      margin-right: auto;
+    }
+    `} */}
+</style>
+</div>
+    
 
   );
 }

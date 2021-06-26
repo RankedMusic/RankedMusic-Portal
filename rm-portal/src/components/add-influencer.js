@@ -143,7 +143,7 @@ const AddInfluencer = props => {
                   <Form.Control.Feedback>Great!</Form.Control.Feedback>
               </Form.Group>
               
-              <Button variant="outline-dark" type="submit">Save Influencer</Button>
+              <Button variant="outline-light" type="submit">Save Influencer</Button>
             </Form>
               {/* <input
                 type="text"
@@ -155,7 +155,7 @@ const AddInfluencer = props => {
                 name="text"
                 placeholder="Link to Tik-Tok Video "
               /> */}
-            {/* <Button onClick={saveInfluencer} variant="outline-dark">
+            {/* <Button onClick={saveInfluencer} variant="outline-light">
               Submit
             </Button> */}
           </div>
@@ -167,7 +167,17 @@ const AddInfluencer = props => {
       //   Please log in.
       // </div>
       // )} */}
-
+<style type="text/css">
+  {`
+   *{
+     color: white;
+   }
+    
+    body > #root > div {
+      height: 100vh;
+    }
+    `}
+</style>
   </div>
   );
 };

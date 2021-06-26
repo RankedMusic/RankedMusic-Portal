@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import { Switch, Route } from "react-router-dom";
 import NewCampaign from "./addCampaign";
+import '../App.css';
 
 // take and use props as part of this function
 // create react hooks to make a bunch of state vars
@@ -121,12 +122,14 @@ const CampaignsList = props => {
             placeholder="Search by name"
             value={searchName}
             onChange={onChangeSearchName}
+            // style={{backgroundColor:"lightgrey"}}
+            // style={{color:"#d6de35"}}
             />
             {/* onClick button that finds by name */}
             <div className="input-group-append">
               <Button
                 // className="btn btn-outline-secondary"
-                variant="outline-dark"
+                variant="outline-light"
                 type="button"
                 onClick={findByName}
               >
@@ -134,39 +137,20 @@ const CampaignsList = props => {
               </Button>
             </div>
         </div>
-        {/* <div className="input-group col-lg-4">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search by zip"
-            value={searchZip}
-            onChange={onChangeSearchZip}
-          />
-          <div className="input-group-append">
-            <Button
-              // className="btn btn-outline-secondary"
-              variant="outline-dark"
-              type="button"
-              onClick={findByZip}
-            >
-              Search
-            </Button>
-          </div>
-        </div> */}
-        <div className="input-group col-lg-4">
+        <div className="input-group col-lg-4" style={{paddingLeft:"1%", paddingTop:"1%", paddingBottom:"1%"}}>
 
         {/* going to set cusiine var to selected -> going to map each cuisine in array going to add value to search box*/}
-          <select onChange={onChangeSearchGenre}>
+          <select className="genreSearch" onChange={onChangeSearchGenre} style={{borderRadius: "3px"}}>
             {genre.map(genre => {
               return(
                 <option value={genre}> {genre.substr(0,20)}</option>
               )
             })}
           </select>
-          <div className="input-group-append">
+          <div className="input-group-append" style={{paddingLeft:"1px"}}>
             <Button
               // className="btn btn-outline-secondary"
-              variant="outline-dark"
+              variant="outline-light"
               type="button"
               onClick={findByGenre}
             >
