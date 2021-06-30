@@ -12,11 +12,12 @@ Link: http://ec2-3-15-26-27.us-east-2.compute.amazonaws.com:3000/login
 Ssh into instance:
 ssh nashsolon@ec2-3-15-26-27.us-east-2.compute.amazonaws.com
 
-Big Picture Stuff:
-- We need a deliverable for the client
-- Right now, we have a dashboard-esque layout, but havne't gotten to graphical representations yet
-- Wrote scripts to scrape data from tiktok
-    - NOTE: Always update username before views
+Components:
+- Updating single values (NASH)
+- We need a deliverable for the client - External Page (Kyle)
+- Recording Historical Data (Nash)
+- Graphical Representations (Both)
+
 
 
 To-Do
