@@ -3,6 +3,9 @@ import CampaignDataService from "../services/campaign";
 import {Link} from "react-router-dom";
 import { Form, Row, Col, FormControl, Button, Table} from 'react-bootstrap';
 import VideoBox from './VideoBox'
+import TotalLikes from './TotalLikes'
+import TotalComments from './TotalComments'
+import TotalViews from './TotalViews'
 
 
 
@@ -28,7 +31,7 @@ const Campaign = props => {
 
   const getCampaign = id => {
     // console.log('The id is ' + id)
-    console.log(props.user);
+    // console.log(props.user);
     CampaignDataService.get(id)
         .then(response => {
           setCampaign(response.data);
@@ -49,7 +52,7 @@ const Campaign = props => {
 
   useEffect(() => {
     // console.log(campaign)
-    console.log(campaign.influencers)
+    // console.log(campaign.influencers)
      {/* NOTE retaurant.review sshould be campaign.videos or something like that */}
         // let videos_array = []
         // console.log(restaurant.reviews)
@@ -97,7 +100,7 @@ const Campaign = props => {
                           }
                           `}</style>
                       </Row>
-                    <Table style={{color:"white", borderRight: "0"}} bordered hover >
+                    <Table variant='dark' style={{borderRight: "0"}} bordered hover >
                       <tbody>
                         <tr>
                           <td>Campaign ID: {campaign.id}</td>
@@ -122,7 +125,11 @@ const Campaign = props => {
                       </tbody>
                     </Table>
                   </div>
-                    <Link to={"/campaigns/" + props.match.params.id + "/influencer"} className="btn btn-outline-light">
+                  <TotalViews campaign_id = {props.match.params.id} ></TotalViews>
+                  <TotalLikes campaign_id = {props.match.params.id} ></TotalLikes>
+                  <TotalComments campaign_id = {props.match.params.id} ></TotalComments>
+                  <br></br>
+                    <Link to={"/campaigns/" + props.match.params.id + "/influencer"} className="btn btn-outline-dark">
                         Add Influencer
                     </Link>
                     {/* <Button variant="outline-light" to={"/campaigns/" + props.match.params.id + "/influencer"}>Add Influencer</Button> */}
@@ -142,14 +149,14 @@ const Campaign = props => {
                           height: 100vh;
                         }
                         h4{
-                          color:white;
+                          color:black;
                         }
                         #infl{
                           color: black;
                           margin:auto;
                         }
                         .campTitle{
-                          color: white;
+                          color: black;
                         }
                         `}
                     </style>

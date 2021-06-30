@@ -212,9 +212,31 @@ export default class ReviewsController {
             //         "unable to influencer - user may not be original poster",
             //     )
             // }
-            //     res.json({ status: "success"})
+                res.json({ status: "success"})
             } catch (e) {
                 res.status(500).json({error:e.message})
             }
         }
+
+        static async removeFromLinksArray(req, res, next) {
+            try {
+                // console.log(req.body)
+                const influencer_video_link = req.body.video_link
+                // console.log('The influencer video link is ' + influencer_video_link)
+                const linkArrayResponse = await LinkArrayDAO.removeFromLinksArray(
+                    influencer_video_link
+                )
+
+
+                
+                // const linkArrayResponse = await LinkArrayDAO.updateLinkArray(
+                //     influencer_video_link
+                // )
+                
+    
+                
+                } catch (e) {
+                    res.status(500).json({error:e.message})
+                }
+            }
 }

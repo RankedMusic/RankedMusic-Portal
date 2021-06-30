@@ -45,6 +45,48 @@ export default class LinkArrayDAO {
         }
     }
 
+    static async removeFromLinksArray(influencer_video_link) {
+        try {
+            // console.log('The link we want to remove is ' + influencer_video_link)
+            let links_array_doc = await link_array.findOne({name: 'links_array'})
+            let links_array = links_array_doc.links_array
+            // let links_array = Object.values(links_array_obj)
+            console.log(links_array)
+
+            let new_array = []
+
+            for (let i = 0; i < links_array.length; i = i + 1){
+                if(influencer_video_link == links_array[i]){
+                    console.log('do not push link ' + influencer_video_link)
+                }
+                else{
+                    new_array.push(links_array[i])
+                }
+
+            }
+
+            console.log(new_array)
+            
+            // links_array.push(influencer_video_link)
+            // console.log(links_array)
+
+            // NOTE: link_array is the collection, links_array is what we are changing
+            // We chnage it here so that when I run `node update_scraper.js`, it automatically 
+            // updates values in our database for EFFICIENCY
+            const updateResponse = await link_array.updateOne(
+                { name: 'links_array'},
+                { $set: { links_array: new_array }},
+            )
+
+            return updateResponse
+            
+            // return(link_array)
+        } catch(e) {
+            console.error(`Unable to post influencer: ${e}`)
+            return {error: e }
+        }
+    }
+
     static async updateInfluencer(influencerId, userId, text, date) {
         try{
            

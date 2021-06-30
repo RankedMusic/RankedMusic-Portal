@@ -84,7 +84,7 @@ const AddReview = props => {
               />
               <br/>
             </div>
-            <Button onClick={saveReview} variant="outline-light">
+            <Button onClick={saveReview} variant="outline-danger" style={{backgroundColor: "purple"}}>
               Submit
             </Button>
           </div>

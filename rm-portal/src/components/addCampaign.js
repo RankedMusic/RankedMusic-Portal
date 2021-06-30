@@ -162,7 +162,7 @@ const NewCampaign = props => {
                 <div
                     style={{paddingBottom: '5%'}}
                 ></div> */}
-                <h2 htmlFor="description" className="uploadCampTitle">{ editCamp ? "Edit" : "Upload" }  Campaign</h2>
+                <h2 htmlFor="description" variant='dark' className="uploadCampTitle">{ editCamp ? "Edit" : "Upload" }  Campaign</h2>
                 <Form onSubmit={addCampaign}>
                         <Form.Group className="mb-3" controlId="validationName">
                             {/* <FloatingLabel controlId="floatingSelect" label="Campaign Title"> */}
@@ -386,7 +386,7 @@ const NewCampaign = props => {
                             <Form.Control.Feedback>Great!</Form.Control.Feedback>
                         </Form.Group>
                     {/* </Row> */}
-                    <Button variant="outline-light" type="submit" className="subForm" onClick={handleShow}>Upload New Campaign</Button>
+                    <Button variant="danger" type="submit" className="subForm" onClick={handleShow}>Upload New Campaign</Button>
                 </Form>
             </div>
             <div className="modalPop">
@@ -403,16 +403,16 @@ const NewCampaign = props => {
                         Would you like to add another campaign?
                     </Modal.Body>
                     <Modal.Footer style={{margin:"auto"}}>
-                        <Button variant="secondary" onClick={newC}>
+                        <Button variant="danger" className="btns" onClick={newC}>
                             Add Another Campaign
                         </Button>
-                        <Button variant="warning" onClick={cList}>Go to Campaign List</Button>
+                        <Button variant="danger" className="btns" onClick={cList}>Go to Campaign List</Button>
                     </Modal.Footer>
                 </Modal>
 <style type="text/css">
     {`
      .formCamp{
-      color: white;
+    //   color: white;
     }
     .optionalText{
         color:lightgrey;
@@ -426,6 +426,10 @@ const NewCampaign = props => {
         color: black;
         text-align:center;
     }
+    .btns{
+        background-color: purple;
+        variant="danger"
+        }
     `}
 </style>
             </div>

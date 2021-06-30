@@ -129,7 +129,7 @@ const CampaignsList = props => {
             <div className="input-group-append">
               <Button
                 // className="btn btn-outline-secondary"
-                variant="outline-light"
+                variant="outline-danger"
                 type="button"
                 onClick={findByName}
               >
@@ -150,7 +150,7 @@ const CampaignsList = props => {
           <div className="input-group-append" style={{paddingLeft:"1px"}}>
             <Button
               // className="btn btn-outline-secondary"
-              variant="outline-light"
+              variant="outline-danger"
               type="button"
               onClick={findByGenre}
             >

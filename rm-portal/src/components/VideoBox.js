@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 // import {Link} from "react-router-dom";
 import VideoLikes from './VideoLikes'
 import VideoComments from './VideoComments'
+import VideoViews from './VideoViews'
 import InfluencerUsername from './InfluencerUsername'
 import Avatar from './Avatar'
 import CampaignDataService from "../services/campaign";
@@ -12,8 +13,10 @@ import Table from 'react-bootstrap/Table'
 
 
 const VideoBox = props => {
+    const [username, setUsername] = useState(null);
+    const [avatar, setAvatar] = useState(null);
 
-
+    let video_link = props.influencer.influencer
 const deleteInfluencer = (influencerId) => {
     CampaignDataService.deleteInfluencer(influencerId)
         .then(response => {
@@ -24,12 +27,43 @@ const deleteInfluencer = (influencerId) => {
                     ...prevState
                 })
             })
+
+            
+            // console.log(video_link)
+            CampaignDataService.removeFromLinksArray({video_link: video_link})
+
         })
         .catch(e => {
             console.log(e);
         });
 };
-  
+const getUsername = () => {
+CampaignDataService.saveUsername({video_link: video_link})
+        .then(response => {
+            console.log('Our username is ' + response.data)
+          setUsername(response.data);
+          // console.log(response.data);
+        //     CampaignDataService.saveAvatar(props.influencer.influencer)
+        //   .then(response => {
+        //     setAvatar(response.data);
+        //     // console.log(response.data);
+            
+        //   })
+        //   .catch(e => {
+        //     console.log(e);
+        //   });
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+
+
+useEffect(() => {
+    //   console.log(props.match.params.id)
+        getUsername(video_link);
+    //   only will get called if id is updated
+}, [video_link]);
   
     
     return (
@@ -42,7 +76,8 @@ const deleteInfluencer = (influencerId) => {
                         </div>
                         <Row>
                         <Col md="auto"><Avatar avatar = {props.influencer.avatar_src}></Avatar></Col>
-                        <Col md="auto"><InfluencerUsername influencer_username = {props.influencer.influencer_username}></InfluencerUsername></Col>
+                        <Col md="auto">{username}</Col>
+                        <Col md="auto"><VideoViews video_link = {props.influencer.influencer}></VideoViews></Col>
                         <Col md="auto"><VideoLikes video_link = {props.influencer.influencer}></VideoLikes></Col>
                         <Col md="auto"><VideoComments video_link = {props.influencer.influencer}></VideoComments></Col>
 

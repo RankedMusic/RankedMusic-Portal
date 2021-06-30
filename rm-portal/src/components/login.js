@@ -86,7 +86,7 @@ const Login = props => {
                     {/* </div>
         
             <div> */}
-            <Form onSubmit={handleLogin} className="loginForm">
+            <Form onSubmit={handleLogin} className="loginForm" variant='dark'>
                 <Form.Group className="mb-3" controlId="validationUname">
                     <Form.Label>Username</Form.Label>
                     <FormControl
@@ -122,7 +122,7 @@ const Login = props => {
 <style type="text/css">
     {`
      *{
-      color: white;
+      color: black;
     }
     body > #root > div {
       height: 100vh;

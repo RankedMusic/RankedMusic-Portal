@@ -34,47 +34,39 @@ const AddInfluencer = props => {
     //   getting right from url
       campaign_id: props.match.params.id
     };
-    console.log(data);
-    // if (editing) {
-    //   data.influencer_id = props.location.state.currentInfluencer._id
-    //   CampaignDataService.updateInfluencer(data)
-    //     .then(response => {
-    //       setSubmitted(true);
-    //       console.log(response.data);
-    //     })
-    //     .catch(e => {
-    //       console.log(e);
-    //     });
-    // } else {
+  
       
       CampaignDataService.addLinkArray(data)
       .then(response => {
-        setSubmitted(true);
-        // console.log(response.data);
+        console.log(response.data);
+        // setSubmitted(true);
+        setFinishedGrab(true)
+        console.log(finishedGrab)
+        
       })
       .catch(e => {
         console.log(e);
       });
         
 
-        CampaignDataService.saveUsername(data)
-        .then(response => {
+        // CampaignDataService.saveUsername(data)
+        // .then(response => {
 
-          setUsername(response.data);
-          // console.log(response.data);
-            CampaignDataService.saveAvatar(data)
-          .then(response => {
-            setAvatar(response.data);
-            // console.log(response.data);
-            setFinishedGrab(true)
-          })
-          .catch(e => {
-            console.log(e);
-          });
-        })
-        .catch(e => {
-          console.log(e);
-        });
+        //   setUsername(response.data);
+        //   // console.log(response.data);
+        //     CampaignDataService.saveAvatar(data)
+        //   .then(response => {
+        //     setAvatar(response.data);
+        //     // console.log(response.data);
+            
+        //   })
+        //   .catch(e => {
+        //     console.log(e);
+        //   });
+        // })
+        // .catch(e => {
+        //   console.log(e);
+        // });
 
         
     }
@@ -91,13 +83,13 @@ const AddInfluencer = props => {
         // name: props.user.name,
         // user_id: props.user.id,
       //   getting right from url
-        campaign_id: props.match.params.id,
-        influencer_user: username,
-        avatar: avatar
+        campaign_id: props.match.params.id
       };
       // console.log(data)
       CampaignDataService.createInfluencer(data)
+      
         .then(response => {
+          console.log(data)
           setSubmitted(true);
           // console.log(response.data);
         })
@@ -136,14 +128,14 @@ const AddInfluencer = props => {
                       influencer="text"
                       required
                       value={influencer}
-                      placeholder="Link to Tik-Tok Video"
+                      placeholder="Https://www.tiktok.com/@USERNAME/video/..."
                       // onChange={(event) => setUsername(event.target.value)}
                       onChange={handleInfluencerChange}
                   />
                   <Form.Control.Feedback>Great!</Form.Control.Feedback>
               </Form.Group>
               
-              <Button variant="outline-light" type="submit">Save Influencer</Button>
+              <Button class="btn" variant="danger" type="submit">Save Influencer</Button>
             </Form>
               {/* <input
                 type="text"
@@ -170,9 +162,13 @@ const AddInfluencer = props => {
 <style type="text/css">
   {`
    *{
-     color: white;
+     color: black;
+     variant: dark;
    }
-    
+  .btn{
+    background-color: purple;
+    variant="danger"
+  }
     body > #root > div {
       height: 100vh;
     }

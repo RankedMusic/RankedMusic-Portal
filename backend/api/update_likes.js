@@ -113,23 +113,15 @@ async function getLikesFromArray(influencers, client, links_array){
  
 // };
 
-async function insertLikes(influencers, influencer_video_url, video_likes_object){
-    // let influencer_in_question = await influencers.findOne({ influencer : influencer_video_url});
-    
-    // let video_url_in_question = influencer.influencer
-    // console.log(video_url_in_question)
-    // console.log(video_url)
-    // return video_url_in_question
- 
-};
-
 async function getVideoLikes(url) {
-    try {
+    
         
         
         const get_likes = async (url) => {
             // open the browser and prepare a page
             const browser = await puppeteer.launch({ headless : false, args: ["--window-size=0,0", "--window-position=1001,0"]  });
+            // const browser = await puppeteer.launch({ headless : true});
+
             const page = await browser.newPage();
             page.setDefaultNavigationTimeout(0)
             // open the page to scrape
@@ -166,7 +158,5 @@ async function getVideoLikes(url) {
     
         
         // res.json({ status:"success"})
-        } catch (e) {
-            res.status(500).json({error:e.message})
-        }
+        
 }

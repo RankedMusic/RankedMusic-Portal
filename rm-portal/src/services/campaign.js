@@ -25,6 +25,9 @@ class CampaignDataService {
     deleteInfluencer(id, user_Id){
         return http.delete(`/influencer?id=${id}`, {data:{user_id: user_Id}});
     }
+    removeFromLinksArray(data){
+        return http.post('/remove-from-links_array', data);
+    }
 
     saveUsername(data){
         return http.post('/save-username', data);
@@ -40,10 +43,26 @@ class CampaignDataService {
         // console.log(data)
         return http.post('/video_comments', data)
     }
+    getVideoViews(data){
+        // console.log(data)
+        return http.post('/video_views', data)
+    }
 
     addLinkArray(data){
         // console.log(data)
         return http.post('/link-array', data)
+    }
+    getTotLikes(data){
+        // console.log(data)
+        return http.post('/tot-likes', data)
+    }
+    getTotComments(data){
+        // console.log(data)
+        return http.post('/tot-comments', data)
+    }
+    getTotViews(data){
+        // console.log(data)
+        return http.post('/tot-views', data)
     }
 
 

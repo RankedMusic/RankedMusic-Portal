@@ -23,9 +23,10 @@ export default class InfluencersDAO {
             const influencerDoc = {
                 influencer: influencer,
                 date: date,
-                campaignId: ObjectId(campaignId),
-                influencer_username: influencer_username,
-                avatar_src: avatar_src }
+                campaignId: ObjectId(campaignId)
+                // influencer_username: influencer_username,
+                // avatar_src: avatar_src 
+            }
             // insert into DB (w restaurtant id converted to a MongoDb object ID)
             return await influencers.insertOne(influencerDoc)
         } catch(e) {
@@ -58,6 +59,86 @@ export default class InfluencersDAO {
             })
 
             return deleteResponse
+        } catch(e) {
+            consoele.error(`Unable to delete influencer: ${e}`)
+            return {error: e}
+        }
+
+    }
+
+    static async pullVideoLikes(video_url) {
+
+        try {
+            // looking for influencer id -> delete influencer
+            const influencer = await influencers.findOne({
+                influencer: video_url,
+            })
+            let likes = influencer.like_string
+            // console.log(influencer.like_string)
+
+            
+
+            return likes
+        } catch(e) {
+            consoele.error(`Unable to delete influencer: ${e}`)
+            return {error: e}
+        }
+
+    }
+
+    static async pullVideoComments(video_url) {
+
+        try {
+            // looking for influencer id -> delete influencer
+            const influencer = await influencers.findOne({
+                influencer: video_url,
+            })
+            let comments = influencer.comments_string
+            // console.log(influencer.like_string)
+
+            
+
+            return comments
+        } catch(e) {
+            consoele.error(`Unable to delete influencer: ${e}`)
+            return {error: e}
+        }
+
+    }
+
+    static async pullVideoViews(video_url) {
+
+        try {
+            // looking for influencer id -> delete influencer
+            const influencer = await influencers.findOne({
+                influencer: video_url,
+            })
+            let views = influencer.views_string
+            // console.log(influencer.like_string)
+
+            
+
+            return views
+        } catch(e) {
+            consoele.error(`Unable to delete influencer: ${e}`)
+            return {error: e}
+        }
+
+    }
+
+    static async pullInfluencerUsername(video_url) {
+
+        try {
+            // looking for influencer id -> delete influencer
+            const influencer = await influencers.findOne({
+                influencer: video_url,
+            })
+            let username = influencer.username_string
+            // console.log(influencer.like_string)
+
+            
+
+            return username
         } catch(e) {
             consoele.error(`Unable to delete influencer: ${e}`)
             return {error: e}

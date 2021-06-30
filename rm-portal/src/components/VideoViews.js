@@ -4,7 +4,7 @@ import CampaignDataService from "../services/campaign";
 
 
 
-const VideoLikes = props => {
+const VideoViews = props => {
 //   const initialRestaurantState = {
 //       id: null,
 //       name: "",
@@ -14,12 +14,12 @@ const VideoLikes = props => {
 //   };
 
 //   use init rest. state to create a restautant
-  const [likes, setLikes] = useState(null)
+  const [views, setViews] = useState(null)
 
-  const getLikes = () => {
-    CampaignDataService.getVideoLikes({video_url : props.video_link})
+  const getViews = () => {
+    CampaignDataService.getVideoViews({video_url : props.video_link})
         .then(response => {
-            setLikes(response.data);
+            setViews(response.data);
             // console.log(response.data);
         })
         .catch(e => {
@@ -45,7 +45,7 @@ const VideoLikes = props => {
 
   useEffect(() => {
     
-    getLikes();
+    getViews();
   //   only will get called if id is updated
 }, []);
   
@@ -53,9 +53,9 @@ const VideoLikes = props => {
     
     return (
         <div>
-            {likes ? ( 
+            {views ? ( 
               <div>
-              {likes}
+              {views}
               </div>
               ):(
                 <div>
@@ -69,4 +69,4 @@ const VideoLikes = props => {
     );
 };
 
-export default VideoLikes;
+export default VideoViews;

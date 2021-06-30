@@ -89,7 +89,7 @@ const AddUser = props => {
     <div className="addUser">
       <Form onSubmit={handleRegister}>
         <Form.Group className="mb-3" controlId="validationUname">
-            <Form.Label style={{color:"white"}}>Username</Form.Label>
+            <Form.Label variant='dark' style={{color:"black"}}>Username</Form.Label>
             <FormControl
                 // className="form-control"
                 type="text"
@@ -103,7 +103,7 @@ const AddUser = props => {
             <Form.Control.Feedback>Great!</Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="mb-3" controlId="validationPassword">
-            <Form.Label style={{color:"white"}}>Password</Form.Label>
+            <Form.Label style={{color:"black"}}>Password</Form.Label>
             <FormControl
                 // className="form-control"
                 // type="password"
@@ -122,7 +122,7 @@ const AddUser = props => {
             />
             <Form.Control.Feedback>Great!</Form.Control.Feedback>
         </Form.Group>
-        <Button variant="outline-light" type="submit">Register</Button>
+        <Button  class="btns" variant="danger" type="submit">Register</Button>
       </Form>
 
 
@@ -183,6 +183,10 @@ const AddUser = props => {
     body > #root > div {
       height: 100vh;
     }
+    .btns{
+      background-color: purple;
+      variant="danger"
+      }
     `}
 </style>
     </div>

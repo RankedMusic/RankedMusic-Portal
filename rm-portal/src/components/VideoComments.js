@@ -55,7 +55,7 @@ const VideoComments = props => {
         <div>
             {comments ? ( 
               <div>
-              {comments.comment_string}
+              {comments}
               </div>
               ):(
                 <div>

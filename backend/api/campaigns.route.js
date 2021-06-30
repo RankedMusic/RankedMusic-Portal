@@ -24,9 +24,19 @@ router.route("/").get(CampaignsCtrl.PostCampaign)
 router.route("/addCampaign").put(CampaignsCtrl.UpdateCampaign)
 
 // ROUTE TO GET VIDEOS DEPENDING ON THE VIDEO URL PASSED IN VideoLikes.js. Now go to RestaurantsCtrl
-router.route("/video_likes").post(DataScrapeCtrl.getVideoLikes)
-router.route("/video_comments").post(DataScrapeCtrl.getVideoComments)
-router.route("/save-username").post(DataScrapeCtrl.getInfluencerUsername)
+router.route("/video_likes").post(InfluencersCtrl.pullVideoLikes)
+router.route("/tot-likes").post(InfluencersCtrl.getTotLikes)
+router.route("/tot-comments").post(InfluencersCtrl.getTotComments)
+router.route("/tot-views").post(InfluencersCtrl.getTotViews)
+router.route("/video_comments").post(InfluencersCtrl.pullVideoComments)
+router.route("/video_views").post(InfluencersCtrl.pullVideoViews)
+
+
+router.route("/remove-from-links_array").post(DataScrapeCtrl.removeFromLinksArray)
+
+
+
+router.route("/save-username").post(InfluencersCtrl.getInfluencerUsername)
 router.route("/save-avatar").post(DataScrapeCtrl.getInfluencerAvatar)
 router.route("/link-array").post(DataScrapeCtrl.addLinkArray)
 
