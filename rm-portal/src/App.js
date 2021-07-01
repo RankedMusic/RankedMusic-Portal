@@ -34,6 +34,21 @@ function App() {
   // const handleClose = () => setShow(false);
   // const handleShow = () => setShow(true);
 
+  const [isAuthenticated, userHasAuthenticated] = useState(false);
+
+  useEffect(() => {
+    onLoad();
+  }, []);
+
+  async function onLoad() {
+    try {
+      await Auth.currentSession();
+      userHasAuthenticated(true);
+    } catch (e) {
+      alert(e);
+    }
+  }
+
   return (
     <div className="css-selector">
     <div className="cssBar">  
@@ -106,18 +121,31 @@ function App() {
       </div>
     <div className="container mt-3">
       <Switch>
-        <Route exact path={["/", "/campaigns"]} component={CampaignsList} />
-        <Route
+      <UnauthenticatedRoute
+          path="/login"
+          render={(props) => (
+            <Login {...props} login={login} />
+          )}
+          appProps={{ isAuthenticated }}
+        />
+        <AuthenticatedRoute 
+          exact path={["/", "/campaigns"]} 
+          component={CampaignsList} 
+          appProps={{ isAuthenticated }}
+        />
+        <AuthenticatedRoute
           path="/campaigns/:id/influencer"
           render={(props) => (
             <AddInfluencer {...props} user={user} />
           )}
+          appProps={{ isAuthenticated }}
         />
-        <Route
+        <AuthenticatedRoute
           path="/campaigns/:id"
           render={(props) => (
             <Campaign {...props} user={user} />
           )}
+          appProps={{ isAuthenticated }}
         />
         {/* <Route
           path="/campaigns/addCampaign/:id"
@@ -125,24 +153,21 @@ function App() {
             <NewCampaign {...props} campaign={props.campaign} />
           )}
         /> */}
-        <Route
-          path="/login"
-          render={(props) => (
-            <Login {...props} login={login} />
-          )}
-        />
-        <Route
+        <AuthenticatedRoute
           path="/addCampaign"
           render={(props) => (
             <NewCampaign {...props} user={user} />
           )}
+          appProps={{ isAuthenticated }}
         />
-        <Route
+        <AuthenticatedRoute
           path="/add-user"
           render={(props) => (
             <AddUser {...props} user={user} />
           )}
+          appProps={{ isAuthenticated }}
         />
+        <Route component={NotFound} />
       </Switch>
     </div>
     <style type="text/css">
