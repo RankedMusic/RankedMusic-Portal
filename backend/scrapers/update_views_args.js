@@ -5,7 +5,7 @@ import CaptchaSolver from 'tiktok-captcha-solver'
 import mongodb from "mongodb"
 const MongoClient = mongodb.MongoClient
 
-// console.log('hello')
+
 
 async function main() {
     // we'll add code here soon
@@ -16,7 +16,18 @@ async function main() {
     try {
         // Connect to the MongoDB cluster
         await client.connect();
+        let cl_args_array = process.argv
+        // console.log(cl_args_array)
+        let link_args_array = []
+        
+        for(let i = 0; i < cl_args_array.length; i = i + 1){
+            // console.log(i)
+            if(i > 1){
+                link_args_array.push(cl_args_array[i])
+            }
+        }
 
+        console.log(link_args_array)
         
  
         // Make the appropriate DB calls
@@ -28,11 +39,12 @@ async function main() {
         // let video_likes = await getVideoLikes(influencer_video_url)
         let links_array_object = await client.db("campaign_DB").collection('links_array').findOne({name: 'links_array'});
         let influencers = await getInfluencersCollection(client)
+       
         let links_array = links_array_object.links_array
         // console.log(links_array)
         // let links_array = await getVideoLinksArray(influencers, client, old_links_array)
         // await getUsernamesFromArray(influencers, client, links_array)
-        await getViewsFromArray(influencers, client, links_array)
+        await getViewsFromArray(influencers, client, link_args_array)
 
     } catch (e) {
         console.error(e);
@@ -70,12 +82,32 @@ async function getViewsFromArray(influencers, client, links_array){
         
         // console.log(single_video_url)
         let views_object = await get_Num_Views(single_video_url, profile_url)
-        console.log(views_object)
-        await influencers.updateOne(
-            { influencer: single_video_url},
-            { $set: views_object},
-        )
-        await sleep(10000);
+        if(views_object != null){
+            let date = new Date()
+            let date_string = date.toString()
+            let final_date = date_string.substring(4,15)
+            let date_updated_string = 'Views Updated ' + final_date
+            let date_updated_views_object = {date_views_updated: date_updated_string}
+            console.log('The video ' + single_video_url + ' has ' + views_object.views_string) 
+            // console.log(views_object)
+                await influencers.updateOne(
+                    { influencer: single_video_url},
+                    { $set: views_object},
+                )
+
+                await influencers.updateOne(
+                    { influencer: single_video_url},
+                    { $set: date_updated_views_object}
+                )
+                await sleep(10000);
+        }
+        else{
+
+            console.log('We did not get views for the video ' + single_video_url)
+            console.log('Most likely because element is not found')
+            console.log('Recheck XPath on chromium')
+            console.log('')
+        }
     }
 }
 
@@ -91,9 +123,9 @@ const get_Num_Views = async (video_url, profile_url) => {
         width: 1200,
         height: 800
     });
-    const captchaSolver = new CaptchaSolver(page)
-    await captchaSolver.solve()
-    // await page.waitForTimeout(8000);
+    // const captchaSolver = new CaptchaSolver(page)
+    // await captchaSolver.solve()
+    await page.waitForTimeout(8000);
     await autoScroll(page)
     // await page.waitForNavigation({waitUntil: 'load'});             // consider navigation to be finished when the load event is fired.
     // await page.waitForNavigation({waitUntil: 'domcontentloaded'}); // consider navigation to be finished when the DOMContentLoaded event is fired.
@@ -108,7 +140,7 @@ const get_Num_Views = async (video_url, profile_url) => {
 
     // await autoScroll(page);
     const fullXPath = await getXPath(page, video_url);
-    console.log('The full XPath from the num_Views function is: ' + fullXPath)
+    // console.log('The full XPath from the num_Views function is: ' + fullXPath)
 
     
 
@@ -125,10 +157,11 @@ const get_Num_Views = async (video_url, profile_url) => {
 
     // let views = await page.$x(fullXPath);
 
-    console.log(views)
+    // console.log(views)
 
     if(views.length == 0){
         console.log('try again')
+        return null
     }
     else{
         let views_text = await page.evaluate(element => element.textContent, views[0]);
@@ -137,6 +170,7 @@ const get_Num_Views = async (video_url, profile_url) => {
         let views_object = {views_string: views_string}
         
         console.log(views_string)
+        await browser.close();
         return views_object
     }
     // console.log(typeof(fullXPath))
@@ -175,7 +209,7 @@ const getXPath = async(page, video_url) => {
 
     
     const hrefs = await page.$$eval('a', as => as.map(a => a.href));
-    console.log(hrefs)
+    // console.log(hrefs)
 
     // console.log(hrefs[0].includes('video'))
 
@@ -193,7 +227,7 @@ const getXPath = async(page, video_url) => {
     let found_vid = false
     let div_counter = 0
     let div_num = 0
-    console.log(video_array)
+    // console.log(video_array)
     for(let i = 0; i < video_array.length; i = i + 1)
     {
 
@@ -201,19 +235,19 @@ const getXPath = async(page, video_url) => {
         if(video_array[i].includes(video_url) && found_vid == false){
             // div_num = div_num + 1
             div_counter = div_counter + 1
-            console.log('The video ' + video_array[i] + ' is in the ' + div_counter + ' div')
+            // console.log('The video ' + video_array[i] + ' is in the ' + div_counter + ' div')
             found_vid = true
             
         }
         if(!video_array[i].includes(video_url) && found_vid == false){
             // div_num = div_num + 1
             div_counter = div_counter + 1
-            console.log('The video ' + video_array[i] + ' is in the ' + div_counter + ' div')
+            // console.log('The video ' + video_array[i] + ' is in the ' + div_counter + ' div')
             
         }
         if(found_vid == true){
             div_num = div_counter
-            console.log('The div number is ' + div_num)
+            // console.log('The div number is ' + div_num)
 
             
             
@@ -222,7 +256,9 @@ const getXPath = async(page, video_url) => {
     }
 
     // const fullXPath = '/html/body/div/div/div[2]/div[2]/div/main/div[2]/div[1]/div[' + div_num + ']/div[1]/div/div/a/span/div/div/div/div/div/strong'
-       const fullXPath = '/html/body/div[1]/div/div[3]/div[2]/div/main/div[2]/div[1]/div[' + div_num + ']/div/div/div/a/span/div/div/div/div/div/strong'
+    //    const fullXPath = '/html/body/div[1]/div/div[3]/div[2]/div/main/div[2]/div[1]/div[' + div_num + ']/div/div/div/a/span/div/div/div/div/div/strong'
+    const fullXPath = '/html/body/div[1]/div/div[2]/div[2]/div/main/div[2]/div[1]/div[' + div_num + ']/div/div/div/a/span/div/div/div/div/div/strong'
+
         return fullXPath
     // console.log('The full XPath is ' + fullXPath)
     

@@ -30,6 +30,9 @@ router.route("/tot-comments").post(InfluencersCtrl.getTotComments)
 router.route("/tot-views").post(InfluencersCtrl.getTotViews)
 router.route("/video_comments").post(InfluencersCtrl.pullVideoComments)
 router.route("/video_views").post(InfluencersCtrl.pullVideoViews)
+router.route("/historical-views").post(CampaignsCtrl.pullHistoricalViews)
+
+
 
 
 router.route("/remove-from-links_array").post(DataScrapeCtrl.removeFromLinksArray)

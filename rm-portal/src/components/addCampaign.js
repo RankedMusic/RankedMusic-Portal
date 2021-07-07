@@ -80,6 +80,7 @@ const NewCampaign = props => {
                 });
         } else{
             CampaignDataService.createCampaign(data)
+                // console.log(props.)
                 .then(response => {
                     setSubmitted(true)
                     console.log(response.data);

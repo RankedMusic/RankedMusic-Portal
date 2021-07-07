@@ -6,6 +6,7 @@ import VideoBox from './VideoBox'
 import TotalLikes from './TotalLikes'
 import TotalComments from './TotalComments'
 import TotalViews from './TotalViews'
+import ViewsChart from './ViewsChart'
 
 
 
@@ -143,6 +144,8 @@ const Campaign = props => {
                         )} */}
                         {influencers_map}
                     </div>
+                    <ViewsChart campaign_id = {props.match.params.id}></ViewsChart>
+
                     <style type="text/css">
                         {`
                         body > #root > div {

@@ -65,6 +65,11 @@ class CampaignDataService {
         return http.post('/tot-views', data)
     }
 
+    getHistoricalViewsArray(data){
+        // console.log(data)
+        return http.post('/historical-views', data)
+    }
+
 
 
     loginUser(data){

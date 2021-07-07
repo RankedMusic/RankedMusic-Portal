@@ -1,4 +1,9 @@
 import CampaignsDAO from "../dao/campaignsDAO.js"
+import getHistoricalDatabase from "../dao/historicalsDAO.js"
+import mongodb from "mongodb"
+import { json } from "express"
+const MongoClient = mongodb.MongoClient
+
 
 export default class CampaignsController {
     // when this api is called thru URL -> can be a query string
@@ -35,11 +40,23 @@ export default class CampaignsController {
                 song,
                 songLink
             )
+            // console.log(CampaignResponse)
+            // console.log(CampaignResponse.insertedId)
+
+            //NOTE: This function adds the campaign id to a new document in the historical database
+            //      so that we can track historical data
+            
+            const CampaignIdResponse = await CampaignsDAO.addCampaignId(
+                CampaignResponse.insertedId
+            )
+
             res.json({ status: "success"})
         } catch (e) {
             res.status(500).json({error:e.message})
         }
     }
+
+   
     
     
     
@@ -236,6 +253,20 @@ static async UpdateCampaign(req, res, next) {
             } catch (e) {
                 res.status(500).json({error:e.message})
             }
+    }
+
+    static async pullHistoricalViews(req, res, next){
+        console.log('Campaign id to pull historical views is ' + req.body.campaign_id)
+        let campaign_id = req.body.campaign_id
+        let historical_views_collection = await getHistoricalDatabase()
+        // console.log(historical_views_collection)
+        const ObjectId = mongodb.ObjectID
+        let historical_views_object = await historical_views_collection.findOne({campaignId: new ObjectId(String(campaign_id))})
+        // console.log(historical_views_object)
+        let historical_views_array = historical_views_object.historical_views
+        console.log(historical_views_array)
+        res.json(historical_views_array)
+
     }
 
 

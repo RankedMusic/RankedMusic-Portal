@@ -59,6 +59,7 @@ const AddUser = props => {
 
 
   const handleNameChange = event => {
+    // console.log('The user that is signed in is ' + props.user)
     setUsername(event.target.value);
   };
   const handlePassChange = event => {
@@ -87,6 +88,8 @@ const AddUser = props => {
 
   return (
     <div className="addUser">
+    {/* comingsoon={value ? 1 : 0}
+    {true = {value ? ('user is kyle') : ('user is not kyle') }} */}
       <Form onSubmit={handleRegister}>
         <Form.Group className="mb-3" controlId="validationUname">
             <Form.Label variant='dark' style={{color:"black"}}>Username</Form.Label>

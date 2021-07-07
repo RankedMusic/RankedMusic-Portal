@@ -2,6 +2,7 @@
 import mongodb from "mongodb"
 const ObjectId = mongodb.ObjectID
 let campaigns
+let campaign_id_array_object
 
 export default class CampaignsDAO {
     // initially connect to DB -> call as soon as server starts
@@ -12,6 +13,7 @@ export default class CampaignsDAO {
         // if not filled -> return ref to specific DB
         try{
             campaigns = await conn.db(process.env.CAMPINFLUENCERS_NS).collection("campaigns")
+            campaign_id_array_object = await conn.db(process.env.CAMPINFLUENCERS_NS).collection("campaign_id_array")
         }catch (e) {
             console.error(
                 `Unable to establish a collection handle in campaignsDAO: ${e}`,
@@ -66,6 +68,27 @@ export default class CampaignsDAO {
             console.error(`Unable to update campaign ${e}`)
             return { error: e}
         }
+    }
+
+    static async addCampaignId(campaign_id){
+        try{
+        // console.log('hello')
+        // let new_array = []
+       
+        let campaign_id_string = campaign_id.toString()
+        console.log('hello')
+        console.log(campaign_id_array_object)
+        let campaign_id_array_doc = await campaign_id_array_object.findOne({name: "campaign_id_array"})
+        console.log(campaign_id_array_doc)
+        let campaign_id_array = campaign_id_array_doc.campaign_id_array
+        campaign_id_array.push(campaign_id_string)
+        await campaign_id_array_object.updateOne({name: "campaign_id_array"}, {$set: {campaign_id_array: campaign_id_array}})
+
+        // console.log(campaign_id_array)
+    } catch (e) {
+        console.error(`Unable to update campaign ${e}`)
+        return { error: e}
+    }
     }
 
 
