@@ -87,7 +87,29 @@ export default class UsersController {
 //         }
 //     }
 
-
+static async GetRole(req, res, next) {
+    try{
+        
+        const object = await UsersDAO.getPosition(req.body.user);
+        if (object.role == "employee"){
+            console.log("Employee Login Successful");
+            res.send({ status: "employee"});
+            return;
+        }
+        if (object.role == "admin"){
+            console.log("Admin Login Successful");
+            res.send({ status: "admin"});
+            return;
+        }
+        else{
+            console.log("Fail");
+            res.send({ status: "roleFail"});
+            return;
+        }
+    }catch (e) {
+        res.status(500).json({error:e.message})
+    }   
+}
 
 
 

@@ -50,6 +50,18 @@ export default class UsersDAO {
             return {error: e }
         }
     }  
+    static async getPosition(usernameAttempt){
+        try{
+            return await users.findOne( 
+                { "username": usernameAttempt }, 
+                { fields: {_id: 0, username: 0, password: 0 }} 
+            )
+        }
+        catch(e){
+            console.error(`Unable to identify associated role: ${e}`)
+            return {error: e }
+        }
+    }  
 }
 
 
