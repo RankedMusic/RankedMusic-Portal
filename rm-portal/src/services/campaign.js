@@ -80,6 +80,9 @@ class CampaignDataService {
     updateUser(data){
     return http.put("/add-user", data);
     }
+    getUserRole(data){
+        return http.post("/userRole", data);
+    }
     deleteUser(id, user_Id){
         return http.delete(`/add-user?id=${id}`, {data:{user_id: user_Id}});
     }

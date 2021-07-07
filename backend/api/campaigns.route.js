@@ -53,4 +53,5 @@ router
     .put(InfluencersCtrl.apiUpdateInfluencer)
     .delete(InfluencersCtrl.apiDeleteInfluencer)
 router.route("/addCampaign").post(CampaignsCtrl.PostCampaign)
+router.route("/userRole").post(UsersController.GetRole)
 export default router

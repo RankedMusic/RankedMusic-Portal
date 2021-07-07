@@ -1,10 +1,10 @@
 // import React, { Component, useState, useEffect } from "react";
 // import React, { Component } from "react";
-import React from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Switch, Route, Link, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
-
+import CampaignDataService from "./services/campaign";
 import logo from './Logo.png';
 import './App.css'
 import AddInfluencer from "./components/add-influencer";
@@ -13,6 +13,7 @@ import CampaignsList from "./components/campaigns-list";
 import Login from "./components/login";
 import AddUser from "./components/add-user";
 import NewCampaign from "./components/addCampaign";
+
 
 
 
@@ -33,7 +34,29 @@ function App() {
   // const [show, setShow] = useState(false);
   // const handleClose = () => setShow(false);
   // const handleShow = () => setShow(true);
-
+  const [role, setRole] = useState("");
+  const [admin, setAdmin] = useState("");
+  useEffect(() => {
+    retrieveRole();
+  }, [user]);  
+  const retrieveRole = () => {
+    // event.preventDefault();
+    CampaignDataService.getUserRole({user: user}).then(response => {
+      console.log(response.data);
+      setRole(response.data.status)
+    });
+    
+  }
+  useEffect(() => {
+    retrieveAdmin();
+  });
+  
+  const retrieveAdmin = () => {
+    // event.preventDefault();
+    if (role==="admin"){
+    setAdmin("admin");
+  };
+  }
   return (
     <div className="css-selector">
     <div className="cssBar">  
@@ -78,7 +101,7 @@ function App() {
             ) : (
               <ul></ul>
             )}
-            { user ? (
+            { admin.toString() ? (
               <ul className="nav-item">
                 <Link to={"/add-user"} className="nav-link">
                   Create New User
@@ -106,43 +129,81 @@ function App() {
       </div>
     <div className="container mt-3">
       <Switch>
+      <Route
+          exact
+            path="/login"
+            render={(props) => (
+              <Login {...props} login={login} />
+            )}
+      />
+      <Route
+        path="/campaigns/:id"
+        render={(props) => (
+        <Campaign {...props} user={user} />
+      )}
+    />
+      { user ? (
         <Route exact path={["/", "/campaigns"]} component={CampaignsList} />
-        <Route
-          path="/campaigns/:id/influencer"
+      ) : (
+        <Redirect
+          to="/login"
           render={(props) => (
-            <AddInfluencer {...props} user={user} />
+            <Login {...props} login={login} />
           )}
         />
-        <Route
-          path="/campaigns/:id"
-          render={(props) => (
-            <Campaign {...props} user={user} />
+        )}
+        { admin.toString() ? (
+          <Route
+            to="/add-user"
+            render={(props) => (
+              <AddUser {...props} user={user} />
+            )}
+          />
+        ) : (
+          <Redirect
+            to="/login"
+            render={(props) => (
+              <Login {...props} login={login} />
+            )}
+          />
+        )}
+        { user ? (
+          <Route
+            path="/campaigns/:id/influencer"
+            render={(props) => (
+              <AddInfluencer {...props} user={user} />
+            )}
+          />
+        ) : (
+          <Redirect
+            to="/login"
+            render={(props) => (
+              <Login {...props} login={login} />
+            )}
+          />
           )}
-        />
         {/* <Route
           path="/campaigns/addCampaign/:id"
           render={(props) => (
             <NewCampaign {...props} campaign={props.campaign} />
           )}
         /> */}
-        <Route
-          path="/login"
-          render={(props) => (
-            <Login {...props} login={login} />
+        { user ? (
+          <Route
+            to="/addCampaign"
+            render={(props) => (
+              <NewCampaign {...props} user={user} />
+            )}
+          />
+        ) : (
+          <Redirect
+            to="/login"
+            render={(props) => (
+              <Login {...props} login={login} />
+            )}
+          />
           )}
-        />
-        <Route
-          path="/addCampaign"
-          render={(props) => (
-            <NewCampaign {...props} user={user} />
-          )}
-        />
-        <Route
-          path="/add-user"
-          render={(props) => (
-            <AddUser {...props} user={user} />
-          )}
-        />
+          
       </Switch>
     </div>
     <style type="text/css">
