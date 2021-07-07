@@ -14,7 +14,6 @@ Link: http://ec2-3-15-26-27.us-east-2.compute.amazonaws.com:3000/login
 Ssh into instance:
 ssh nashsolon@ec2-3-15-26-27.us-east-2.compute.amazonaws.com
 
-<<<<<<< HEAD
 Nash Journal (June 30th):
 - Created script to update comments, likes, and views based on command line arguments
     - Input as many links as you want after `node _____args.js` and the script will update values for  the specific links
@@ -47,13 +46,11 @@ Nash(July 7)
     
     
 
-=======
 Components:
 - Updating single values (NASH)
 - We need a deliverable for the client - External Page (Kyle)
 - Recording Historical Data (Nash)
 - Graphical Representations (Both)
->>>>>>> 55c8bf66bae91a89f0df6400b8c82645459bd8b0
 
 
 
