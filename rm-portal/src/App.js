@@ -182,12 +182,6 @@ function App() {
             )}
           />
           )}
-        {/* <Route
-          path="/campaigns/addCampaign/:id"
-          render={(props) => (
-            <NewCampaign {...props} campaign={props.campaign} />
-          )}
-        /> */}
         { user ? (
           <Route
             to="/addCampaign"
