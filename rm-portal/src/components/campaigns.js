@@ -130,9 +130,13 @@ const Campaign = props => {
                   <TotalLikes campaign_id = {props.match.params.id} ></TotalLikes>
                   <TotalComments campaign_id = {props.match.params.id} ></TotalComments>
                   <br></br>
+                    {props.user ?(
                     <Link to={"/campaigns/" + props.match.params.id + "/influencer"} className="btn btn-outline-dark">
                         Add Influencer
                     </Link>
+                    ) : (
+                      ''
+                    )}
                     {/* <Button variant="outline-light" to={"/campaigns/" + props.match.params.id + "/influencer"}>Add Influencer</Button> */}
                     <h4> Influencers </h4>
                     <div className="row" id="infl">

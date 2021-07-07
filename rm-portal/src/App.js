@@ -1,7 +1,7 @@
 // import React, { Component, useState, useEffect } from "react";
 // import React, { Component } from "react";
 import React, { useState, useEffect } from "react";
-import { Switch, Route, Link, Redirect } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Router, Link, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import CampaignDataService from "./services/campaign";
@@ -13,8 +13,6 @@ import CampaignsList from "./components/campaigns-list";
 import Login from "./components/login";
 import AddUser from "./components/add-user";
 import NewCampaign from "./components/addCampaign";
-
-
 
 
 function App() {
@@ -128,33 +126,57 @@ function App() {
       </Navbar>
       </div>
     <div className="container mt-3">
+      
       <Switch>
-      <Route
-          exact
+        <Route
+            exact
             path="/login"
             render={(props) => (
               <Login {...props} login={login} />
             )}
-      />
-      <Route
-        path="/campaigns/:id"
-        render={(props) => (
-        <Campaign {...props} user={user} />
-      )}
-    />
-      { user ? (
-        <Route exact path={["/", "/campaigns"]} component={CampaignsList} />
-      ) : (
-        <Redirect
-          to="/login"
+        />
+          <Route
+            path="/campaigns/:id/influencer"
+            render={(props) => (
+              <AddInfluencer {...props} user={user} />
+            )}
+          />
+        <Route
+          path="/campaigns/:id"
           render={(props) => (
-            <Login {...props} login={login} />
+            <Campaign {...props} user={user} />
           )}
         />
+        
+        { user ? (
+          <Route exact path={["/", "/campaigns"]} component={CampaignsList} />
+        ) : (
+          <Redirect
+            to="/login"
+            render={(props) => (
+              <Login {...props} login={login} />
+            )}
+          />
         )}
+        { user ? (
+          <Route
+            path="/addCampaign"
+            render={(props) => (
+              <NewCampaign {...props} user={user} />
+            )}
+          />
+        ) : (
+          <Redirect
+            to="/login"
+            render={(props) => (
+              <Login {...props} login={login} />
+            )}
+          />
+        )}
+        
         { admin.toString() ? (
           <Route
-            to="/add-user"
+            path="/add-user"
             render={(props) => (
               <AddUser {...props} user={user} />
             )}
@@ -167,38 +189,8 @@ function App() {
             )}
           />
         )}
-        { user ? (
-          <Route
-            path="/campaigns/:id/influencer"
-            render={(props) => (
-              <AddInfluencer {...props} user={user} />
-            )}
-          />
-        ) : (
-          <Redirect
-            to="/login"
-            render={(props) => (
-              <Login {...props} login={login} />
-            )}
-          />
-          )}
-        { user ? (
-          <Route
-            to="/addCampaign"
-            render={(props) => (
-              <NewCampaign {...props} user={user} />
-            )}
-          />
-        ) : (
-          <Redirect
-            to="/login"
-            render={(props) => (
-              <Login {...props} login={login} />
-            )}
-          />
-          )}
-          
       </Switch>
+
     </div>
     <style type="text/css">
     {/* {`
