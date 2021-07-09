@@ -8,12 +8,14 @@ const AddUser = props => {
   let initialUserState = {
     username: "",
     password: "",
+    role: "",
   }
   // const [password, setPassword] = useState("");
   // const [username, setUsername] = useState("");
     
   const [username, setUsername] = useState(initialUserState.username);
   const [password, setPassword] = useState(initialUserState.pass);
+  const [role, setRole] = useState(initialUserState.role);
 //   keeping track of whether submitted or not
   const [submitted, setSubmitted] = useState(false);
 
@@ -25,7 +27,8 @@ const AddUser = props => {
   //   };
     const data = {
       username: username,
-      password: password
+      password: password,
+      role: role
     };
     // const response = await fetch("http://localhost:5000/api/v1/campaigns/add-user", {
     //   method: "POST",
@@ -45,7 +48,6 @@ const AddUser = props => {
     //   props.setOpenReg(false);
     // }
   
-  
     CampaignDataService.createUser(data)
     .then(response => {
       setSubmitted(true);
@@ -64,6 +66,9 @@ const AddUser = props => {
   };
   const handlePassChange = event => {
     setPassword(event.target.value);
+  };
+  const handleRoleChange = event => {
+    setRole(event.target.value);
   };
   // const handleRegister = () => {
   //   var data = {
@@ -90,8 +95,9 @@ const AddUser = props => {
     <div className="addUser">
     {/* comingsoon={value ? 1 : 0}
     {true = {value ? ('user is kyle') : ('user is not kyle') }} */}
-      <Form onSubmit={handleRegister}>
-        <Form.Group className="mb-3" controlId="validationUname">
+      <Form onSubmit={handleRegister} style={{paddingTop:"3%"}}>
+        <Row>
+        <Form.Group className="mb-3"  as={Col} md="4" controlId="validationUname">
             <Form.Label variant='dark' style={{color:"black"}}>Username</Form.Label>
             <FormControl
                 // className="form-control"
@@ -105,7 +111,7 @@ const AddUser = props => {
             />
             <Form.Control.Feedback>Great!</Form.Control.Feedback>
         </Form.Group>
-        <Form.Group className="mb-3" controlId="validationPassword">
+        <Form.Group className="mb-3"  as={Col} md="4" controlId="validationPassword">
             <Form.Label style={{color:"black"}}>Password</Form.Label>
             <FormControl
                 // className="form-control"
@@ -125,7 +131,22 @@ const AddUser = props => {
             />
             <Form.Control.Feedback>Great!</Form.Control.Feedback>
         </Form.Group>
-        <Button  class="btns" variant="danger" type="submit">Register</Button>
+        <Form.Group 
+          controlId="validationUserType"
+          className="mb-3" 
+          as={Col}
+          md="2"
+          >
+            <Form.Label>User Role</Form.Label>
+            <Form.Control as="select" variant="outline-light" controlId="floatingSelect" value={role} onChange={handleRoleChange}>
+                <option>Select Title</option>
+                <option value="admin">Admin</option>
+                <option value="emplyee">Employee</option>
+            </Form.Control>
+            <Form.Control.Feedback>Great!</Form.Control.Feedback>
+          </Form.Group>
+        <Button class="btn mb-3" style={{height:"10%", width:"auto", marginTop:"2.8%"}} variant="danger" type="submit" >Register</Button>
+        </Row>
       </Form>
 
 
@@ -186,9 +207,13 @@ const AddUser = props => {
     body > #root > div {
       height: 100vh;
     }
-    .btns{
+    .btn{
       background-color: purple;
-      variant="danger"
+      variant=danger;
+      margin-left: 1%;
+      }
+      .addUser{
+        padding-top: 1.5%;
       }
     `}
 </style>

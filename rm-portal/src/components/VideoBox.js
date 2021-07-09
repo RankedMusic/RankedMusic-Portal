@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Nav from 'react-bootstrap/Nav'
 // import RestaurantDataService from "../services/restaurant";
 // import {Link} from "react-router-dom";
 import VideoLikes from './VideoLikes'
@@ -81,13 +82,17 @@ useEffect(() => {
                         <Col md="auto"><VideoLikes video_link = {props.influencer.influencer}></VideoLikes></Col>
                         <Col md="auto"><VideoComments video_link = {props.influencer.influencer}></VideoComments></Col>
 
-                        <Col md="auto" style={{marginLeft:"11%"}}>
-                            <p className="video-content">
+                        {/* <Col md="auto" style={{marginLeft:"11%"}}> */}
+                            {/* <p className="video-content"> */}
                                 {/* {props.influencer.text}<br/> */}
-                                <strong>Video URL: </strong>{props.influencer.influencer}<br/>
-                                <strong>Date: </strong>{props.influencer.date}
-                            </p>
-                            </Col>
+                                <Col md="auto">
+                                <strong><Nav.Link href={props.influencer.influencer} style={{marginTop:"-7%"}}>Video Link</Nav.Link></strong>
+                                </Col>
+                                <Col md="auto">
+                                    <strong>Date: </strong>{props.influencer.date}
+                                </Col>
+                            {/* </p> */}
+                            {/* // </Col> */}
                         </Row>
                         {/* NOTE: Kyle made influencer the video url in our influencer object. So influencer.influencer is the video url */}
                         {/* show buttons depending which user is logged in */}

@@ -22,11 +22,12 @@ export default class UsersDAO {
 // Add user id? random user id or admin makes it?
 
     // add user -> create a user doc + create an object Id
-    static async addUser(username, password) {
+    static async addUser(username, password, role) {
         try {
             const userDoc = { 
                 username: username,
                 password: password,
+                role: role,
                 // campaign_id: ObjectId(campaignId), 
             }
             // insert into DB (w campaign id converted to a MongoDb object ID)

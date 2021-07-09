@@ -14,7 +14,7 @@ const AddInfluencer = props => {
   //   editing = true;
   //   initialInfluencerState = props.location.state.currentInfluencer.text
   // }
-
+  const [validated, setValidated] = useState(false);
   const [influencer, setInfluencer] = useState(initialInfluencerState);
 //   keeping track of whether submitted or not
   const [submitted, setSubmitted] = useState(false);
@@ -27,6 +27,15 @@ const AddInfluencer = props => {
   //NOTE SET USERNAME AND AVATAR AND THEN PASS INTO THE USE EFFECT AND THEN INPUT ALL OF IT INTO DATABASE
   async function saveInfluencer(event) {
     event.preventDefault();
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
+  
+
     var data = {
       influencer: influencer,
       // name: props.user.name,
@@ -70,7 +79,6 @@ const AddInfluencer = props => {
 
         
     }
-
   
 
     useEffect(() => {
@@ -125,14 +133,15 @@ const AddInfluencer = props => {
                   <FormControl
                       // className="form-control"
                       type="text"
-                      influencer="text"
                       required
+                      influencer="text"
                       value={influencer}
                       placeholder="Https://www.tiktok.com/@USERNAME/video/..."
                       // onChange={(event) => setUsername(event.target.value)}
                       onChange={handleInfluencerChange}
+
                   />
-                  <Form.Control.Feedback>Great!</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">Cannot Submit Blank Influencer</Form.Control.Feedback>
               </Form.Group>
               
               <Button class="btn" variant="danger" type="submit">Save Influencer</Button>
