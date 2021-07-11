@@ -37,9 +37,7 @@ const TotalViews = props => {
 
     return(
         <div>
-            <strong id = 'tot_views'>
-            {'Total Views: ' + tot_views}
-            </strong>
+            <strong id = 'tot_views'>Total Views: </strong>{tot_views}
             
 
         </div>

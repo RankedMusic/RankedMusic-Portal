@@ -35,9 +35,7 @@ const TotalComments = props => {
 
     return(
         <div>
-            <strong id = 'tot_comments'>
-            {'Total Comments: ' + tot_comments}
-            </strong>
+            <strong id = 'tot_comments'>Total Comments: </strong>{tot_comments}
             
 
         </div>
