@@ -7,12 +7,14 @@ export default class UsersController {
             // get info from body of request
             const username = req.body.username
             const pass = req.body.password
+            const role = req.body.role
             // get new date
             const date = new Date()
             // put data tg and send over to to db
             const UserResponse = await UsersDAO.addUser(
                 username,
-                pass
+                pass,
+                role
             )
             res.json({ status: "success"})
         } catch (e) {

@@ -37,9 +37,9 @@ const TotalLikes = props => {
 
     return(
         <div>
-            <strong id = 'tot_likes'>
-            {'Total Likes: ' + tot_likes}
-            </strong>
+            <strong id='tot_likes'>Total Likes:  </strong>
+            
+            {tot_likes}
             
 
         </div>

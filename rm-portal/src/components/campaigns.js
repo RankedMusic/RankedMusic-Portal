@@ -7,7 +7,8 @@ import TotalLikes from './TotalLikes'
 import TotalComments from './TotalComments'
 import TotalViews from './TotalViews'
 import ViewsChart from './ViewsChart'
-
+import Card from 'react-bootstrap/Card'
+import Overlay from 'react-bootstrap/Overlay'
 
 
 const Campaign = props => {
@@ -79,6 +80,18 @@ const Campaign = props => {
                 <div>
                   <div className="campTitle"  style={{textAlign: "center"}}>
                     <h1 className="cT">{campaign.name}</h1>
+                  </div>
+                  <br></br>
+                    <Card>
+                    <Card.Header style={{fontWeight:"bold", color:"#f40060" }}>
+                      
+                      Campaign Overview 
+                      <svg xmlns="http://www.w3.org/2000/svg" style={{marginLeft:"1%", float:"right"}} width="18" height="18" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                      </svg>
+                    </Card.Header>
+                    <Card.Body>
                     <Row className="cInfo">
                         <Col>
                         <strong>Start Date: {campaign.start}</strong>
@@ -125,10 +138,20 @@ const Campaign = props => {
                         </tr>
                       </tbody>
                     </Table>
-                  </div>
-                  <TotalViews campaign_id = {props.match.params.id} ></TotalViews>
-                  <TotalLikes campaign_id = {props.match.params.id} ></TotalLikes>
-                  <TotalComments campaign_id = {props.match.params.id} ></TotalComments>
+                  <Row>
+                    <Col>
+                      <TotalViews campaign_id = {props.match.params.id} ></TotalViews>
+                    </Col>
+                    <Col>
+                      <TotalLikes campaign_id = {props.match.params.id} ></TotalLikes>
+                    </Col>
+                    <Col>
+                      <TotalComments campaign_id = {props.match.params.id} ></TotalComments>
+                    </Col>
+
+                  </Row>
+                    </Card.Body>
+                  </Card>
                   <br></br>
                     {props.user ?(
                     <Link to={"/campaigns/" + props.match.params.id + "/influencer"} className="btn btn-outline-dark">
@@ -137,8 +160,17 @@ const Campaign = props => {
                     ) : (
                       ''
                     )}
+                    <Card>
                     {/* <Button variant="outline-light" to={"/campaigns/" + props.match.params.id + "/influencer"}>Add Influencer</Button> */}
-                    <h4> Influencers </h4>
+                   <Card.Header style={{fontWeight:"bold", color:"#f40060" }}> 
+                      Influencers 
+                      <svg xmlns="http://www.w3.org/2000/svg" style={{marginLeft:"1%", float:"right"}} width="18" height="18" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 18 18">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                      </svg>
+                    </Card.Header>
+                   <Card.Title >Total Followers: </Card.Title>
+                      <Card.Body>
                     <div className="row" id="infl">
                         {/* if there are influencers (>0) -> otherwise returns no influencers */}
                         {/* {campaign.influencers.length > 0 ? ({influencers_map}) : (
@@ -148,6 +180,8 @@ const Campaign = props => {
                         )} */}
                         {influencers_map}
                     </div>
+                    </Card.Body>
+                    </Card>
                     <ViewsChart campaign_id = {props.match.params.id}></ViewsChart>
 
                     <style type="text/css">
