@@ -1,5 +1,11 @@
 # RankedMusic-Portal
 
+## Project Overview
+- This is a portal for ranked music
+- Backend run through express and node.js with MongoDB database. Frontend is REACT, connected to beckend using axios
+- Scrapers folder holds webscrapers that update data in MongoDB
+- Data is retreived from mongoDB in dao folder and controller files to get the data we scraped.
+
 NOTE: Find and kill adddress already in use
 1. Type `lsof -i :<PORT>` in terminal
 2. Find PID and type `kill -9 <PID>`
@@ -42,49 +48,16 @@ Nash Journal (June 30th):
 
 Nash(July 7)
 - Want to add date updated (in MongoDB possibly on website) for views, likes, and comments
-
-    
-    
-
-Components:
-- Updating single values (NASH)
-- We need a deliverable for the client - External Page (Kyle)
-- Recording Historical Data (Nash)
-- Graphical Representations (Both)
-
-
-
-To-Do
-
-
-    Must Get Done
-        * Edit Campaigns
-        * Get on Server
-
-
-
-    Prior to Meeting
-        * matching colors and images to slides
-        * Adding whatever react effects/css can get to
-        * make a table??
-
-
-Longterm goals
-    * Secure login/password
-    * on Refresh stay logged in
-
-Cool to add
-
-    Front-End
-        * Appearance based on images/slides
-        * Make off campus for menu bar
-        * Add overlay or popovers or tooltips for info on components
-        * Add Progress bar for data
-        * Spinner on page load
-        * Reformat forms
-
-
-    Back-End
-        * Secure login
-        * Make sure cant access other pages when not logged in
+- Spent time securing the routers (had to make sure paths were correct so that the switch statement woud work)
+    - Link source: https://stackoverflow.com/questions/51961135/react-router-switch-and-exact-path 
+- Got the web app to run indefinitley on ec2 instance using nginx and forever.js
+    - To update frontend...
+        1. Ssh into instance
+        2. Put new files into RankedMusic-Portal
+        3. Run `npm run build` inside rm-portal directory
+        4. Restart nginx using `sudo service nginx restart`
+    - To update backend
+        1. Ssh into instnace
+        2. Move files into backend
+        3. Restart forever.js using `forever stop <index>` and `forever start -a index.js`
    

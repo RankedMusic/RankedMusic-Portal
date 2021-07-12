@@ -3,7 +3,7 @@ import mongodb from "mongodb"
 const MongoClient = mongodb.MongoClient
 
 // console.log('hello')
-
+// This script updates the avatar src in our code. Will ignore influencers that already have an avatar_src in MongoDB
 async function main() {
     // we'll add code here soon
     const uri = "mongodb+srv://machadorm:rankedthiago@cluster0.mlbwz.mongodb.net/campaign_DB?retryWrites=true&w=majority";

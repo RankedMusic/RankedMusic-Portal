@@ -8,6 +8,7 @@ const ObjectId = mongodb.ObjectID
 
 
 // This script is for extracting total campaign views and then inputting them into historical database
+// This does no web scraping, but uses data that we scraped previously from `update_views.js` or `update_views_args.js`
 async function main() {
     // we'll add code here soon
     const uri = "mongodb+srv://machadorm:rankedthiago@cluster0.mlbwz.mongodb.net/campaign_DB?retryWrites=true&w=majority";
