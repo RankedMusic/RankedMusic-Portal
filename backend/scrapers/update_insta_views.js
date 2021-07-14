@@ -8,46 +8,63 @@ const MongoClient = mongodb.MongoClient
 
 // console.log('hello')
 
-// async function main() {
-//     // we'll add code here soon
-//     const uri = "mongodb+srv://machadorm:rankedthiago@cluster0.mlbwz.mongodb.net/campaign_DB?retryWrites=true&w=majority";
+async function main() {
+    // we'll add code here soon
+    const uri = "mongodb+srv://machadorm:rankedthiago@cluster0.mlbwz.mongodb.net/campaign_DB?retryWrites=true&w=majority";
 
-//     const client = new MongoClient(uri);
+    const client = new MongoClient(uri);
 
-//     try {
-//         // Connect to the MongoDB cluster
-//         await client.connect();
+    try {
+        // Connect to the MongoDB cluster
+        await client.connect();
 
         
  
-//         // Make the appropriate DB calls
-//         // await  listDatabases(client);
+        // Make the appropriate DB calls
+        // await  listDatabases(client);
         
-//         // console.log(influencers)
-//         // let influencer_video_url = await getInfluencerUrl(influencers)
-//         // console.log(influencer_video_url)
-//         // let video_likes = await getVideoLikes(influencer_video_url)
-//         let insta_links_array_object = await client.db("campaign_DB").collection('insta_links_array').findOne({name: 'insta_links_array'});
-//         let insta_influencers = await client.db("campaign_DB").collection('insta_influencers');
-//         let insta_links_array = insta_links_array_object.insta_links_array
-//         console.log(insta_links_array)
-//         console.log(insta_influencers)
+        // console.log(influencers)
+        // let influencer_video_url = await getInfluencerUrl(influencers)
+        // console.log(influencer_video_url)
+        // let video_likes = await getVideoLikes(influencer_video_url)
+        let insta_links_array_object = await client.db("campaign_DB").collection('insta_links_array').findOne({name: 'insta_links_array'});
+        let insta_influencers = await client.db("campaign_DB").collection('insta_influencers');
+        let insta_links_array = insta_links_array_object.insta_links_array
+        // console.log(insta_links_array)
+        // console.log(insta_influencers)
         
-//         await getViewsFromArray(insta_influencers, client, links_array)
+        await getViewsFromArray(insta_influencers, client, insta_links_array)
 
-//     } catch (e) {
-//         console.error(e);
-//     } finally {
-//         await client.close();
-//     }
-// }
-// main().catch(console.error);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+}
+main().catch(console.error);
+
+
+const getViewsFromArray = async (insta_influencers, client, insta_links_array) => {
+    for(let i = 0; i < insta_links_array.length; i = i + 1){
+        console.log(insta_links_array[i])
+        let single_vid_link = insta_links_array[i]
+        let profile_url_beginning='https://www.instagram.com/'
+        
+        let profile_username_string = influencer.username_string
+        // console.log(profile_username)
+        let profile_username = await profile_username_string.substring(10, profile_username_string.length)
+        let profile_url = profile_url_beginning + profile_username + '/reels/'
+        console.log(profule_url)
+        // get_insta_views('https://www.instagram.com/reel/CQrgAaPHHs_/', 'https://www.instagram.com/solmorr/reels/')
+
+    }
+
+}
 
 const get_insta_views = async (video_url, profile_url) => {
 
     const browser = await puppeteer.launch({
-        headless: false,
-        args: ['--no-sandbox', '--disable-setuid-sandbox', '--auto-open-devtools-for-tabs' ]
+        headless: false
     });
     const page = await browser.newPage();
     await page.goto(profile_url, {
@@ -61,7 +78,7 @@ const get_insta_views = async (video_url, profile_url) => {
     await page.waitForTimeout(5000);
     await autoScroll(page)
 
-    let xPath = await getXPath(page, video_url)
+    let fullXPath = await getXPath(page, video_url)
 
     
     //NOTE: These xpaths don't work because elements change when we open devtools
@@ -74,14 +91,64 @@ const get_insta_views = async (video_url, profile_url) => {
 
     let work_xpath_7v = '/html/body/div[1]/section/main/div/div[3]/div/div/div/div[2]/div[3]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
     let gen_work_xpat = '/html/body/div[1]/section/main/div/div[3]/div/div/div/div[row_num]/div[col_num]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
+    // console.log('The full x path is ' + fullXPath)
     // await page.waitForXPath(args_xpath_7v)
 
-    let views = await page.$x(args_xpath_7v);
-    let views_text = await page.evaluate(element => element.textContent, views[0]);
-    console.log(views_text)
+    let views = await page.$x(fullXPath);
+    if(views.length == 0){
+        console.log('try again')
+        return null
+    }
+    else{
+        let views_text = await page.evaluate(element => element.textContent, views[0]);
+        console.log(views_text)
+        let number = 0
+        if(views_text.includes('k')){
+            let regex_no_K = /[^k]*/
+            views_text = views_text.match(regex_no_K)
+            // console.log('views_text after match is ' + views_text)
+            // console.log(typeof(likes_string))
+            views_text = String(views_text)
+            // console.log(typeof(likes_string))
+            
+            // console.log(no_string)
+            number = Number(views_text)
+            
+            number = number * 1000
+            // console.log(number)
+            // console.log(likes_string + ' has a K')
+        }
+        else if(views_text.includes('m')){
+            let regex_no_K = /[^m]*/
+            views_text = views_text.match(regex_no_K)
+            // console.log(typeof(likes_string))
+            views_text = String(views_text)
+            // console.log(typeof(likes_string))
+            
+            // console.log(no_string)
+            number = Number(views_text)
+            number = number * 1000000
+            // console.log(likes_string + ' has a K')
+        }
+        else{
+            // console.log(likes_string + ' no K')
+            
+            number = Number(views_text)
+            // console.log(number)
+        }
+        
+        // console.log('influencer_likes regex test is ' + number)
+        // console.log(typeof(number))
+        
+        
+        let views_object = {views_num: number}
+        console.log(views_object)
+        
+        // await browser.close();
+        return views_object
+    }
+    
 }
-
-get_insta_views('https://www.instagram.com/reel/CQrgAaPHHs_/', 'https://www.instagram.com/solmorr/reels/')
 
 async function autoScroll(page){
     await page.evaluate(async () => {
@@ -136,7 +203,7 @@ const getXPath = async(page, video_url) => {
             vid_num = vid_counter
         }
     }
-    console.log('The video number is ' + vid_num)
+    // console.log('The video number is ' + vid_num)
 
     //row number is vid_num floor divided by 3 (maybe 4???) and then +1
     // Column number is vid_num mod 3 (MAYBE 4 INSTEAD OF 3?!) - i.e. take the remainer of vid_num divided by 3 (IDK IF ITS 4)
@@ -155,6 +222,9 @@ const getXPath = async(page, video_url) => {
     }
     console.log('The roe number is ' + row_num)
     console.log('The col number is ' + col_num)
+
+    let fullXPath = '/html/body/div[1]/section/main/div/div[3]/div/div/div/div[' + row_num +']/div['+col_num+']/div/a/div[2]/div[2]/div/div/div/div[2]/span'
+    return fullXPath
 
 
     
