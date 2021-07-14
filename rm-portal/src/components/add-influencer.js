@@ -1,12 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import CampaignDataService from "../services/campaign";
 import { Link } from "react-router-dom";
-import { Form, Row, Col, FormControl, Button } from 'react-bootstrap';
+import { Form, Row, Col, FormControl, Button, Dropdown, DropdownButton, InputGroup  } from 'react-bootstrap';
 
 
 const AddInfluencer = props => {
   // event.preventDefault();
-  let initialInfluencerState = "";
+  let initialInfluencerState = {
+    
+    influencer: "",
+    platform: ""
+
+  }
     // keep track of whether new influencer or editing influencer -> defaulting to adding influencer
   let editing = false;
     // see if current influencer was passed into the component (to see if editing -> state is passed in from rest.js)
@@ -15,7 +20,8 @@ const AddInfluencer = props => {
   //   initialInfluencerState = props.location.state.currentInfluencer.text
   // }
   const [validated, setValidated] = useState(false);
-  const [influencer, setInfluencer] = useState(initialInfluencerState);
+  const [influencer, setInfluencer] = useState(initialInfluencerState.influencer);
+  const [platform, setPlatform] = useState(initialInfluencerState.platform);
 //   keeping track of whether submitted or not
   const [submitted, setSubmitted] = useState(false);
   const [username, setUsername] = useState(null);
@@ -38,6 +44,7 @@ const AddInfluencer = props => {
 
     var data = {
       influencer: influencer,
+      platform: platform,
       // name: props.user.name,
       // user_id: props.user.id,
     //   getting right from url
@@ -88,6 +95,7 @@ const AddInfluencer = props => {
       }
       var data = {
         influencer: influencer,
+        platform: platform,
         // name: props.user.name,
         // user_id: props.user.id,
       //   getting right from url
@@ -112,9 +120,14 @@ const AddInfluencer = props => {
     // event.preventDefault();
     setInfluencer(event.target.value);
   };
+  const handlePlatformChange = event => {
+    // event.preventDefault();
+    setPlatform(event.target.value);
+  };
 
   return (
     <div className="addInf">
+      
         {/* check to see if user (if no -> wont submit + say pls log in) */}
       {/* {props.user ? ( */}
       {/* <div className="submit-form"> */}
@@ -128,8 +141,46 @@ const AddInfluencer = props => {
         ) : (
           <div>
             <Form onSubmit={saveInfluencer}>
-              <Form.Group className="mb-3" controlId="validationInfluencer">
-                  <h4><Form.Label htmlFor="description">{ editing ? "Edit" : "Upload" } Tik-Tok Influencer Video</Form.Label></h4>
+                  <h4><Form.Label htmlFor="description">{ editing ? "Edit" : "Upload" } Influencer Video</Form.Label></h4>
+              <Row>
+                {/* <Col> */}
+                {/* <div> */}
+                {/* <InputGroup className="mb-3">
+    <DropdownButton
+      variant="outline-secondary"
+      title="Dropdown"
+      id="input-group-dropdown-1"
+    >
+      <Dropdown.Item href="#">Action</Dropdown.Item>
+      <Dropdown.Item href="#">Another action</Dropdown.Item>
+      <Dropdown.Item href="#">Something else here</Dropdown.Item>
+      <Dropdown.Divider />
+      <Dropdown.Item href="#">Separated link</Dropdown.Item>
+    </DropdownButton>
+    <FormControl aria-label="Text input with dropdown button" />
+  </InputGroup> */}
+                <Form.Group 
+                  controlId="validationInfluencerType"
+                  className="mb-3" 
+                  as={Col}
+                  md="1"
+                 
+                  >
+                <Form.Control as="select" variant="outline-light" controlId="floatingSelect" value={platform} onChange={handlePlatformChange}>
+                  
+                  
+                  <option>
+                    Select Platform
+                    
+                  </option>
+                  <option value="Tik-Tok">Tik-Tok</option>
+                  <option value="Instagram">Instagram</option>
+                  </Form.Control>
+                  <Form.Control.Feedback>Great!</Form.Control.Feedback>
+                </Form.Group>
+                {/* </Col>
+                <Col> */}
+                <Form.Group className="mb-3" controlId="validationInfluencer" as={Col} md="10">
                   <FormControl
                       // className="form-control"
                       type="text"
@@ -139,11 +190,15 @@ const AddInfluencer = props => {
                       placeholder="Https://www.tiktok.com/@USERNAME/video/..."
                       // onChange={(event) => setUsername(event.target.value)}
                       onChange={handleInfluencerChange}
-
                   />
+                  {/* </div> */}
+                  
+            {/* <Form.Label>User Role</Form.Label> */}
+            
+                {/* </Col> */}
                   <Form.Control.Feedback type="invalid">Cannot Submit Blank Influencer</Form.Control.Feedback>
               </Form.Group>
-              
+              </Row>
               <Button class="btn" variant="danger" type="submit">Save Influencer</Button>
             </Form>
               {/* <input

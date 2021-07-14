@@ -10,6 +10,7 @@ export default class InfluencersController {
             const campaignId = req.body.campaign_id
             // console.log(req.body.campaign_id)
             const influencer = req.body.influencer
+            const platform = req.body.platform
             const date = new Date()
             // const influencer_username = req.body.influencer_user.username_string
             // const avatar_src = req.body.avatar.src[0] //NOTE CHANGE COMMENT_STRING TO AVATR STRING
@@ -26,6 +27,7 @@ export default class InfluencersController {
             const InfluencerResponse = await InfluencersDAO.addInfluencer(
                 campaignId,
                 influencer,
+                platform,
                 date
                 // influencer_username,
                 // avatar_src

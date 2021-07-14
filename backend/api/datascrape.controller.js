@@ -187,11 +187,12 @@ export default class ReviewsController {
     static async addLinkArray(req, res, next) {
         try {
             const influencer_video_link = req.body.influencer
+            const platform = req.body.platform
             console.log('The influencer video link is ' + influencer_video_link)
-            
             const linkArrayResponse = await LinkArrayDAO.updateLinkArray(
-                influencer_video_link
-            )
+                influencer_video_link,
+                platform
+                )
             
 
             // // get user id bc making sure user who created influencer is updating influencer

@@ -18,10 +18,11 @@ export default class InfluencersDAO {
         }
     }
     // add influencer -> create a influencer doc + create an object Id
-    static async addInfluencer(campaignId, influencer, date, influencer_username, avatar_src) {
+    static async addInfluencer(campaignId, influencer, platform, date, influencer_username, avatar_src) {
         try {
             const influencerDoc = {
                 influencer: influencer,
+                platform: platform,
                 date: date,
                 campaignId: ObjectId(campaignId)
                 // influencer_username: influencer_username,
