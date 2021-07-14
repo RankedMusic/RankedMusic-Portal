@@ -98,7 +98,7 @@ export default class CampaignsController {
             // look for id parameter -> call get campaigns by id -> get campaign back
             let id = req.params.id || {}
             let campaign = await CampaignsDAO.getCampaignsByID(id)
-            // console.log(campaign)
+            console.log(campaign)
             if (!campaign){
                 res.status(404).json({error: "Not found"})
                 return

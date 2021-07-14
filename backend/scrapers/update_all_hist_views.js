@@ -202,48 +202,10 @@ async function getTotViews(influencers_array) {
             for (let i = 0; i < influencers_array.length; i = i + 1){
                 
                 let influencer_info = influencers_array[i]
-                let influencer_views = influencer_info.views_string
+                let influencer_views = influencer_info.views_num
                 
-                let views_string = String(influencer_views)
-                // console.log(typeof(likes_string))
-                let no_string = ''
-                let number = 0
-                if(views_string.includes('K')){
-                    let regex_no_K = /[^K]*/
-                    views_string = views_string.match(regex_no_K)
-                    // console.log(typeof(likes_string))
-                    views_string = String(views_string)
-                    // console.log(typeof(likes_string))
-                    no_string = views_string.substring(6, views_string.length)
-                    // console.log(no_string)
-                    number = Number(no_string)
-                   
-                    number = number * 1000
-                    // console.log(number)
-                    // console.log(likes_string + ' has a K')
-                }
-                else if(views_string.includes('M')){
-                    let regex_no_K = /[^M]*/
-                    views_string = views_string.match(regex_no_K)
-                    // console.log(typeof(likes_string))
-                    views_string = String(views_string)
-                    // console.log(typeof(likes_string))
-                    no_string = views_strings.substring(6, views_string.length)
-                    // console.log(no_string)
-                    number = Number(no_string)
-                    number = number * 1000000
-                    // console.log(likes_string + ' has a K')
-                }
-                else{
-                    // console.log(likes_string + ' no K')
-                    no_string = views_string.substring(6, views_string.length)
-                    number = Number(no_string)
-                    // console.log(number)
-                }
                 
-                // console.log('influencer_likes regex test is ' + number)
-                // console.log(typeof(number))
-                views_array.push(number)
+                views_array.push(influencer_views)
 
             }
             // console.log(likes_array)

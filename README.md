@@ -60,4 +60,7 @@ Nash(July 7)
         1. Ssh into instnace
         2. Move files into backend
         3. Restart forever.js using `forever stop <index>` and `forever start -a index.js`
+- Pie chart configuration in recharts
+- Domain name set up. Reach website at: www.rankedmeasures.com
+- Created update_avatars_args.js file to update avatars that go 'missing'
    

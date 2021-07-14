@@ -7,7 +7,7 @@ const ViewsChart = props => {
     const [historical_views, setHistoricalViews] = useState(null)
     const [influencer_views, setInfluencerViews] = useState(null)
     const data = [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}];
-    const infData = [{username_string:'tuckercomedy', views_string: 100}, {username_string:'oficialdankhumor', views_string: 6824}, {username_string:'tuckercomedy', views_string: 100}];
+    // const infData = [{username_string:'tuckercomedy', views_string: 100}, {username_string:'oficialdankhumor', views_string: 6824}, {username_string:'tuckercomedy', views_string: 100}];
     
     const gather_historical_views = () => {
         // [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}]
@@ -26,16 +26,33 @@ const ViewsChart = props => {
       
       CampaignDataService.get(props.campaign_id)
       .then(response => {
-          console.log("XXXXX"+response.influencer)
-          CampaignDataService.saveUsername(response.influencer)
-          CampaignDataService.getVideoViews(response.influencer)
-          setInfluencerViews(response.infData)
+          let influencers_array = response.data.influencers
+          // console.log(influencers_array)
+          let influencer_views_array = []
+          for(let i = 0; i < influencers_array.length; i = i + 1){
+            let username_string = influencers_array[i].username_string
+            
+            let only_username = username_string.substring(10, username_string.length)
+            let views = influencers_array[i].views_num
+            console.log('Username for pie chart is ' + only_username + ' and has ' + views + ' views')
+            influencer_views_array.push({name: only_username, views: views})
+            // let new_object = {username: username, }
+          }
+          // NOTE: influencer_views_array is an array of objects of the form [{username: 'name', views: 324}, ...]
+          console.log(influencer_views_array)
+          setInfluencerViews(influencer_views_array)
+        
+          
+          // CampaignDataService.saveUsername(response.influencer)
+          // CampaignDataService.getVideoViews(response.influencer)
+          // setInfluencerViews(response.infData)
       })
       .catch(e => {
           console.log(e)
       })
   };
     const colors = ["#f40060","#830056","#3f0350","#26004f","#7cbf3e","#d6de35", "blue", "green", "yellow"]
+    
     useEffect(() => {
         //   console.log(props.match.params.id)
           gather_historical_views();
@@ -55,17 +72,33 @@ const ViewsChart = props => {
         </LineChart>
       // </div> 
       );
+
+      const RADIAN = Math.PI / 180;
+      const render_pie_labels = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+        const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+        const x = cx + radius * Math.cos(-midAngle * RADIAN);
+        const y = cy + radius * Math.sin(-midAngle * RADIAN);
+      
+        return (
+          <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+            {`${(percent * 100).toFixed(0)}%`}
+          </text>
+        );
+      };
+
     const renderPieChart = (
         // <ResponsiveContainer width="6250%" height="3125%">
         // historical_views = [{views: 100, user: 'kyle'},{views: 200},{views: 400}]
-          <PieChart width={1000} height={500} data={influencer_views} margin={{ top: 5, right: 20, bottom: 5, left: 20 }}>
+        <PieChart width={1000} height={500} label = {render_pie_labels}>
               <Legend align="right" verticalAlign="middle" height={36} layout="vertical" />
 
-            <Pie dataKey="views" data={influencer_views} legendType='square' outerRadius={200} label>
+            <Pie data={influencer_views} dataKey='views' legendType='square' outerRadius={200} label = {render_pie_labels}>
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                
+                <Cell key={`cell-${entry}`} fill={colors[index % colors.length]} />
               ))}
             </Pie>
+            
             {/* <CartesianGrid stroke="#ccc" strokeDasharray="5 5" /> */}
             
             <Tooltip />

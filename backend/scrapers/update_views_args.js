@@ -37,10 +37,10 @@ async function main() {
         // let influencer_video_url = await getInfluencerUrl(influencers)
         // console.log(influencer_video_url)
         // let video_likes = await getVideoLikes(influencer_video_url)
-        let links_array_object = await client.db("campaign_DB").collection('links_array').findOne({name: 'links_array'});
+        // let links_array_object = await client.db("campaign_DB").collection('links_array').findOne({name: 'links_array'});
         let influencers = await getInfluencersCollection(client)
        
-        let links_array = links_array_object.links_array
+        // let links_array = links_array_object.links_array
         // console.log(links_array)
         // let links_array = await getVideoLinksArray(influencers, client, old_links_array)
         // await getUsernamesFromArray(influencers, client, links_array)
@@ -88,7 +88,7 @@ async function getViewsFromArray(influencers, client, links_array){
             let final_date = date_string.substring(4,15)
             let date_updated_string = 'Views Updated ' + final_date
             let date_updated_views_object = {date_views_updated: date_updated_string}
-            console.log('The video ' + single_video_url + ' has ' + views_object.views_string) 
+            console.log('The video ' + single_video_url + ' has ' + views_object.views_num + ' views') 
             // console.log(views_object)
                 await influencers.updateOne(
                     { influencer: single_video_url},
@@ -166,10 +166,52 @@ const get_Num_Views = async (video_url, profile_url) => {
     else{
         let views_text = await page.evaluate(element => element.textContent, views[0]);
 
-        let views_string = 'Views: ' + views_text
-        let views_object = {views_string: views_string}
+        console.log(views_text)
+        // console.log(typeof(views_text))
+
+        //This next part is for storing the views as a number, rather than as a string like before
+       
+        let number = 0
+        if(views_text.includes('K')){
+            let regex_no_K = /[^K]*/
+            views_text = views_text.match(regex_no_K)
+            // console.log('views_text after match is ' + views_text)
+            // console.log(typeof(likes_string))
+            views_text = String(views_text)
+            // console.log(typeof(likes_string))
+            
+            // console.log(no_string)
+            number = Number(views_text)
+            
+            number = number * 1000
+            // console.log(number)
+            // console.log(likes_string + ' has a K')
+        }
+        else if(views_text.includes('M')){
+            let regex_no_K = /[^M]*/
+            views_text = views_text.match(regex_no_K)
+            // console.log(typeof(likes_string))
+            views_text = String(views_text)
+            // console.log(typeof(likes_string))
+            
+            // console.log(no_string)
+            number = Number(views_text)
+            number = number * 1000000
+            // console.log(likes_string + ' has a K')
+        }
+        else{
+            // console.log(likes_string + ' no K')
+            
+            number = Number(views_text)
+            // console.log(number)
+        }
         
-        console.log(views_string)
+        // console.log('influencer_likes regex test is ' + number)
+        // console.log(typeof(number))
+        
+        
+        let views_object = {views_num: number}
+        console.log(views_object)
         await browser.close();
         return views_object
     }
