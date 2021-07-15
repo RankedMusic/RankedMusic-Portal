@@ -133,6 +133,7 @@ const AddInfluencer = props => {
       {/* <div className="submit-form"> */}
         {submitted ? (
           <div>
+            <br></br>
             <h4>You submitted successfully!</h4>
             <Link to={"/campaigns/" + props.match.params.id} className="btn btn-success">
               Back to Campaigns
@@ -142,6 +143,7 @@ const AddInfluencer = props => {
           <div>
             <Form onSubmit={saveInfluencer}>
                   <h4><Form.Label htmlFor="description">{ editing ? "Edit" : "Upload" } Influencer Video</Form.Label></h4>
+                  <br></br>
               <Row>
                 {/* <Col> */}
                 {/* <div> */}
@@ -163,7 +165,7 @@ const AddInfluencer = props => {
                   controlId="validationInfluencerType"
                   className="mb-3" 
                   as={Col}
-                  md="1"
+                  md="2"
                  
                   >
                 <Form.Control as="select" variant="outline-light" controlId="floatingSelect" value={platform} onChange={handlePlatformChange}>
@@ -199,6 +201,7 @@ const AddInfluencer = props => {
                   <Form.Control.Feedback type="invalid">Cannot Submit Blank Influencer</Form.Control.Feedback>
               </Form.Group>
               </Row>
+              <br></br>
               <Button class="btn" variant="danger" type="submit">Save Influencer</Button>
             </Form>
               {/* <input

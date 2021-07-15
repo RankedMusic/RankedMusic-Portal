@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CampaignDataService from "../services/campaign";
 import {Link} from "react-router-dom";
-import { Form, Row, Col, FormControl, Button, Table, FormCheck} from 'react-bootstrap';
+import { Form, Row, Col, FormControl, Button, Table, Tab, Tabs, FormCheck, OverlayTrigger, Popover} from 'react-bootstrap';
 import VideoBox from './VideoBox'
 import TotalLikes from './TotalLikes'
 import TotalComments from './TotalComments'
@@ -10,8 +10,9 @@ import ViewsChart from './ViewsChart'
 import Card from 'react-bootstrap/Card'
 import Overlay from 'react-bootstrap/Overlay'
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-
-
+// import 'mdb-react-ui-kit/dist/css/mdb.min.css'
+// import { MDBIcon } from 'mdb-react-ui-kit'
+// import 'font-awesome/css/font-awesome.min.css';
 
 const Campaign = props => {
   const initialCampaignState = {
@@ -34,6 +35,7 @@ const Campaign = props => {
   const [influencers_map, setInfluencersMap] = useState(null)
   
   const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const [dataView, setDataView] = useState(true);
   // let [editBtn,setEditBtn] = useState(null)
 
   const onSwitchAction = () => {
@@ -41,7 +43,9 @@ const Campaign = props => {
     console.log(isSwitchOn);
     
   };
-
+  const changeViewAction = () => {
+    setDataView(!dataView);
+  };
   const getCampaign = id => {
     // console.log('The id is ' + id)
     // console.log(props.user);
@@ -54,8 +58,27 @@ const Campaign = props => {
             console.log(e);
         });
   };
-
-
+  const campPopover = (
+    <Popover id="popover-basic">
+      <Popover.Title as="h3">Campaign Overview</Popover.Title>
+      <Popover.Content>
+        General campaign information summary
+      </Popover.Content>
+    </Popover>
+  );
+  const influencerPopover = (
+    <Popover id="popover-basic">
+      <Popover.Title as="h3">Influencers</Popover.Title>
+      <Popover.Content>
+        Campaing influencers tracked <em>(updated daily)</em> <br></br>
+        <strong>Views:</strong> Current number of post views.
+        <br></br><strong>Likes:</strong> Current number of post likes.
+        <br></br><strong>Comments:</strong> Current number of post comments.
+        <br></br><strong>Video Link:</strong> Link to post.
+        <br></br><strong>Date:</strong> Date influencer post added to campaign.
+      </Popover.Content>
+    </Popover>
+  );
 //   called when component first renders
   useEffect(() => {
     //   console.log(props.match.params.id)
@@ -73,7 +96,7 @@ const Campaign = props => {
           // return <VideoBox></VideoBox>
           // console.log(video, index)
         //   console.log(influencer)
-          return <VideoBox influencer = {influencer} index = {index} setCampaign = {setCampaign} isSwitchOn={isSwitchOn}></VideoBox>
+          return <VideoBox influencer = {influencer} index = {index} setCampaign = {setCampaign} isSwitchOn={isSwitchOn} dataView={dataView} setDataView={setDataView}></VideoBox>
           // console.log(videos)
           
         }
@@ -82,13 +105,19 @@ const Campaign = props => {
         
         // console.log(Object.values(influencer_map))
     
-  },[campaign, isSwitchOn]);
+  },[campaign, isSwitchOn, dataView]);
   useEffect(() => {
     if (isSwitchOn === null){
       setIsSwitchOn("false")
     }
     
   }, [isSwitchOn]);
+
+  useEffect(() => {
+    if (dataView === null){
+      setDataView("false")
+    }
+  }, [dataView]);
 
     
     return (
@@ -104,10 +133,13 @@ const Campaign = props => {
                     <Card.Header style={{fontWeight:"bold", color:"#f40060" }}>
                       
                       Campaign Overview 
-                      <svg xmlns="http://www.w3.org/2000/svg" style={{marginLeft:"1%", float:"right"}} width="18" height="18" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                      </svg>
+                      <OverlayTrigger trigger="hover" placement="top" overlay={campPopover}>
+                        {/* <Button variant="success">Click me to see</Button> */}
+                        <svg xmlns="http://www.w3.org/2000/svg" style={{marginLeft:"1%", float:"right"}} width="18" height="18" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                          <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                        </svg>
+                      </OverlayTrigger>
                     </Card.Header>
                     <Card.Body>
                     <Row className="cInfo">
@@ -182,49 +214,116 @@ const Campaign = props => {
                     {/* <Button variant="outline-light" to={"/campaigns/" + props.match.params.id + "/influencer"}>Add Influencer</Button> */}
                    <Card.Header style={{fontWeight:"bold", color:"#f40060" }}> 
                       Influencers 
-                      <svg xmlns="http://www.w3.org/2000/svg" style={{marginLeft:"1%", float:"right"}} width="18" height="18" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 18 18">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                      </svg>
+                      <OverlayTrigger trigger="hover" placement="right" overlay={influencerPopover}>            
+                        <svg xmlns="http://www.w3.org/2000/svg" style={{marginLeft:"1%", float:"right"}} width="18" height="18" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 18 18">
+                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                          <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                        </svg>
+                      </OverlayTrigger>           
                     </Card.Header>
-                   <Card.Title >Total Followers: </Card.Title>
-                      <Card.Body>
-                      {props.user ?(
-                        <BootstrapSwitchButton
-                          checked={false}
-                          onlabel={
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
-                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                              <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
-                            </svg>
-                          }
-                          offlabel={
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                              <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-                            </svg>
-                          }
-                          onstyle="outline-success" 
-                          offstyle="outline-danger"
-                          // width= {80}
-                          // height={40}
-                          size="md"
-                          style={{borderRadius: "200rem"}}
-                          // disabled
-                          onChange={onSwitchAction}
-                        />
-                     ) : (
-                      ''
-                    )} 
-                    <div className="row" id="infl">
-                        {/* if there are influencers (>0) -> otherwise returns no influencers */}
-                        {/* {campaign.influencers.length > 0 ? ({influencers_map}) : (
-                                <div className="col-sm-4">
-                                    <p>No influencers yet.</p>
+                    <Row style={{paddingTop:"1%"}}>
+                      <Col md={6}>
+                        <Card.Title style={{paddingLeft:"3%", paddingTop:"2%"}}>Total Followers: </Card.Title>
+                      </Col>
+                      <Col md={{ span: 2, offset: 4 }} style={{paddingLeft:"5%"}}>
+                          {props.user ?(
+                            <BootstrapSwitchButton
+                             
+                              checked={isSwitchOn}
+                              onlabel={
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                  <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                                </svg>
+                              }
+                              offlabel={
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                  <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                                </svg>
+                              }
+                              onstyle="outline-success" 
+                              offstyle="outline-danger"
+                              // width= {80}
+                              // height={40}
+                              size="md"
+                              style={{marginLeft:"200px"}}
+                              // disabled
+                              onChange={onSwitchAction}
+
+                            />
+                          ) : (
+                            ''
+                          )} 
+                        </Col>
+                    </Row>
+
+                    <div className="tab-wrapper">
+                      <div className='container-fluid' >
+                        <div className="row">
+                          <div className="col-sm-12">
+                            
+                            <Tabs variant="pills" defaultActiveKey="cards" className="flex-column" onSelect={changeViewAction} style={{float:"right", marginTop:"-4%", marginRight:".5%"}}>
+                              
+                              <Tab 
+                                eventKey="cards" 
+                                title={
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-view-list" viewBox="0 0 16 16">
+                                   <path d="M3 4.5h10a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H3zM1 2a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 2zm0 12a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 14z"/>
+                                 </svg>
+                                }
+                              >
+                                <br></br>
+                                <div className="tab-item-wrapper">
+                                  {/* <Card.Body> */}
+                                  <br></br>
+                                    <div className="row" id="infl">
+                                        {influencers_map}
+                                    </div>
+                                  {/* </Card.Body> */}
+                                  <p>Last Update:</p>
                                 </div>
-                        )} */}
-                        {influencers_map}
+                              </Tab>
+
+                              <Tab 
+                                eventKey="contact" 
+                                title={
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-table" viewBox="0 0 16 16">
+                                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
+                                  </svg>
+                                }
+                              >
+                                <div className="tab-item-wrapper">
+                                  {/* <div className="row" id="infl"> */}
+                                    <Table bordered style={{marginBottom: "-.1%"}}>
+                                      <thead>
+                                          <tr>
+                                            <th width="6.79%">Prof. Pic</th>
+                                            <th width="18.65%">Username</th>
+                                            <th width="12.7%">Views</th>
+                                            <th width="12.75%">Likes</th>
+                                            <th width="12.7%">Comments</th>
+                                            <th width="14.63%">Date</th>
+                                            <th width="5.35%">Link</th>
+                                          </tr>
+                                      </thead>
+                                      </Table>
+                                      {/* <tbody> */}
+                                        {/* <tr> */}
+                                          {influencers_map}
+                                        {/* </tr> */}
+                                      {/* </tbody> */}
+                                    {/* </Table> */}
+                                    </div>
+                                  <p>Last Update:</p>
+                                {/* </div> */}
+                              </Tab>
+                            </Tabs>
+
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    </Card.Body>
+                    
                     </Card>
                     <ViewsChart campaign_id = {props.match.params.id}></ViewsChart>
 
