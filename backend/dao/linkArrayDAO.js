@@ -114,7 +114,7 @@ export default class LinkArrayDAO {
                 // updates values in our database for EFFICIENCY
                 const updateResponse = await insta_links_array_col.updateOne(
                     { name: 'insta_links_array'},
-                    { $set: { insta_links_array: insta_links_array }},
+                    { $set: { insta_links_array: new_array }},
                 )
     
                 return updateResponse

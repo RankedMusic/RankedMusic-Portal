@@ -72,9 +72,12 @@ useEffect(() => {
             <div className="" key={props.index}>
                 
                     <div className="card-body">
-                        <div className="delButton" style={{float:"right"}}>
+                        {'true' ? (<div className="delButton" style={{float:"right"}}>
                             <a onClick={() => deleteInfluencer(props.influencer._id)} className="btn btn-outline-danger col-lg-5 mx-1 mb-1" style={{height:"auto"},{width:"auto"}}>x</a>
-                        </div>
+                        </div>):(
+                            ''
+                        )}
+                        
                         <Row>
                         <Col md="auto"><Avatar avatar = {props.influencer.avatar_src}></Avatar></Col>
                         <Col md="auto">{username}</Col>

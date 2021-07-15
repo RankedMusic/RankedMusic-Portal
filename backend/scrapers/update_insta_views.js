@@ -28,12 +28,12 @@ async function main() {
         // console.log(influencer_video_url)
         // let video_likes = await getVideoLikes(influencer_video_url)
         let insta_links_array_object = await client.db("campaign_DB").collection('insta_links_array').findOne({name: 'insta_links_array'});
-        let insta_influencers = await client.db("campaign_DB").collection('insta_influencers');
+        let influencers = await client.db("campaign_DB").collection('influencers');
         let insta_links_array = insta_links_array_object.insta_links_array
         // console.log(insta_links_array)
         // console.log(insta_influencers)
         
-        await getViewsFromArray(insta_influencers, client, insta_links_array)
+        await getViewsFromArray(influencers, client, insta_links_array)
 
     } catch (e) {
         console.error(e);
@@ -44,9 +44,10 @@ async function main() {
 main().catch(console.error);
 
 
-const getViewsFromArray = async (insta_influencers, client, insta_links_array) => {
+const getViewsFromArray = async (influencers, client, insta_links_array) => {
     for(let i = 0; i < insta_links_array.length; i = i + 1){
-        console.log(insta_links_array[i])
+        
+        let influencer = await influencers.findOne({influencer: insta_links_array[i]})
         let single_vid_link = insta_links_array[i]
         let profile_url_beginning='https://www.instagram.com/'
         
@@ -54,12 +55,43 @@ const getViewsFromArray = async (insta_influencers, client, insta_links_array) =
         // console.log(profile_username)
         let profile_username = await profile_username_string.substring(10, profile_username_string.length)
         let profile_url = profile_url_beginning + profile_username + '/reels/'
-        console.log(profule_url)
-        // get_insta_views('https://www.instagram.com/reel/CQrgAaPHHs_/', 'https://www.instagram.com/solmorr/reels/')
+        console.log(single_vid_link)
+        console.log(profile_url)
+        let views_object = await get_insta_views(single_vid_link, profile_url)
+
+        if(views_object != null){
+            let date = new Date()
+            let date_string = date.toString()
+            let final_date = date_string.substring(4,15)
+            let date_updated_string = 'Views Updated ' + final_date
+            let date_updated_views_object = {date_views_updated: date_updated_string}
+            console.log('The video ' + single_vid_link + ' has ' + views_object.views_num) 
+            console.log(views_object)
+            await influencers.updateOne(
+                { influencer: single_vid_link},
+                { $set: views_object}
+            )
+
+            await influencers.updateOne(
+                { influencer: single_vid_link},
+                { $set: date_updated_views_object}
+            )
+            await sleep(10000);
+        }
+        else{
+
+            console.log('We did not get views for the video ' + single_vid_link)
+            console.log('Most likely because element is not found')
+            console.log('Recheck XPath on chromium')
+            console.log('')
+        }
 
     }
 
 }
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
 const get_insta_views = async (video_url, profile_url) => {
 
@@ -144,7 +176,7 @@ const get_insta_views = async (video_url, profile_url) => {
         let views_object = {views_num: number}
         console.log(views_object)
         
-        // await browser.close();
+        await browser.close();
         return views_object
     }
     

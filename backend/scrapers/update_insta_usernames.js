@@ -95,16 +95,19 @@ async function getInfluencerUsername(url) {
             await page.goto(url, {waitUntil: 'domcontentloaded'});
             // execute the JS in the context of the page to get all the links
             // Note, for XPath, we need to use the FULL XPATH from Chrome Dev Ops
-            
+                                    
             await page.waitForXPath('/html/body/div[1]/section/main/div/div[1]/article/header/div[2]/div[1]/div/a')
-
             let username = await page.$x('/html/body/div[1]/section/main/div/div[1]/article/header/div[2]/div[1]/div/a');
+
+                                    // '/html/body/div[1]/section/main/div/div[1]/article/header/div[2]/div[1]/div/a'
+            // await page.waitForXPath('/html/body/div[1]/div/div/section/main/div/div[1]/article/header/div[2]/div[1]/div/a')
+            // let username = await page.$x('/html/body/div[1]/div/div/section/main/div/div[1]/article/header/div[2]/div[1]/div/a');
             //   console.log(likes)
             let username_text = await page.evaluate(element => element.textContent, username[0]);
             let username_string = 'Username: ' + username_text
             let username_object = {username_string: username_string}
             //   console.log(like_object)
-            // await browser.close();
+            await browser.close();
             return username_object
             };
             

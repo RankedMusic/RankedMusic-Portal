@@ -133,11 +133,36 @@ async function getVideoLikes(url) {
             let likes = await page.$x("/html/body/div/div/div[2]/div[2]/div/div/main/div/div[1]/span[1]/div/div[1]/div[5]/div[2]/div[1]/strong");
             //   console.log(likes)
             let likes_text = await page.evaluate(element => element.textContent, likes[0]);
-            let like_string = 'Likes: ' + likes_text
-            let like_object = {like_string: like_string}
+            
+        let number = 0
+        if(likes_text.includes('K')){
+            let regex_no_K = /[^K]*/
+            likes_text = likes_text.match(regex_no_K)
+            likes_text = String(likes_text)
+            number = Number(likes_text)
+            number = number * 1000
+           
+        }
+        else if(likes_text.includes('M')){
+            let regex_no_K = /[^M]*/
+            likes_text = likes_text.match(regex_no_K)
+            likes_text = String(likes_text)
+
+            number = Number(likes_text)
+            number = number * 1000000
+
+        }
+        else{
+            number = Number(likes_text)
+        }
+       
+        let likes_object = {num_likes: number}
+        console.log(likes_object)
+
+        
             //   console.log(like_object)
             await browser.close();
-            return like_object
+            return likes_object
             };
             
             

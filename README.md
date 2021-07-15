@@ -63,4 +63,8 @@ Nash(July 7)
 - Pie chart configuration in recharts
 - Domain name set up. Reach website at: www.rankedmeasures.com
 - Created update_avatars_args.js file to update avatars that go 'missing'
+- Fixed the way that we store views. Now views are stored under views_num: # of views as int
+- Instagram scraper
+    - Instagram can now scrape views
+    - Working on scraping likes
    

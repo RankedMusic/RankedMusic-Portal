@@ -76,32 +76,6 @@ async function getInfluencersCollection(client){
  
 };
 
-// async function getVideoLinksArray(influencers, client, old_links_array){
-//     let counter = 1
-//     let video_links_array = []
-//         influencers.find().forEach(function(influencer){
-            
-//             // console.log(links_array)
-            
-            
-//             let influencer_video_url = influencer.influencer
-//             video_links_array.push(influencer_video_url)
-//             // await sleep(5000);
-//             // conmsole.log(influencer_video_url)
-//             // let video_likes_object = await getVideoLikes(influencer_video_url)
-
-//             // await insertLikes(influencers, influence\]]]_video_url, video_likes_object)
-
-            
-            
-//             // console.log(video_likes_object)
-//             counter = counter + 1
-//         })
-//         // console.log(counter)
-//         return(video_links_array)
- 
-// };
-
 async function getLikesFromArray(influencers, client, links_array){
     
     for (let i = 0; i < links_array.length; i = i + 1){
@@ -119,18 +93,8 @@ async function getLikesFromArray(influencers, client, links_array){
     }
 }
 
-// async function getInfluencerUrl(influencers){
-//     let influencer = await influencers.findOne({ influencer : "https://www.tiktok.com/@javiluna/video/6803783345328213253"});
-//     let video_url = influencer.influencer
-//     // console.log(video_url)
-//     return video_url
- 
-// };
-
 async function getVideoLikes(url) {
-    
-        
-        
+
         const get_likes = async (url) => {
             // open the browser and prepare a page
             const browser = await puppeteer.launch({ headless : false, args: ["--window-size=0,0", "--window-position=1001,0"]  });
@@ -147,11 +111,35 @@ async function getVideoLikes(url) {
             let likes = await page.$x("/html/body/div/div/div[2]/div[2]/div/div/main/div/div[1]/span[1]/div/div[1]/div[5]/div[2]/div[1]/strong");
             //   console.log(likes)
             let likes_text = await page.evaluate(element => element.textContent, likes[0]);
-            let like_string = 'Likes: ' + likes_text
-            let like_object = {like_string: like_string}
+            let number = 0
+        if(likes_text.includes('K')){
+            let regex_no_K = /[^K]*/
+            likes_text = likes_text.match(regex_no_K)
+            likes_text = String(likes_text)
+            number = Number(likes_text)
+            number = number * 1000
+           
+        }
+        else if(likes_text.includes('M')){
+            let regex_no_K = /[^M]*/
+            likes_text = likes_text.match(regex_no_K)
+            likes_text = String(likes_text)
+
+            number = Number(likes_text)
+            number = number * 1000000
+
+        }
+        else{
+            number = Number(likes_text)
+        }
+       
+        let likes_object = {num_likes: number}
+        console.log(likes_object)
+
+        
             //   console.log(like_object)
             await browser.close();
-            return like_object
+            return likes_object
             };
             
             
