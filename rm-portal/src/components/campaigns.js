@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CampaignDataService from "../services/campaign";
 import {Link} from "react-router-dom";
-import { Form, Row, Col, FormControl, Button, Table} from 'react-bootstrap';
+import { Form, Row, Col, FormControl, Button, Table, FormCheck} from 'react-bootstrap';
 import VideoBox from './VideoBox'
 import TotalLikes from './TotalLikes'
 import TotalComments from './TotalComments'
@@ -9,6 +9,8 @@ import TotalViews from './TotalViews'
 import ViewsChart from './ViewsChart'
 import Card from 'react-bootstrap/Card'
 import Overlay from 'react-bootstrap/Overlay'
+import BootstrapSwitchButton from 'bootstrap-switch-button-react'
+import campaigns from "./campaigns";
 
 
 const Campaign = props => {
@@ -30,6 +32,16 @@ const Campaign = props => {
 //   use init rest. state to create a campaign
   const [campaign, setCampaign] = useState(initialCampaignState)
   const [influencers_map, setInfluencersMap] = useState(null)
+  
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
+
+  const onSwitchAction = () => {
+    setIsSwitchOn(!isSwitchOn);
+    // console.log(isSwitchOn);
+    if (isSwitchOn === null){
+      setIsSwitchOn("false")
+    }
+  };
 
   const getCampaign = id => {
     // console.log('The id is ' + id)
@@ -62,7 +74,7 @@ const Campaign = props => {
           // return <VideoBox></VideoBox>
           // console.log(video, index)
         //   console.log(influencer)
-          return <VideoBox influencer = {influencer} index = {index} setCampaign = {setCampaign} ></VideoBox>
+          return <VideoBox influencer = {influencer} index = {index} setCampaign = {setCampaign} isSwitchOn={isSwitchOn} setIsSwitchOn={setIsSwitchOn}></VideoBox>
           // console.log(videos)
           
         }
@@ -72,6 +84,13 @@ const Campaign = props => {
         // console.log(Object.values(influencer_map))
     
   },[campaign]);
+  useEffect(() => {
+    if (isSwitchOn === null){
+      setIsSwitchOn("false")
+    }
+    
+  }, [isSwitchOn]);
+
     
     return (
         <div>
@@ -171,6 +190,32 @@ const Campaign = props => {
                     </Card.Header>
                    <Card.Title >Total Followers: </Card.Title>
                       <Card.Body>
+                      {props.user ?(
+                        <BootstrapSwitchButton
+                          checked={false}
+                          onlabel={
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                              <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                            </svg>
+                          }
+                          offlabel={
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                              <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                            </svg>
+                          }
+                          onstyle="outline-success" 
+                          offstyle="outline-danger"
+                          // width= {80}
+                          // height={40}
+                          size="md"
+                          style={{borderRadius: "200rem"}}
+                          // disabled
+                          onChange={onSwitchAction}
+                        />
+                     ) : (
+                      ''
+                    )} 
                     <div className="row" id="infl">
                         {/* if there are influencers (>0) -> otherwise returns no influencers */}
                         {/* {campaign.influencers.length > 0 ? ({influencers_map}) : (

@@ -16,7 +16,7 @@ import Table from 'react-bootstrap/Table'
 const VideoBox = props => {
     const [username, setUsername] = useState(null);
     const [avatar, setAvatar] = useState(null);
-
+    let [editBtn,setEditBtn] = useState(props.isSwitchOn)
     let video_link = props.influencer.influencer
 const deleteInfluencer = (influencerId) => {
     CampaignDataService.deleteInfluencer(influencerId)
@@ -65,6 +65,16 @@ useEffect(() => {
         getUsername(video_link);
     //   only will get called if id is updated
 }, [video_link]);
+
+useEffect(() => {
+    if (editBtn === false){
+        setEditBtn(null);
+      }
+    // if (props.isSwitchOn === true){
+    //     setEditBtn("true");
+    // }
+    console.log(editBtn);
+}, [props.isSwitchOn]);
   
     
     return (
@@ -72,9 +82,13 @@ useEffect(() => {
             <div className="" key={props.index}>
                 
                     <div className="card-body">
+                        {editBtn ?(
                         <div className="delButton" style={{float:"right"}}>
                             <a onClick={() => deleteInfluencer(props.influencer._id)} className="btn btn-outline-danger col-lg-5 mx-1 mb-1" style={{height:"auto"},{width:"auto"}}>x</a>
                         </div>
+                        ) : (
+                            ''
+                        )}
                         <Row>
                         <Col md="auto"><Avatar avatar = {props.influencer.avatar_src}></Avatar></Col>
                         <Col md="auto">{username}</Col>
