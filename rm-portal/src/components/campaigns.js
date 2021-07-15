@@ -10,7 +10,7 @@ import ViewsChart from './ViewsChart'
 import Card from 'react-bootstrap/Card'
 import Overlay from 'react-bootstrap/Overlay'
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-import campaigns from "./campaigns";
+
 
 
 const Campaign = props => {
