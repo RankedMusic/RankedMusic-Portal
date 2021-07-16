@@ -318,4 +318,41 @@ export default class InfluencersController {
                     }
                 }
 
+                static async getTotFollowers(req, res, next) {
+                    try {
+                            // console.log(req.body)
+                            const campaign_id = req.body.campaign_id
+                            // let video_url = req.body.video_url
+                            // console.log(video_url)
+            
+                            const campaign_with_influencers = await CampaignsDAO.getCampaignsByID(
+                                campaign_id
+                            )
+                            const influencers_array = campaign_with_influencers.influencers
+                            
+                            let followers_array = []
+        
+                            for (let i = 0; i < influencers_array.length; i = i + 1){
+                                
+                                let influencer_info = influencers_array[i]
+                                let influencer_followers = influencer_info.num_followers
+                            
+                                followers_array.push(influencer_followers)
+        
+                            }
+                            // console.log(likes_array)
+        
+                            let tot_followers = 0
+        
+                            for (let i = 0; i < followers_array.length; i = i + 1){
+                                console.log(followers_array[i])
+                                tot_followers = tot_followers + followers_array[i]
+                            }
+                            // console.log(tot_likes)
+                            res.json(tot_followers)
+                        } catch (e) {
+                            res.status(500).json({error:e.message})
+                        }
+                    }
+
 }

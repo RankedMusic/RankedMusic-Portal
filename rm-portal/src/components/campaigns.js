@@ -5,6 +5,7 @@ import { Form, Row, Col, FormControl, Button, Table, Tab, Tabs, FormCheck, Overl
 import VideoBox from './VideoBox'
 import TotalLikes from './TotalLikes'
 import TotalComments from './TotalComments'
+import TotalFollowers from './TotalFollowers'
 import TotalViews from './TotalViews'
 import ViewsChart from './ViewsChart'
 import Card from 'react-bootstrap/Card'
@@ -198,6 +199,10 @@ const Campaign = props => {
                     <Col>
                       <TotalComments campaign_id = {props.match.params.id} ></TotalComments>
                     </Col>
+                    <Col>
+                      <TotalFollowers campaign_id = {props.match.params.id}> </TotalFollowers>
+                    </Col>
+
 
                   </Row>
                     </Card.Body>
@@ -223,7 +228,7 @@ const Campaign = props => {
                     </Card.Header>
                     <Row style={{paddingTop:"1%"}}>
                       <Col md={6}>
-                        <Card.Title style={{paddingLeft:"3%", paddingTop:"2%"}}>Total Followers: </Card.Title>
+
                       </Col>
                       <Col md={{ span: 2, offset: 4 }} style={{paddingLeft:"5%"}}>
                           {props.user ?(

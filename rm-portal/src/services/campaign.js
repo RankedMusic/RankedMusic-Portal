@@ -68,6 +68,10 @@ class CampaignDataService {
         // console.log(data)
         return http.post('/tot-views', data)
     }
+    getTotFollowers(data){
+        // console.log(data)
+        return http.post('/tot-followers', data)
+    }
 
     getHistoricalViewsArray(data){
         // console.log(data)
