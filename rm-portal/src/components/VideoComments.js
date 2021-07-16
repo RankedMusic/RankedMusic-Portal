@@ -60,7 +60,6 @@ const VideoComments = props => {
               </div>
               ):(
                 <div>
-                <br />
                 <p>Loading Data</p>
                 </div>
               )

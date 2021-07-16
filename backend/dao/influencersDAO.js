@@ -147,4 +147,24 @@ export default class InfluencersDAO {
 
     }
 
+    static async pullInfluencerFollowers(video_url) {
+
+        try {
+            // looking for influencer id -> delete influencer
+            const influencer = await influencers.findOne({
+                influencer: video_url,
+            })
+            let followers = influencer.num_followers
+            // console.log(influencer.like_string)
+
+            
+
+            return followers
+        } catch(e) {
+            consoele.error(`Unable to delete influencer: ${e}`)
+            return {error: e}
+        }
+
+    }
+
 }

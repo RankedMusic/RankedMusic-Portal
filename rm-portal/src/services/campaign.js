@@ -47,6 +47,10 @@ class CampaignDataService {
         // console.log(data)
         return http.post('/video_views', data)
     }
+    getInfluencerFollowers(data){
+        // console.log(data)
+        return http.post('/influencer_followers', data)
+    }
 
     addLinkArray(data){
         // console.log(data)

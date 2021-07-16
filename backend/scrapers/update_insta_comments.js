@@ -91,8 +91,8 @@ const get_comments = async (url) => {
     // // console.log(likes_num)
     // let comments_object = {num_comments: comments_num}
     
-    await browser.close();
-    return comments_object
+    // await browser.close();
+    // return comments_object
 };
 
     get_comments('https://www.instagram.com/reel/CQrgAaPHHs_/')

@@ -59,7 +59,6 @@ const VideoViews = props => {
               </div>
               ):(
                 <div>
-                <br />
                 <p>Loading Data</p>
                 </div>
               )

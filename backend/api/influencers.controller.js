@@ -302,4 +302,20 @@ export default class InfluencersController {
                 }
             }
 
+            static async pullInfluencerFollowers(req, res, next) {
+                try {
+                        // console.log('hello')
+                        let video_url = req.body.video_url
+                        // console.log(video_url)
+        
+                        const comments_response = await InfluencersDAO.pullInfluencerFollowers(
+                            video_url
+                        )
+                        // console.log(likes_response)
+                        res.json(comments_response)
+                    } catch (e) {
+                        res.status(500).json({error:e.message})
+                    }
+                }
+
 }
