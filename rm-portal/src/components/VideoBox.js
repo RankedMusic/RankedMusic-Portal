@@ -17,6 +17,7 @@ const VideoBox = props => {
     const [username, setUsername] = useState(null);
     const [avatar, setAvatar] = useState(null);
     let [editBtn,setEditBtn] = useState(null)
+    let [changeView,setChangeView] = useState(null)
     let video_link = props.influencer.influencer
 const deleteInfluencer = (influencerId) => {
     CampaignDataService.deleteInfluencer(influencerId)
@@ -76,10 +77,20 @@ useEffect(() => {
     console.log(editBtn);
     console.log(props.isSwitchOn)
 }, [props.isSwitchOn]);
+useEffect(() => {
+    if (props.dataView === false){
+        setChangeView(null);
+      }
+    if (props.dataView === true){
+        setChangeView("true");
+    }
+}, [props.dataView]);
   
     
     return (
-            <div className = 'card'>
+        <div>
+        {changeView ?(
+        <div className = 'card'style={{marginBottom: ".8%"}}>
             <div className="" key={props.index}>
                 
                     <div className="card-body">
@@ -90,7 +101,7 @@ useEffect(() => {
                         ) : (
                             ''
                         )}
-                        <Row>
+                        <Row >
                         <Col md="auto"><Avatar avatar = {props.influencer.avatar_src}></Avatar></Col>
                         <Col md="auto">{username}</Col>
                         <Col md="auto"><VideoViews video_link = {props.influencer.influencer}></VideoViews></Col>
@@ -124,18 +135,43 @@ useEffect(() => {
                             </div>                   
                         }
                     </div>
-                
             </div>
-            
-            {/* <VideoLikes video_link = {props.influencer.influencer}></VideoLikes> */}
-            {/* <VideoComments video_link = {props.influencer.influencer}></VideoComments> */}
+        </div>
+                ) : (
+
+                    
+                    <div key={props.index} style={{marginBottom: "-1.3%"}}>
+                                    
+                    <Table bordered hover>
+                    {/* <thead>
+                        <tr>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
+                        </tr>
+                    </thead> */}
+                    <tbody>
+                        <tr>
+                            <td width="7%"><Avatar avatar = {props.influencer.avatar_src}></Avatar></td>
+                            <td width="19%">{username}</td>
+                            <td width="13%"><VideoViews video_link = {props.influencer.influencer}></VideoViews></td>
+                            <td width="13%"><VideoLikes video_link = {props.influencer.influencer}></VideoLikes></td>
+                            <td width="13%"><VideoComments video_link = {props.influencer.influencer}></VideoComments></td>
+                            <td width="15%">{props.influencer.date}</td>
+                            <td width="1%"><Nav.Link href={props.influencer.influencer} style={{marginTop:"-7%"}}>Link</Nav.Link></td>
+                            {editBtn ?(
+                                <td><a onClick={() => deleteInfluencer(props.influencer._id)} className="btn btn-outline-danger col-lg-5 mx-1 mb-1" style={{height:"auto"},{width:"auto"}}>x</a></td>
+                            ) : (
+                                ''
+                            )}
+                        </tr>
+                        </tbody>
+                        </Table>
+                    </div>
 
 
-            {/* <VideoShares video_link = {props.video.video_url}></VideoShares> */}
-            {/* <InfluencerUsername video_link = {props.video.video_url}></InfluencerUsername> */}
-            {/* <InfluencerAvatar video_link = {props.video.video_url}></InfluencerAvatar> */}
-
-            {/* <VideoLink></VideoLink> */}
+                    )}
         </div>
     );
 };

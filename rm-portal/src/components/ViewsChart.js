@@ -2,6 +2,7 @@ import { LineChart, Line, CartesianGrid, XAxis, YAxis, Legend, Tooltip, Responsi
 import React, { useState, useEffect } from "react";
 import CampaignDataService from "../services/campaign";
 import Card from 'react-bootstrap/Card'
+import { Form, Row, Col, Tab, Tabs, Nav, FormControl, Button, Table, FormCheck, OverlayTrigger, Popover} from 'react-bootstrap';
 
 const ViewsChart = props => {
     const [historical_views, setHistoricalViews] = useState(null)
@@ -52,7 +53,22 @@ const ViewsChart = props => {
       })
   };
     const colors = ["#f40060","#830056","#3f0350","#26004f","#7cbf3e","#d6de35", "blue", "green", "yellow"]
-    
+    const totHistViewsPopover = (
+      <Popover id="popover-basic">
+        <Popover.Title as="h3">Total Historical Views</Popover.Title>
+        <Popover.Content>
+          Number of post views  on a specific date <em>following</em> the date influencer was added to the campaign.
+        </Popover.Content>
+      </Popover>
+    );
+    const viewsPerPopover = (
+      <Popover id="popover-basic">
+        <Popover.Title as="h3">Views per Influencer</Popover.Title>
+        <Popover.Content>
+          Proportional representation of the total sum of views contributed by <em>each influencer</em>.
+        </Popover.Content>
+      </Popover>
+    );
     useEffect(() => {
         //   console.log(props.match.params.id)
           gather_historical_views();
@@ -111,45 +127,93 @@ const ViewsChart = props => {
     return(
         <div>
           <br></br>
-          <br></br>
-          <div className="lineViews">
-            <Card>
-              <Card.Header style={{fontWeight:"bold", color:"#f40060" }}>
-                Historical Total Views
-                <svg xmlns="http://www.w3.org/2000/svg" style={{marginLeft:"1%", float:"right"}} width="18" height="18" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                </svg>
-              </Card.Header>
-              <Card.Body>
+          <br></br><br></br>
+          <div className="tab-wrapper">
+            <div className='container-fluid' >
+              <div className="row">
+                <div className="col-sm-12">
+                
+                  <Tabs justify variant="tabs" defaultActiveKey="views" style={{background: '#FAFAFA'}} className="tabss">
+                    <Tab eventKey="views" title="Views">
+                      <div className="tab-item-wrapper">
+                        <br></br><br></br>
+                        <h5 className="text-center" style={{fontWeight:"bold", color:"#f40060" }}>Campaign Views Analytics</h5>
+                        <br></br><br></br>
+                        <div className="lineViews">
+                          <Card>
+                            <Card.Header style={{fontWeight:"bold", color:"#f40060" }}>
+                              Historical Total Views
+                              <OverlayTrigger trigger="hover" placement="bottom" overlay={totHistViewsPopover}>
+                                <svg xmlns="http://www.w3.org/2000/svg" style={{marginLeft:"1%", float:"right"}} width="18" height="18" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                </svg>
+                              </OverlayTrigger>
+                            </Card.Header>
+                            <Card.Body>
 
-              {renderLineChart}
+                            {renderLineChart}
 
-              </Card.Body>
+                            </Card.Body>
 
-            </Card>
+                          </Card>
+                        </div>
+                        
+                        <br></br><br></br>
+                        <div className="pieViews">
+                          <Card>
+                            <Card.Header style={{fontWeight:"bold", color:"#f40060" }}>
+                              Views per Influencer
+                              <OverlayTrigger trigger="hover" placement="bottom" overlay={viewsPerPopover}>
+                                <svg xmlns="http://www.w3.org/2000/svg" style={{marginLeft:"1%", float:"right"}} width="18" height="18" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                </svg>
+                              </OverlayTrigger>
+                            </Card.Header>
+                            <Card.Body>
+
+                            {renderPieChart}
+
+                            </Card.Body>
+
+                          </Card>
+                          
+                          <br></br><br></br>
+                        </div>
+                      </div>
+                    </Tab>
+
+                    <Tab eventKey="likes" title="Likes">
+                      <div className="tab-item-wrapper">
+                      <br></br><br></br>
+                        <h5 className="text-center" style={{fontWeight:"bold", color:"#f40060" }}>Campaign Likes Analytics</h5>
+                        <br></br><br></br>
+                        <p>GRAPHS</p>
+                        <br></br><br></br><br></br><br></br>
+                      </div>
+                    </Tab>
+
+                    <Tab eventKey="comments" title="Comments">
+                      <div className="tab-item-wrapper">
+                      <br></br><br></br>
+                        <h5 className="text-center" style={{fontWeight:"bold", color:"#f40060" }}>Campaign Comments Analytics</h5>
+                        <br></br><br></br>
+                        <p>GRAPHS</p>
+                        <br></br><br></br><br></br><br></br>
+                      </div>
+                    </Tab>
+                  </Tabs>
+
+                
+            </div>
           </div>
-            <br></br><br></br>
-            <br></br><br></br>
-          <div className="pieViews">
-            <Card>
-              <Card.Header style={{fontWeight:"bold", color:"#f40060" }}>
-                Views per Influencer
-                <svg xmlns="http://www.w3.org/2000/svg" style={{marginLeft:"1%", float:"right"}} width="18" height="18" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                </svg>
-              </Card.Header>
-              <Card.Body>
 
-              {renderPieChart}
 
-              </Card.Body>
-
-            </Card>
+      </div>
+    </div>
+          
             
-            <br></br><br></br>
-          </div>
         </div>
     )
 }
@@ -158,7 +222,7 @@ const ViewsChart = props => {
     body > #root > div {
       height: 100vh;
     }
-
+    
     `}
 </style>
 
