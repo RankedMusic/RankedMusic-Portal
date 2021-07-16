@@ -54,7 +54,9 @@ const VideoLikes = props => {
     return (
         <div>
             {likes ? ( 
+              
               <div>
+              <strong>Likes: </strong>
               {likes}
               </div>
               ):(

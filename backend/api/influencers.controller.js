@@ -138,33 +138,13 @@ export default class InfluencersController {
                     for (let i = 0; i < influencers_array.length; i = i + 1){
                         
                         let influencer_info = influencers_array[i]
-                        let influencer_likes = influencer_info.like_string
+                        let influencer_likes = influencer_info.num_likes
                         
-                        let likes_string = String(influencer_likes)
-                        // console.log(typeof(likes_string))
-                        let no_string = ''
-                        let number = 0
-                        if(likes_string.includes('K')){
-                            let regex_no_K = /[^K]*/
-                            likes_string = likes_string.match(regex_no_K)
-                            // console.log(typeof(likes_string))
-                            likes_string = String(likes_string)
-                            // console.log(typeof(likes_string))
-                            no_string = likes_string.substring(6, likes_string.length)
-                            // console.log(no_string)
-                            number = Number(no_string)
-                            number = number * 1000
-                            // console.log(likes_string + ' has a K')
-                        }
-                        else{
-                            // console.log(likes_string + ' no K')
-                            no_string = likes_string.substring(6, likes_string.length)
-                            number = Number(no_string)
-                        }
+                        
                         
                         // console.log('influencer_likes regex test is ' + number)
                         // console.log(typeof(number))
-                        likes_array.push(number)
+                        likes_array.push(influencer_likes)
 
                     }
                     // console.log(likes_array)

@@ -74,7 +74,7 @@ export default class InfluencersDAO {
             const influencer = await influencers.findOne({
                 influencer: video_url,
             })
-            let likes = influencer.like_string
+            let likes = influencer.num_likes
             // console.log(influencer.like_string)
 
             
@@ -94,7 +94,7 @@ export default class InfluencersDAO {
             const influencer = await influencers.findOne({
                 influencer: video_url,
             })
-            let comments = influencer.comments_string
+            let comments = influencer.num_comments
             // console.log(influencer.like_string)
 
             

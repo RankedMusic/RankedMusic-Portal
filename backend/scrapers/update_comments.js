@@ -131,13 +131,41 @@ async function getVideoComments(url) {
             let comments = await page.$x('/html/body/div/div/div[2]/div[2]/div/div/main/div/div[1]/span[1]/div/div[1]/div[5]/div[2]/div[2]/strong');
             //   console.log(likes)
             let comments_text = await page.evaluate(element => element.textContent, comments[0]);
-            let comments_string = 'Comments: ' + comments_text
-            let comment_object = {comments_string: comments_string}
+            let number = 0
+
+        if(comments_text.includes('K')){
+            let regex_no_K = /[^K]*/
+            comments_text = comments_text.match(regex_no_K)
+            comments_text = String(comments_text)
+            number = Number(comments_text)
+            number = number * 1000
+            
+        }
+        else if(comments_text.includes('M')){
+            let regex_no_K = /[^M]*/
+            comments_text = comments_text.match(regex_no_K)
+            comments_text = String(comments_text)
+
+            number = Number(comments_text)
+            number = number * 1000000
+
+        }
+        else{
+            number = Number(comments_text)
+        }
+       
+        let comments_object = {num_comments: number}
+        console.log(comments_object)
+
+        
             //   console.log(like_object)
+        
             await browser.close();
-            return comment_object
+            return comments_object
             };
             
+
+
             
             const comment_function = async () => {
                 //Run async functions and console.log the results

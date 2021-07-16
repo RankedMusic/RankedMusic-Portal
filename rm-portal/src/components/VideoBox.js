@@ -104,7 +104,7 @@ useEffect(() => {
                                 <strong><Nav.Link href={props.influencer.influencer} style={{marginTop:"-7%"}}>Video Link</Nav.Link></strong>
                                 </Col>
                                 <Col md="auto">
-                                    <strong>Date: </strong>{props.influencer.date}
+                                    {/* <strong>Date: </strong>{props.influencer.date} */}
                                 </Col>
                             {/* </p> */}
                             {/* // </Col> */}
