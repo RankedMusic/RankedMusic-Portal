@@ -207,33 +207,13 @@ export default class InfluencersController {
                     for (let i = 0; i < influencers_array.length; i = i + 1){
                         
                         let influencer_info = influencers_array[i]
-                        let influencer_comments = influencer_info.comments_string
+                        let influencer_comments = influencer_info.num_comments
                         
-                        let comments_string = String(influencer_comments)
-                        // console.log(typeof(likes_string))
-                        let no_string = ''
-                        let number = 0
-                        if(comments_string.includes('K')){
-                            let regex_no_K = /[^K]*/
-                            comments_string = comments_string.match(regex_no_K)
-                            // console.log(typeof(likes_string))
-                            comments_string = String(likes_string)
-                            // console.log(typeof(likes_string))
-                            no_string = comments_string.substring(9, comments_string.length)
-                            // console.log(no_string)
-                            number = Number(no_string)
-                            number = number * 1000
-                            // console.log(likes_string + ' has a K')
-                        }
-                        else{
-                            // console.log(likes_string + ' no K')
-                            no_string = comments_string.substring(9, comments_string.length)
-                            number = Number(no_string)
-                        }
+                        
                         
                         // console.log('influencer_comments regex test is ' + number)
                         // console.log(typeof(number))
-                        comments_array.push(number)
+                        comments_array.push(influencer_comments)
 
                     }
                     // console.log(comments_array)
