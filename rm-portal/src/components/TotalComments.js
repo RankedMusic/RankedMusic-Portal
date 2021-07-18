@@ -26,7 +26,7 @@ const TotalComments = props => {
             });
 
     }
-
+    
     useEffect(() => {
     
         getTotalComments(campaign_id);

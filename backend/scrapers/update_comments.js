@@ -14,27 +14,12 @@ async function main() {
         // Connect to the MongoDB cluster
         await client.connect();
 
-        
- 
-        // Make the appropriate DB calls
-        // await  listDatabases(client);
-        
-        // console.log(influencers)
-        // let influencer_video_url = await getInfluencerUrl(influencers)
-        // console.log(influencer_video_url)
-        // let video_likes = await getVideoLikes(influencer_video_url)
         let links_array_object = await client.db("campaign_DB").collection('links_array').findOne({name: 'links_array'});
         let influencers = await getInfluencersCollection(client)
         let links_array = links_array_object.links_array
         // console.log(links_array)
         // let links_array = await getVideoLinksArray(influencers, client, old_links_array)
-        await getCommentsFromArray(influencers, client, links_array)
-        
-        
-        
-
-
- 
+        await getCommentsFromArray(influencers, client, links_array) 
     } catch (e) {
         console.error(e);
     } finally {
@@ -48,45 +33,12 @@ function sleep(ms) {
 
 main().catch(console.error);
 
-// async function listDatabases(client){
-//     let databasesList = await client.db().admin().listDatabases();
- 
-//     console.log("Databases:");
-//     databasesList.databases.forEach(db => console.log(` - ${db.name}`));
-// };
-
 async function getInfluencersCollection(client){
     let influencers = client.db("campaign_DB").collection('influencers')
     // console.log(influencers)
     return influencers
  
 };
-
-// async function getVideoLinksArray(influencers, client, old_links_array){
-//     let counter = 1
-//     let video_links_array = []
-//         influencers.find().forEach(function(influencer){
-            
-//             // console.log(links_array)
-            
-            
-//             let influencer_video_url = influencer.influencer
-//             video_links_array.push(influencer_video_url)
-//             // await sleep(5000);
-//             // conmsole.log(influencer_video_url)
-//             // let video_likes_object = await getVideoLikes(influencer_video_url)
-
-//             // await insertLikes(influencers, influence\]]]_video_url, video_likes_object)
-
-            
-            
-//             // console.log(video_likes_object)
-//             counter = counter + 1
-//         })
-//         // console.log(counter)
-//         return(video_links_array)
- 
-// };
 
 async function getCommentsFromArray(influencers, client, links_array){
     
@@ -105,13 +57,7 @@ async function getCommentsFromArray(influencers, client, links_array){
     }
 }
 
-// async function getInfluencerUrl(influencers){
-//     let influencer = await influencers.findOne({ influencer : "https://www.tiktok.com/@javiluna/video/6803783345328213253"});
-//     let video_url = influencer.influencer
-//     // console.log(video_url)
-//     return video_url
- 
-// };
+
 
 async function getVideoComments(url) {
     try {
