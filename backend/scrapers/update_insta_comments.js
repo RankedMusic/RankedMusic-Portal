@@ -203,4 +203,8 @@ const getXPath = async(page, video_url) => {
     let fullXPath = '/html/body/div[1]/section/main/div/div[3]/div/div/div/div[' + row_num +']/div['+col_num+']/div/a/div[2]/div[1]/div/ul/li[2]/span[1]'
     return fullXPath
 }
-get_insta_comments("https://www.instagram.com/reel/CQrgAaPHHs_/", "https://www.instagram.com/solmorr/")
+// get_insta_comments("https://www.instagram.com/reel/CQrgAaPHHs_/", "https://www.instagram.com/solmorr/")
+
+
+
+

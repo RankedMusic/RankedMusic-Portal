@@ -96,7 +96,7 @@ const ViewsChart = props => {
         const y = cy + radius * Math.sin(-midAngle * RADIAN);
       
         return (
-          <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+          <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central">
             {`${(percent * 100).toFixed(0)}%`}
           </text>
         );
@@ -111,7 +111,7 @@ const ViewsChart = props => {
             <Pie data={influencer_views} dataKey='views' legendType='square' outerRadius={200} label = {render_pie_labels}>
               {data.map((entry, index) => (
                 
-                <Cell key={`cell-${entry}`} fill={colors[index % colors.length]} />
+                <Cell key={`cell-${entry}`} fill={colors[index % colors.length]} label = {render_pie_labels}/>
               ))}
             </Pie>
             
@@ -119,6 +119,7 @@ const ViewsChart = props => {
             
             <Tooltip />
           </PieChart>
+          
 
         // </ResponsiveContainer>
 
@@ -198,6 +199,15 @@ const ViewsChart = props => {
                       <div className="tab-item-wrapper">
                       <br></br><br></br>
                         <h5 className="text-center" style={{fontWeight:"bold", color:"#f40060" }}>Campaign Comments Analytics</h5>
+                        <br></br><br></br>
+                        <p>GRAPHS</p>
+                        <br></br><br></br><br></br><br></br>
+                      </div>
+                    </Tab>
+                    <Tab eventKey="followers" title="Followers">
+                      <div className="tab-item-wrapper">
+                      <br></br><br></br>
+                        <h5 className="text-center" style={{fontWeight:"bold", color:"#f40060" }}>Campaign Followers Analytics</h5>
                         <br></br><br></br>
                         <p>GRAPHS</p>
                         <br></br><br></br><br></br><br></br>
