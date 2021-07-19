@@ -58,9 +58,9 @@ async function getAvatarsFromArray(influencers, client, links_array){
         let influencer = await influencers.findOne({influencer: links_array[i]})
         let single_video_url = influencer.influencer
         console.log(single_video_url)
-        let stored_avatar = influencer.avatar_src
-        if(stored_avatar == null){
-            console.log('We don"t have this avatar yet!')
+        
+        
+          
             let avatar_src = await getInfluencerAvatar(single_video_url)
             console.log(avatar_src)
             await influencers.updateOne(
@@ -68,7 +68,7 @@ async function getAvatarsFromArray(influencers, client, links_array){
                 { $set: avatar_src},
             )
             await sleep(5000);
-        }
+        
         
     }
 }

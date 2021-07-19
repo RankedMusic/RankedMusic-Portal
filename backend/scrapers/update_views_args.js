@@ -125,7 +125,7 @@ const get_Num_Views = async (video_url, profile_url) => {
     });
     // const captchaSolver = new CaptchaSolver(page)
     // await captchaSolver.solve()
-    await page.waitForTimeout(8000);
+    await page.waitForTimeout(30000);
     await autoScroll(page)
     // await page.waitForNavigation({waitUntil: 'load'});             // consider navigation to be finished when the load event is fired.
     // await page.waitForNavigation({waitUntil: 'domcontentloaded'}); // consider navigation to be finished when the DOMContentLoaded event is fired.
