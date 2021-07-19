@@ -77,6 +77,18 @@ class CampaignDataService {
         // console.log(data)
         return http.post('/historical-views', data)
     }
+    getHistoricalLikesArray(data){
+        // console.log(data)
+        return http.post('/historical-likes', data)
+    }
+    getHistoricalCommentsArray(data){
+        // console.log(data)
+        return http.post('/historical-comments', data)
+    }
+    getHistoricalFollowersArray(data){
+        // console.log(data)
+        return http.post('/historical-followers', data)
+    }
 
 
 

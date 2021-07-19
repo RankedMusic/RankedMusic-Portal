@@ -7,18 +7,32 @@ const MongoClient = mongodb.MongoClient
 // const ObjectId = mongodb.ObjectID
 
 
+const uri = "mongodb+srv://machadorm:rankedthiago@cluster0.mlbwz.mongodb.net/campaign_DB?retryWrites=true&w=majority";
 
-async function getHistoricalDatabase() {
+const client = new MongoClient(uri);
+await client.connect();
+
+export default class getHistoricalDatabase {
     // we'll add code here soon
-    const uri = "mongodb+srv://machadorm:rankedthiago@cluster0.mlbwz.mongodb.net/campaign_DB?retryWrites=true&w=majority";
-
-    const client = new MongoClient(uri);
-    await client.connect();
-    let historical_views = client.db("historicals_DB").collection('historical_views')
-    return historical_views
+    static async historicalViewsCol(){
+        let historical_views = client.db("historicals_DB").collection('historical_views')
+        return historical_views
+    }
+    static async historicalLikesCol(){
+        let historical_likes = client.db("historicals_DB").collection('historical_likes')
+        return historical_likes
+    }
+    // static async historicalCommentsCol(){
+    //     let historical_comments = client.db("historicals_DB").collection('historical_comments')
+    //     return historical_comments
+    // }
+    // static async historicalFollowersCol(){
+    //     let historical_followers = client.db("historicals_DB").collection('historical_followers')
+    //     return historical_followers
+    // }
 }
 
-export default getHistoricalDatabase
+
 
     // static async 
 
