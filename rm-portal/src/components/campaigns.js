@@ -8,6 +8,9 @@ import TotalComments from './TotalComments'
 import TotalFollowers from './TotalFollowers'
 import TotalViews from './TotalViews'
 import ViewsChart from './ViewsChart'
+import LikesChart from './LikesChart'
+import FollowersChart from './FollowersChart'
+import CommentsChart from './CommentsChart'
 import Card from 'react-bootstrap/Card'
 import Overlay from 'react-bootstrap/Overlay'
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
@@ -330,7 +333,74 @@ const Campaign = props => {
                     </div>
                     
                     </Card>
-                    <ViewsChart campaign_id = {props.match.params.id}></ViewsChart>
+                    <div>
+                    <br></br>
+                    <br></br><br></br>
+                    <div className="tab-wrapper">
+                      <div className='container-fluid'>
+                        <div className="row">
+                          <div className="col-sm-12">
+                          
+                            <Tabs justify variant="tabs" defaultActiveKey="overall" style={{background: '#FAFAFA'}} className="tabss">
+                              <Tab eventKey="overall" title="Comprehensive">
+                                <div className="tab-item-wrapper">
+                                  <br></br><br></br>
+                                  <h5 className="text-center" style={{fontWeight:"bold", color:"#f40060" }}>Comprehensive Campaign Analytics</h5>
+                                  <br></br><br></br>
+                                  <br></br><br></br><br></br><br></br>
+                                </div>
+                              </Tab>
+
+                              <Tab eventKey="views" title="Views">
+                                <div className="tab-item-wrapper">
+                                  <br></br><br></br>
+                                  <h5 className="text-center" style={{fontWeight:"bold", color:"#f40060" }}>Campaign Views Analytics</h5>
+                                  <br></br><br></br>
+                                  <ViewsChart campaign_id = {props.match.params.id}></ViewsChart>
+
+                                </div>
+                              </Tab>
+
+                              <Tab eventKey="likes" title="Likes">
+                                <div className="tab-item-wrapper">
+                                <br></br><br></br>
+                                  <h5 className="text-center" style={{fontWeight:"bold", color:"#f40060" }}>Campaign Likes Analytics</h5>
+                                  <br></br><br></br>
+                                  <LikesChart campaign_id = {props.match.params.id}></LikesChart>
+                                  <br></br><br></br><br></br><br></br>
+                                </div>
+                              </Tab>
+
+                              <Tab eventKey="comments" title="Comments">
+                                <div className="tab-item-wrapper">
+                                <br></br><br></br>
+                                  <h5 className="text-center" style={{fontWeight:"bold", color:"#f40060" }}>Campaign Comments Analytics</h5>
+                                  <br></br><br></br>
+                                  <CommentsChart campaign_id = {props.match.params.id}></CommentsChart>
+                                  {/* <br></br><br></br><br></br><br></br> */}
+                                </div>
+                              </Tab>
+                              <Tab eventKey="followers" title="Followers">
+                                <div className="tab-item-wrapper">
+                                <br></br><br></br>
+                                  <h5 className="text-center" style={{fontWeight:"bold", color:"#f40060" }}>Campaign Followers Analytics</h5>
+                                  <br></br><br></br>
+                                  <FollowersChart campaign_id = {props.match.params.id}></FollowersChart>
+                                  {/* <br></br><br></br><br></br><br></br> */}
+                                </div>
+                              </Tab>
+                            </Tabs>
+
+                          
+                      </div>
+                    </div>
+
+
+                </div>
+              </div>
+                    
+                      
+                  </div>
 
                     <style type="text/css">
                         {`
