@@ -20,7 +20,7 @@ const VideoComments = props => {
     CampaignDataService.getVideoComments({video_url : props.video_link})
         .then(response => {
             setComments(response.data);
-            console.log(response.data);
+            // console.log(response.data);
         })
         .catch(e => {
             console.log(e);

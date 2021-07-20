@@ -13,13 +13,14 @@ const TotalViews = props => {
     let campaign_id = props.campaign_id
 
     const getTotalLikes = (campaign_id) => {
-        console.log('The campaign id is ' + campaign_id)
+        // console.log('The campaign id is ' + campaign_id)
         
         CampaignDataService.getTotViews({campaign_id : campaign_id})
             .then(response => {
-                
-                console.log('We have a total of ' + response.data + ' views');
-                setTotViews(response.data)
+                let views = response.data
+                let views_commas = (views).toLocaleString('en')  
+                console.log('We have a total of ' + views_commas + ' views');
+                setTotViews(views_commas)
             })
             .catch(e => {
                 console.log(e);

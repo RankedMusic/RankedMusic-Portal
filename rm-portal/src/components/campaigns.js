@@ -44,7 +44,7 @@ const Campaign = props => {
 
   const onSwitchAction = () => {
     setIsSwitchOn(!isSwitchOn);
-    console.log(isSwitchOn);
+    // console.log(isSwitchOn);
     
   };
   const changeViewAction = () => {

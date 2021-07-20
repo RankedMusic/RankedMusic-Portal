@@ -12,7 +12,7 @@ const FollowersChart = props => {
     const gather_historical_followers = () => {        
         CampaignDataService.getHistoricalFollowersArray({campaign_id: props.campaign_id})
         .then(response => {
-            console.log(response.data)
+            // console.log(response.data)
             setHistoricalFollowers(response.data)
         })
         .catch(e => {
@@ -32,11 +32,11 @@ const FollowersChart = props => {
             
             let only_username = username_string.substring(10, username_string.length)
             let followers = influencers_array[i].num_followers
-            console.log('Username for pie chart is ' + only_username + ' and has ' + followers + ' followers')
+            // console.log('Username for pie chart is ' + only_username + ' and has ' + followers + ' followers')
             influencer_followers_array.push({name: only_username, followers: followers})
           }
           // NOTE: influencer_views_array is an array of objects of the form [{username: 'name', followers: 324}, ...]
-          console.log(influencer_followers_array)
+          // console.log(influencer_followers_array)
           setInfluencerFollowers(influencer_followers_array)
       })
       .catch(e => {

@@ -8,7 +8,7 @@ const Avatar = props => {
 
   useEffect(() => {
     
-    console.log(props.avatar)
+    // console.log(props.avatar)
   //   only will get called if id is updated
 }, []);
   

@@ -43,7 +43,7 @@ const deleteInfluencer = (influencerId) => {
 const getUsername = () => {
 CampaignDataService.saveUsername({video_link: video_link})
         .then(response => {
-            console.log('Our username is ' + response.data)
+            // console.log('Our username is ' + response.data)
           setUsername(response.data);
           // console.log(response.data);
         //     CampaignDataService.saveAvatar(props.influencer.influencer)
@@ -75,8 +75,8 @@ useEffect(() => {
     if (props.isSwitchOn === true){
         setEditBtn("true");
     }
-    console.log(editBtn);
-    console.log(props.isSwitchOn)
+    // console.log(editBtn);
+    // console.log(props.isSwitchOn)
 }, [props.isSwitchOn]);
 useEffect(() => {
     if (props.dataView === false){

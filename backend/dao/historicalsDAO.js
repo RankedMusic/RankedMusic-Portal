@@ -22,10 +22,10 @@ export default class getHistoricalDatabase {
         let historical_likes = client.db("historicals_DB").collection('historical_likes')
         return historical_likes
     }
-    // static async historicalCommentsCol(){
-    //     let historical_comments = client.db("historicals_DB").collection('historical_comments')
-    //     return historical_comments
-    // }
+    static async historicalCommentsCol(){
+        let historical_comments = client.db("historicals_DB").collection('historical_comments')
+        return historical_comments
+    }
     // static async historicalFollowersCol(){
     //     let historical_followers = client.db("historicals_DB").collection('historical_followers')
     //     return historical_followers

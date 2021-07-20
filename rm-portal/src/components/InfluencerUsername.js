@@ -8,7 +8,7 @@ const InfluencerUsername = props => {
 
   useEffect(() => {
     
-    console.log(props.influencer_username)
+    // console.log(props.influencer_username)
   //   only will get called if id is updated
 }, []);
   

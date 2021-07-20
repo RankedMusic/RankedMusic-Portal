@@ -12,7 +12,7 @@ const CommentsChart = props => {
     const gather_historical_comments = () => {        
         CampaignDataService.getHistoricalCommentsArray({campaign_id: props.campaign_id})
         .then(response => {
-            console.log(response.data)
+            // console.log(response.data)
             setHistoricalComments(response.data)
         })
         .catch(e => {
@@ -32,11 +32,11 @@ const CommentsChart = props => {
             
             let only_username = username_string.substring(10, username_string.length)
             let comments = influencers_array[i].num_comments
-            console.log('Username for pie chart is ' + only_username + ' and has ' + comments + ' comments')
+            // console.log('Username for pie chart is ' + only_username + ' and has ' + comments + ' comments')
             influencer_comments_array.push({name: only_username, comments: comments})
           }
           // NOTE: influencer_views_array is an array of objects of the form [{username: 'name', comments: 324}, ...]
-          console.log(influencer_comments_array)
+          // console.log(influencer_comments_array)
           setInfluencerComments(influencer_comments_array)
       })
       .catch(e => {

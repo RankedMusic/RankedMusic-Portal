@@ -105,7 +105,7 @@ const AddInfluencer = props => {
       CampaignDataService.createInfluencer(data)
       
         .then(response => {
-          console.log(data)
+          // console.log(data)
           setSubmitted(true);
           // console.log(response.data);
         })

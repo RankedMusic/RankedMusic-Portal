@@ -13,13 +13,14 @@ const TotalLikes = props => {
     let campaign_id = props.campaign_id
 
     const getTotalLikes = (campaign_id) => {
-        console.log('The campaign id is ' + campaign_id)
+        // console.log('The campaign id is ' + campaign_id)
         
         CampaignDataService.getTotLikes({campaign_id : campaign_id})
             .then(response => {
-                
-                console.log('We have a total of ' + response.data + ' likes');
-                setTotLikes(response.data)
+                let likes = response.data
+                let likes_commas = (likes).toLocaleString('en')
+                // console.log('We have a total of ' + response.data + ' likes');
+                setTotLikes(likes_commas)
             })
             .catch(e => {
                 console.log(e);

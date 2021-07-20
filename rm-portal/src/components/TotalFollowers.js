@@ -17,9 +17,10 @@ const TotalFollowers = props => {
         
         CampaignDataService.getTotFollowers({campaign_id : campaign_id})
             .then(response => {
-                
-                console.log('We have a total of ' + response.data + ' likes');
-                setTotFollowers(response.data)
+                let followers = response.data
+                let followers_commas = (followers).toLocaleString('en')
+                // console.log('We have a total of ' + response.data + ' likes');
+                setTotFollowers(followers_commas)
             })
             .catch(e => {
                 console.log(e);

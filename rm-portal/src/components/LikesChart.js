@@ -12,7 +12,7 @@ const LikesChart = props => {
     const gather_historical_likes = () => {        
         CampaignDataService.getHistoricalLikesArray({campaign_id: props.campaign_id})
         .then(response => {
-            console.log(response.data)
+            // console.log(response.data)
             setHistoricalLikes(response.data)
         })
         .catch(e => {
@@ -32,11 +32,11 @@ const LikesChart = props => {
             
             let only_username = username_string.substring(10, username_string.length)
             let likes = influencers_array[i].num_likes
-            console.log('Username for pie chart is ' + only_username + ' and has ' + likes + ' likes')
+            // console.log('Username for pie chart is ' + only_username + ' and has ' + likes + ' likes')
             influencer_likes_array.push({name: only_username, likes: likes})
           }
           // NOTE: influencer_views_array is an array of objects of the form [{username: 'name', likes: 324}, ...]
-          console.log(influencer_likes_array)
+          // console.log(influencer_likes_array)
           setInfluencerLikes(influencer_likes_array)
       })
       .catch(e => {

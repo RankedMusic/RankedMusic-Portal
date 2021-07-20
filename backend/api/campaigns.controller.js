@@ -279,18 +279,17 @@ static async UpdateCampaign(req, res, next) {
         res.json(historical_likes_array)
 
     }
-    // static async pullHistoricalComments(req, res, next){
-    //     console.log('Campaign id to pull historical comments is ' + req.body.campaign_id)
-    //     let campaign_id = req.body.campaign_id
-    //     let historical_comments_collection = await getHistoricalDatabasehistoricalCommentsCol()
-    //     const ObjectId = mongodb.ObjectID
-    //     let historical_comments_object = await historical_comments_collection.findOne({campaignId: new ObjectId(String(campaign_id))})
-    //     // console.log(historical_views_object)
-    //     let historical_comments_array = historical_comments_object.historical_comments
-    //     console.log(historical_comments_array)
-    //     res.json(historical_comments_array)
-
-    // }
+    static async pullHistoricalComments(req, res, next){
+        console.log('Campaign id to pull historical comments is ' + req.body.campaign_id)
+        let campaign_id = req.body.campaign_id
+        let historical_comments_collection = await getHistoricalDatabase.historicalCommentsCol()
+        const ObjectId = mongodb.ObjectID
+        let historical_comments_object = await historical_comments_collection.findOne({campaignId: new ObjectId(String(campaign_id))})
+        // console.log(historical_views_object)
+        let historical_comments_array = historical_comments_object.historical_comments
+        console.log(historical_comments_array)
+        res.json(historical_comments_array)
+    }
     // static async pullHistoricalFollowers(req, res, next){
     //     console.log('Campaign id to pull historical followers is ' + req.body.campaign_id)
     //     let campaign_id = req.body.campaign_id

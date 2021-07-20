@@ -17,9 +17,10 @@ const TotalComments = props => {
         
         CampaignDataService.getTotComments({campaign_id : campaign_id})
             .then(response => {
-                
+                let comments = response.data
+                let comments_commas = comments.toLocaleString('en')
                 // console.log('We have a total of ' + response.data + ' likes');
-                setTotComments(response.data)
+                setTotComments(comments_commas)
             })
             .catch(e => {
                 console.log(e);

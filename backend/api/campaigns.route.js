@@ -34,7 +34,7 @@ router.route("/video_views").post(InfluencersCtrl.pullVideoViews)
 router.route("/influencer_followers").post(InfluencersCtrl.pullInfluencerFollowers)
 router.route("/historical-views").post(CampaignsCtrl.pullHistoricalViews)
 router.route("/historical-likes").post(CampaignsCtrl.pullHistoricalLikes)
-// router.route("/historical-comments").post(CampaignsCtrl.pullHistoricalComments)
+router.route("/historical-comments").post(CampaignsCtrl.pullHistoricalComments)
 // router.route("/historical-followers").post(CampaignsCtrl.pullHistoricalFollowers)
 
 
