@@ -72,7 +72,10 @@ class CampaignDataService {
         // console.log(data)
         return http.post('/tot-followers', data)
     }
-
+    getInfluencerCount(data){
+        return http.post('/tot-influencers', data)
+    }
+    
     getHistoricalViewsArray(data){
         // console.log(data)
         return http.post('/historical-views', data)

@@ -104,7 +104,7 @@ async function getInfluencerUsername(url) {
             // let username = await page.$x('/html/body/div[1]/div/div/section/main/div/div[1]/article/header/div[2]/div[1]/div/a');
             //   console.log(likes)
             let username_text = await page.evaluate(element => element.textContent, username[0]);
-            let username_string = 'Username: ' + username_text
+            let username_string = username_text
             let username_object = {username_string: username_string}
             //   console.log(like_object)
             await browser.close();

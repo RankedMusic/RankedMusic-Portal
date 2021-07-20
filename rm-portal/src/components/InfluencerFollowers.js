@@ -58,7 +58,7 @@ const InfluencerFollowers = props => {
             {followers ? ( 
               
               <div>
-              <strong>Followers: </strong>
+              
               {followers}
               </div>
               ):(

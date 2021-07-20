@@ -105,13 +105,12 @@ useEffect(() => {
                         )}
                         <Row >
                         {/* <Col md="auto"><Avatar avatar = {props.influencer.avatar_src}></Avatar></Col> */}
-                        <Col md="auto"><InfluencerPlatform platform = {props.influencer.platform}></InfluencerPlatform></Col>
-                        
-                        <Col md="auto">{username}</Col>
-                        <Col md="auto"><VideoViews video_link = {props.influencer.influencer}></VideoViews></Col>
-                        <Col md="auto"><VideoLikes video_link = {props.influencer.influencer}></VideoLikes></Col>
-                        <Col md="auto"><VideoComments video_link = {props.influencer.influencer}></VideoComments></Col>
-                        <Col md="auto"><InfluencerFollowers video_link = {props.influencer.influencer}></InfluencerFollowers></Col>
+                        <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Platform:</strong><InfluencerPlatform platform = {props.influencer.platform}></InfluencerPlatform></Col>
+                        <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Username:</strong>{username}</Col>
+                        <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Views:</strong> <VideoViews video_link = {props.influencer.influencer}></VideoViews></Col>
+                        <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Likes: </strong><VideoLikes video_link = {props.influencer.influencer}></VideoLikes></Col>
+                        <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Comments: </strong><VideoComments video_link = {props.influencer.influencer}></VideoComments></Col>
+                        <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Followers: </strong><InfluencerFollowers video_link = {props.influencer.influencer}></InfluencerFollowers></Col>
                         
 
                         {/* <Col md="auto" style={{marginLeft:"11%"}}> */}
@@ -159,15 +158,15 @@ useEffect(() => {
                     </thead> */}
                     <tbody>
                         <tr>
-                            <td width="7%"><Avatar avatar = {props.influencer.avatar_src}></Avatar></td>
-                            <td width="19%">{username}</td>
+                            <td width="7.3%"><InfluencerPlatform platform = {props.influencer.platform}></InfluencerPlatform></td>
+                            <td width="15%">{username}</td>
                             <td width="13%"><VideoViews video_link = {props.influencer.influencer}></VideoViews></td>
                             <td width="13%"><VideoLikes video_link = {props.influencer.influencer}></VideoLikes></td>
                             <td width="13%"><VideoComments video_link = {props.influencer.influencer}></VideoComments></td>
                             <td width="15%">{props.influencer.date}</td>
                             <td width="1%"><Nav.Link href={props.influencer.influencer} style={{marginTop:"-7%"}}>Link</Nav.Link></td>
                             {editBtn ?(
-                                <td><a onClick={() => deleteInfluencer(props.influencer._id)} className="btn btn-outline-danger col-lg-5 mx-1 mb-1" style={{height:"auto"},{width:"auto"}}>x</a></td>
+                                <td width="1%"><a onClick={() => deleteInfluencer(props.influencer._id)} className="btn btn-outline-danger col-lg-5 mx-1 mb-1" style={{height:"auto"},{width:"auto"}}>x</a></td>
                             ) : (
                                 ''
                             )}

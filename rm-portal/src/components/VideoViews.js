@@ -57,7 +57,7 @@ const VideoViews = props => {
         <div>
             {views ? ( 
               <div>
-              <strong>Views:</strong> {views}
+              {views}
               </div>
               ):(
                 <div>

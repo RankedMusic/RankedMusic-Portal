@@ -6,6 +6,7 @@ import VideoBox from './VideoBox'
 import TotalLikes from './TotalLikes'
 import TotalComments from './TotalComments'
 import TotalFollowers from './TotalFollowers'
+import InfluencerCount from './InfluencerCount'
 import TotalViews from './TotalViews'
 import ViewsChart from './ViewsChart'
 import LikesChart from './LikesChart'
@@ -158,7 +159,7 @@ const Campaign = props => {
                         </Col>
                         <Col>
                         {/* <br/> */}
-                        <strong>Influencer Count: </strong>
+                        <InfluencerCount campaign_id = {props.match.params.id} ></InfluencerCount>
                         </Col>
                         {/* {campaign.address.building} {campaign.address.street}, {campaign.address.zipcode} */}
                         <style type="text/css">{`
@@ -168,25 +169,25 @@ const Campaign = props => {
                           }
                           `}</style>
                       </Row>
-                    <Table variant='dark' style={{borderRight: "0"}} bordered hover >
+                    <Table style={{ borderColor: ""}} bordered hover >
                       <tbody>
                         <tr>
-                          <td>Campaign ID: {campaign.id}</td>
-                          <td>Client Contact: {campaign.clientContact}</td>
+                          <td><em>Campaign ID: </em>{campaign.id}</td> 
+                          <td><em>Client Contact: </em>{campaign.clientContact}</td>
                         </tr>
                         <tr>
-                          <td>Platform: {campaign.platform}</td>
-                          <td>Artist: {campaign.artist}</td>
+                          <td><em>Platform: </em>{campaign.platform}</td>
+                          <td><em>Artist: </em>{campaign.artist}</td>
                           
                         </tr>
                         <tr>
-                        <td>Account Executive: {campaign.accountExec}</td>
-                        <td>Song: {campaign.song}</td>
+                        <td><em>Account Executive: </em>{campaign.accountExec}</td>
+                        <td><em>Song: </em>{campaign.song}</td>
                           
                         </tr>
                         <tr>
-                        <td>Campaign Manager: {campaign.campManager}</td>
-                        <td> AudioLink: {campaign.songLink}</td>
+                        <td><em>Campaign Manager: </em>{campaign.campManager}</td>
+                        <td> <em>AudioLink: </em>{campaign.songLink}</td>
                           
                           
                         </tr>
@@ -218,25 +219,15 @@ const Campaign = props => {
                     ) : (
                       ''
                     )}
-                    <Card>
-                    {/* <Button variant="outline-light" to={"/campaigns/" + props.match.params.id + "/influencer"}>Add Influencer</Button> */}
+                  <Card>
                    <Card.Header style={{fontWeight:"bold", color:"#f40060" }}> 
-                      Influencers 
-                      <OverlayTrigger trigger="hover" placement="right" overlay={influencerPopover}>            
-                        <svg xmlns="http://www.w3.org/2000/svg" style={{marginLeft:"1%", float:"right"}} width="18" height="18" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 18 18">
-                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                          <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                        </svg>
-                      </OverlayTrigger>           
-                    </Card.Header>
-                    <Row style={{paddingTop:"1%"}}>
-                      <Col md={6}>
-
+                   <Row>
+                      <Col>
+                          <a > Influencers </a>
                       </Col>
-                      <Col md={{ span: 2, offset: 4 }} style={{paddingLeft:"5%"}}>
-                          {props.user ?(
+                      <Col  md={{ span: 1, offset: 9 }}>
+                      <a style={{paddingLeft:"75%"}}>{props.user ?(
                             <BootstrapSwitchButton
-                             
                               checked={isSwitchOn}
                               onlabel={
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
@@ -253,24 +244,42 @@ const Campaign = props => {
                               offstyle="outline-danger"
                               // width= {80}
                               // height={40}
-                              size="md"
-                              style={{marginLeft:"200px"}}
+                              size="sm"
+                              data-size="sm"
+                              placement="right"
                               // disabled
                               onChange={onSwitchAction}
 
                             />
                           ) : (
                             ''
-                          )} 
-                        </Col>
-                    </Row>
+                          )} </a>
+                      </Col>
+                      <Col>
+                      <a><OverlayTrigger trigger="hover" placement="right" overlay={influencerPopover}>            
+                        <svg xmlns="http://www.w3.org/2000/svg" style={{marginLeft:"1%", float:"right"}} width="18" height="18" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 18 18">
+                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                          <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                        </svg>
+                      </OverlayTrigger>  </a>
+                      </Col>
 
+
+                      {/* <Col md={{ span: 2, offset: 4 }}>
+                        </Col> */}
+                    </Row>
+                     
+                          
+                               
+                    </Card.Header>
+                    
+                    <Card.Body>
                     <div className="tab-wrapper">
                       <div className='container-fluid' >
                         <div className="row">
                           <div className="col-sm-12">
                             
-                            <Tabs variant="pills" defaultActiveKey="cards" className="flex-column" onSelect={changeViewAction} style={{float:"right", marginTop:"-4%", marginRight:".5%"}}>
+                            <Tabs variant="pills" defaultActiveKey="cards" className="flex-row" onSelect={changeViewAction} style={{float:"right", marginTop:"-.5%", paddingBottom:"1%", marginRight:"3%"}}>
                               
                               <Tab 
                                 eventKey="cards" 
@@ -302,19 +311,19 @@ const Campaign = props => {
                               >
                                 <div className="tab-item-wrapper">
                                   {/* <div className="row" id="infl"> */}
-                                    <Table bordered style={{marginBottom: "-.1%"}}>
+                                    <Table borderless style={{marginBottom: "-.1%", marginLeft:"1%",  width:"98%"}}>
                                       <thead>
-                                          <tr>
-                                            <th width="6.79%">Prof. Pic</th>
-                                            <th width="18.65%">Username</th>
-                                            <th width="12.7%">Views</th>
-                                            <th width="12.75%">Likes</th>
-                                            <th width="12.7%">Comments</th>
-                                            <th width="14.63%">Date</th>
-                                            <th width="5.35%">Link</th>
+                                          <tr >
+                                            <th width="10.3%">Platform</th>
+                                            <th width="15%">Username</th>
+                                            <th width="13%">Views</th>
+                                            <th width="12%">Likes</th>
+                                            <th width="16%">Comments</th>
+                                            <th width="10%">Date</th>
+                                            <th width="1%">Link</th>
                                           </tr>
                                       </thead>
-                                      </Table>
+                                    </Table>
                                       {/* <tbody> */}
                                         {/* <tr> */}
                                           {influencers_map}
@@ -331,8 +340,8 @@ const Campaign = props => {
                         </div>
                       </div>
                     </div>
-                    
-                    </Card>
+                  </Card.Body>
+                  </Card>
                     <div>
                     <br></br>
                     <br></br><br></br>

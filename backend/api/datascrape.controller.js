@@ -111,7 +111,7 @@ export default class ReviewsController {
                   await page.waitForXPath('/html/body/div/div/div[2]/div[2]/div/div/main/div/div[1]/span[1]/div/div[1]/div[1]/a[1]/h3')
                   let username = await page.$x("/html/body/div/div/div[2]/div[2]/div/div/main/div/div[1]/span[1]/div/div[1]/div[1]/a[1]/h3");
                   let username_text = await page.evaluate(element => element.textContent, username[0]);
-                  let username_string = 'Influencer username: ' + username_text
+                  let username_string = username_text
                   let username_object = {username_string: username_string}
                   await browser.close();
                   return username_object

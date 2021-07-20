@@ -58,7 +58,7 @@ const VideoLikes = props => {
             {likes ? ( 
               
               <div>
-              <strong>Likes: </strong>
+              
               {likes}
               </div>
               ):(
