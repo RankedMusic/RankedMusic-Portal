@@ -26,12 +26,12 @@ async function main() {
         let influencers = await getInfluencersCollection(client)
         // campaigns collection (to get campaign with influencers) and historical likes collection (so that we can update historical likes)
         let campaigns = await getCampaignsCollection(client)
-        let historical_comments = await getHistoricalLikesCollection(client)
+        let historical_comments = await getHistoricalCommentsCollection(client)
         console.log(historical_comments)
         // console.log( await historical_views.findOne({ campaignId: new ObjectId('60d5e5db47686643ee13d9c8')}))
 
 
-        await inputHistoricalLikes(campaigns, campaign_id_array, historical_comments)
+        await inputHistoricalComments(campaigns, campaign_id_array, historical_comments)
 
     } catch (e) {
         console.error(e);
@@ -60,8 +60,8 @@ async function getCampaignsCollection(client){
  
 };
 
-async function getHistoricalLikesCollection(client){
-    let historical_comments = client.db("historicals_DB").collection('historical_likes')
+async function getHistoricalCommentsCollection(client){
+    let historical_comments = client.db("historicals_DB").collection('historical_comments')
     // console.log(historical_views)
     return historical_comments
  
@@ -69,7 +69,7 @@ async function getHistoricalLikesCollection(client){
 
 // This method grabs the total views for every campaign and puts them into our historical
 // database (one document = one listing of historical values for a single campaign)
-async function inputHistoricalLikes(campaigns, campaign_id_array, historical_comments){
+async function inputHistoricalComments(campaigns, campaign_id_array, historical_comments){
     // console.log(campaign_id_array)
     for(let i = 0; i < campaign_id_array.length; i = i + 1){
         let campaign_id = campaign_id_array[i]
@@ -87,43 +87,43 @@ async function inputHistoricalLikes(campaigns, campaign_id_array, historical_com
         //NOTE historical_array_point is the new value we want to add to the historical database
         // in mongoDB
         // ALSO, getTotLikes returns an object of the format {date : Mon #day #year, total likes during date : #likes}
-        let historical_array_point = await getTotLikes(influencers_array)
+        let historical_array_point = await getTotComments(influencers_array)
         console.log('We want to add ' + historical_array_point.comments + ' likes on ' + historical_array_point.date)
        
-        // let historical_likes_object =  await historical_comments.findOne({ campaignId: new ObjectId(String(campaign_id))})
+        let historical_comments_object =  await historical_comments.findOne({ campaignId: new ObjectId(String(campaign_id))})
+        console.log(historical_comments_object)
+        if (historical_comments_object == null){
+            let created_historical_comments_object = {campaignId: campaign_id, database_ref: 'campaign_DB', historical_likes: []}
+            let historical_comments_array = created_historical_comments_object.historical_likes
 
-        // if (historical_comments_object == null){
-        //     let created_historical_comments_object = {campaignId: campaign_id, database_ref: 'campaign_DB', historical_likes: []}
-        //     let historical_comments_array = created_historical_likes_object.historical_likes
+            historical_comments_array.push(historical_array_point)
+            console.log(historical_comments_array)
 
-        //     historical_comments_array.push(historical_array_point)
-        //     console.log(historical_comments_array)
+            // let new_historical_views = {historical_views: historical_views_array}
 
-        //     // let new_historical_views = {historical_views: historical_views_array}
-
-        //     let inserted_object = {campaignId: new ObjectId(String(campaign_id)), campaign_name: campaign_name, database_ref: 'campaign_DB', historical_comments: historical_comments_array}
+            let full_object = {campaignId: new ObjectId(String(campaign_id)), campaign_name: campaign_name, database_ref: 'campaign_DB', historical_comments: historical_comments_array}
 
 
-        //     await historical_comments.insertOne(
-        //         inserted_object
-        //     )
-        // }
-        // else{
+            await historical_comments.insertOne(
+                full_object
+            )
+        }
+        else{
         
 
-        //     let historical_comments_array = historical_comments_object.historical_comments
+            let historical_comments_array = historical_comments_object.historical_comments
 
-        //     historical_comments_array.push(historical_array_point)
-        //     console.log(historical_comments_array)
+            historical_comments_array.push(historical_array_point)
+            console.log(historical_comments_array)
 
-        //     let new_historical_comments = {historical_likes: historical_comments_array}
+            let new_historical_comments = {historical_likes: historical_comments_array}
 
 
-        //     await historical_comments.updateOne(
-        //         { campaignId: new ObjectId(String(campaign_id))},
-        //         { $set: new_historical_comments},
-        //     )
-        // }
+            await historical_comments.updateOne(
+                { campaignId: new ObjectId(String(campaign_id))},
+                { $set: new_historical_comments},
+            )
+        }
 
         
 
@@ -195,10 +195,10 @@ async function getTotComments(influencers_array) {
             for (let i = 0; i < influencers_array.length; i = i + 1){
                 
                 let influencer_info = influencers_array[i]
-                let influencer_likes = influencer_info.num_comments
+                let influencer_comments = influencer_info.num_comments
                 
                 
-                likes_array.push(influencer_comments)
+                comments_array.push(influencer_comments)
 
             }
             // console.log(likes_array)
