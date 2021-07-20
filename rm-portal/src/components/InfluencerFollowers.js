@@ -19,7 +19,9 @@ const InfluencerFollowers = props => {
   const getFollowers = () => {
     CampaignDataService.getInfluencerFollowers({video_url : props.video_link})
         .then(response => {
-            setFollowers(response.data);
+          let followers = response.data
+          let followers_commas = (followers).toLocaleString('en')
+            setFollowers(followers_commas);
             // console.log(response.data);
         })
         .catch(e => {

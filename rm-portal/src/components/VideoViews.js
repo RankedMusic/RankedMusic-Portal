@@ -19,7 +19,9 @@ const VideoViews = props => {
   const getViews = () => {
     CampaignDataService.getVideoViews({video_url : props.video_link})
         .then(response => {
-            setViews(response.data);
+          let views = response.data
+          let views_commas = (views).toLocaleString('en')
+            setViews(views_commas);
             // console.log(response.data);
         })
         .catch(e => {

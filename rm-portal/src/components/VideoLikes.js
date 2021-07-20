@@ -19,7 +19,9 @@ const VideoLikes = props => {
   const getLikes = () => {
     CampaignDataService.getVideoLikes({video_url : props.video_link})
         .then(response => {
-            setLikes(response.data);
+          let likes = response.data
+          let likes_commas =(likes).toLocaleString('en')
+            setLikes(likes_commas);
             // console.log(response.data);
         })
         .catch(e => {

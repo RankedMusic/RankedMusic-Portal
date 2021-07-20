@@ -7,6 +7,7 @@ import VideoComments from './VideoComments'
 import VideoViews from './VideoViews'
 import InfluencerUsername from './InfluencerUsername'
 import InfluencerFollowers from './InfluencerFollowers'
+import InfluencerPlatform from './InfluencerPlatform'
 import Avatar from './Avatar'
 import CampaignDataService from "../services/campaign";
 import {Link} from "react-router-dom";
@@ -103,12 +104,15 @@ useEffect(() => {
                             ''
                         )}
                         <Row >
-                        <Col md="auto"><Avatar avatar = {props.influencer.avatar_src}></Avatar></Col>
+                        {/* <Col md="auto"><Avatar avatar = {props.influencer.avatar_src}></Avatar></Col> */}
+                        <Col md="auto"><InfluencerPlatform platform = {props.influencer.platform}></InfluencerPlatform></Col>
+                        
                         <Col md="auto">{username}</Col>
                         <Col md="auto"><VideoViews video_link = {props.influencer.influencer}></VideoViews></Col>
                         <Col md="auto"><VideoLikes video_link = {props.influencer.influencer}></VideoLikes></Col>
                         <Col md="auto"><VideoComments video_link = {props.influencer.influencer}></VideoComments></Col>
                         <Col md="auto"><InfluencerFollowers video_link = {props.influencer.influencer}></InfluencerFollowers></Col>
+                        
 
                         {/* <Col md="auto" style={{marginLeft:"11%"}}> */}
                             {/* <p className="video-content"> */}

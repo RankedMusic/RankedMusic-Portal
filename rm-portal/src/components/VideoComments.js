@@ -19,7 +19,9 @@ const VideoComments = props => {
   const getComments = () => {
     CampaignDataService.getVideoComments({video_url : props.video_link})
         .then(response => {
-            setComments(response.data);
+          let comments = response.data
+          let comments_commas = (comments).toLocaleString('en')
+          setComments(comments_commas);
             // console.log(response.data);
         })
         .catch(e => {
