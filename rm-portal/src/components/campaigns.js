@@ -38,7 +38,7 @@ const Campaign = props => {
 //   use init rest. state to create a campaign
   const [campaign, setCampaign] = useState(initialCampaignState)
   const [influencers_map, setInfluencersMap] = useState(null)
-  
+  const [updatedDate, setUpdatedDate] = useState(null)
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [dataView, setDataView] = useState(true);
   // let [editBtn,setEditBtn] = useState(null)
@@ -57,7 +57,13 @@ const Campaign = props => {
     CampaignDataService.get(id)
         .then(response => {
           setCampaign(response.data);
-            
+          const string = response.data.influencers[0].date_views_updated.substring(14)
+          const string_array = string.split(" ")
+          const month = string_array[0]
+          const day = string_array[1]
+          const year = string_array[2]
+          const date = month + " " + day + ", " + year
+          setUpdatedDate(date)
         })
         .catch(e => {
             console.log(e);
@@ -297,7 +303,7 @@ const Campaign = props => {
                                         {influencers_map}
                                     </div>
                                   {/* </Card.Body> */}
-                                  <p>Last Update:</p>
+                                  <p>Last Update: {updatedDate}</p>
                                 </div>
                               </Tab>
 
@@ -331,7 +337,7 @@ const Campaign = props => {
                                       {/* </tbody> */}
                                     {/* </Table> */}
                                     </div>
-                                  <p>Last Update:</p>
+                                  <p>Last Update: {updatedDate}</p>
                                 {/* </div> */}
                               </Tab>
                             </Tabs>

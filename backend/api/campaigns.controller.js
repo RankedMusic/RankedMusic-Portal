@@ -290,6 +290,13 @@ static async UpdateCampaign(req, res, next) {
         console.log(historical_comments_array)
         res.json(historical_comments_array)
     }
+    static async pullDateUpdate(req, res, next){
+        console.log('Campaign id to pull historical comments is ' + req.body.campaign_id)
+        let campaign_id = req.body.campaign_id
+        let date_updated = await getCampaignsByID(campaign_id)[0].date_views_updated
+
+        res.json(date_updated)
+    }
     // static async pullHistoricalFollowers(req, res, next){
     //     console.log('Campaign id to pull historical followers is ' + req.body.campaign_id)
     //     let campaign_id = req.body.campaign_id

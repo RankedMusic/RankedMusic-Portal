@@ -92,9 +92,11 @@ class CampaignDataService {
         // console.log(data)
         return http.post('/historical-followers', data)
     }
-
-
-
+    getUpdateDate(data){
+        // console.log(data)
+        return http.post('/date-updated', data)
+    }
+    
     loginUser(data){
         return http.post("/thisUser", data);
     }
