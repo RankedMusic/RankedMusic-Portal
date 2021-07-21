@@ -57,9 +57,9 @@ async function getCommentsFromArray(influencers, client, insta_links_array){
         let single_video_url = influencer.influencer
         let profile_url_beginning='https://www.instagram.com/'
         
-        let profile_username_string = influencer.username_string
+        let profile_username = influencer.username_string
         // console.log(profile_username)
-        let profile_username = await profile_username_string.substring(10, profile_username_string.length)
+        
         let profile_url = profile_url_beginning + profile_username + '/reels/'
         let influencer_followers = await get_insta_followers(profile_url)
         console.log(influencer_followers)

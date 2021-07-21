@@ -51,9 +51,9 @@ const getViewsFromArray = async (influencers, client, insta_links_array) => {
         let single_vid_link = insta_links_array[i]
         let profile_url_beginning='https://www.instagram.com/'
         
-        let profile_username_string = influencer.username_string
+        let profile_username = influencer.username_string
         // console.log(profile_username)
-        let profile_username = await profile_username_string.substring(10, profile_username_string.length)
+        
         let profile_url = profile_url_beginning + profile_username + '/reels/'
         console.log(single_vid_link)
         console.log(profile_url)

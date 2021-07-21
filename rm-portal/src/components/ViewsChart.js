@@ -33,10 +33,10 @@ const ViewsChart = props => {
           for(let i = 0; i < influencers_array.length; i = i + 1){
             let username_string = influencers_array[i].username_string
             
-            let only_username = username_string.substring(10, username_string.length)
+            
             let views = influencers_array[i].views_num
             // console.log('Username for pie chart is ' + only_username + ' and has ' + views + ' views')
-            influencer_views_array.push({name: only_username, views: views})
+            influencer_views_array.push({name: username_string, views: views})
             // let new_object = {username: username, }
           }
           // NOTE: influencer_views_array is an array of objects of the form [{username: 'name', views: 324}, ...]

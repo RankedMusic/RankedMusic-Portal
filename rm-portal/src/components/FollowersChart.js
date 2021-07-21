@@ -30,10 +30,10 @@ const FollowersChart = props => {
           for(let i = 0; i < influencers_array.length; i = i + 1){
             let username_string = influencers_array[i].username_string
             
-            let only_username = username_string.substring(10, username_string.length)
+           
             let followers = influencers_array[i].num_followers
             // console.log('Username for pie chart is ' + only_username + ' and has ' + followers + ' followers')
-            influencer_followers_array.push({name: only_username, followers: followers})
+            influencer_followers_array.push({name: username_string, followers: followers})
           }
           // NOTE: influencer_views_array is an array of objects of the form [{username: 'name', followers: 324}, ...]
           // console.log(influencer_followers_array)

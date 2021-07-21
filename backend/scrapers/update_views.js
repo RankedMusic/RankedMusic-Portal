@@ -62,9 +62,8 @@ async function getViewsFromArray(influencers, client, links_array){
         let single_video_url = influencer.influencer
         let profile_url_beginning='https://www.tiktok.com/@'
         
-        let profile_username_string = influencer.username_string
+        let profile_username = influencer.username_string
         // console.log(profile_username)
-        let profile_username = await profile_username_string.substring(10, profile_username_string.length)
         let profile_url = profile_url_beginning + profile_username
         // console.log(profile_url)
         
