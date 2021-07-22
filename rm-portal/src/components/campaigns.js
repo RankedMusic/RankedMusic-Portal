@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CampaignDataService from "../services/campaign";
 import {Link} from "react-router-dom";
-import { Form, Row, Col, FormControl, Button, Table, Tab, Tabs, FormCheck, OverlayTrigger, Popover} from 'react-bootstrap';
+import { Form, Row, Col, FormControl, Button, Table, Tab, Tabs, FormCheck, OverlayTrigger, Popover, Container} from 'react-bootstrap';
 import VideoBox from './VideoBox'
 import TotalLikes from './TotalLikes'
 import TotalComments from './TotalComments'
@@ -301,10 +301,17 @@ const Campaign = props => {
                                   {/* <Card.Body> */}
                                   <br></br>
                                   {/* <div className="input-group col-lg-4"> */}
-                                    <div className="col-lg-4" id="infl">
+                                  {/* <Row> */}
+                                    <div id="infl">
+                                    {/* <Col  xs={6}> */}
+                                    <div style={{display: 'flex', flexDirection: 'row'}}> 
                                         {influencers_map}
+                                    </div>
+                                    {/* </Col> */}
                                     {/* </div> */}
+                                    
                                   </div>
+                                  {/* </Row> */}
                                   {/* </Card.Body> */}
                                   <p>Last Update: {updatedDate}</p>
                                 </div>
