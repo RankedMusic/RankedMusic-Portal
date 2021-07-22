@@ -9,6 +9,7 @@ import InfluencerUsername from './InfluencerUsername'
 import InfluencerFollowers from './InfluencerFollowers'
 import InfluencerPlatform from './InfluencerPlatform'
 import Avatar from './Avatar'
+import PostDate from './PostDate'
 import CampaignDataService from "../services/campaign";
 import {Link} from "react-router-dom";
 import { Form, Row, Col, FormControl, Button, Select } from 'react-bootstrap';
@@ -105,8 +106,9 @@ useEffect(() => {
                         )}
                         <Row >
                         {/* <Col md="auto"><Avatar avatar = {props.influencer.avatar_src}></Avatar></Col> */}
-                        <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Platform:</strong><InfluencerPlatform platform = {props.influencer.platform}></InfluencerPlatform></Col>
-                        <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Username:</strong>{username}</Col>
+                        <Row className="d-flex" xs="auto" md="auto" lg="auto"><strong>Username:</strong>{username}</Row>
+                        <Row className="d-flex" xs="auto" md="auto" lg="auto"><strong>Platform:</strong><InfluencerPlatform platform = {props.influencer.platform}></InfluencerPlatform></Row>
+                        <Row className="d-flex" xs="auto" md="auto" lg="auto"><strong>Post Date:</strong><PostDate postdate = {props.influencer.postdate}></PostDate></Row>
                         <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Views:</strong> <VideoViews video_link = {props.influencer.influencer}></VideoViews></Col>
                         <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Likes: </strong><VideoLikes video_link = {props.influencer.influencer}></VideoLikes></Col>
                         <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Comments: </strong><VideoComments video_link = {props.influencer.influencer}></VideoComments></Col>
