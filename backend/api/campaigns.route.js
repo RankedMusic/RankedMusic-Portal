@@ -37,7 +37,7 @@ router.route("/historical-views").post(CampaignsCtrl.pullHistoricalViews)
 router.route("/historical-likes").post(CampaignsCtrl.pullHistoricalLikes)
 router.route("/historical-comments").post(CampaignsCtrl.pullHistoricalComments)
 router.route("/date-updated").post(CampaignsCtrl.pullDateUpdate)
-// router.route("/historical-followers").post(CampaignsCtrl.pullHistoricalFollowers)
+router.route("/historical-followers").post(CampaignsCtrl.pullHistoricalFollowers)
 
 
 

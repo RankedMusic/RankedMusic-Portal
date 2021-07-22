@@ -87,6 +87,7 @@ const Campaign = props => {
         <br></br><strong>Comments:</strong> Current number of post comments.
         <br></br><strong>Video Link:</strong> Link to post.
         <br></br><strong>Date:</strong> Date influencer post added to campaign.
+        <br></br><strong>Followers:</strong> Current number of influencer followers.
       </Popover.Content>
     </Popover>
   );
@@ -262,7 +263,7 @@ const Campaign = props => {
                           )} </a>
                       </Col>
                       <Col>
-                      <a><OverlayTrigger trigger="hover" placement="right" overlay={influencerPopover}>            
+                      <a><OverlayTrigger trigger="hover" placement="left" overlay={influencerPopover}>            
                         <svg xmlns="http://www.w3.org/2000/svg" style={{marginLeft:"1%", float:"right"}} width="18" height="18" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 18 18">
                           <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                           <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -356,15 +357,15 @@ const Campaign = props => {
                         <div className="row">
                           <div className="col-sm-12">
                           
-                            <Tabs justify variant="tabs" defaultActiveKey="overall" style={{background: '#FAFAFA'}} className="tabss">
-                              <Tab eventKey="overall" title="Comprehensive">
+                            <Tabs justify variant="tabs" defaultActiveKey="views" style={{background: '#FAFAFA'}} className="tabss">
+                              {/* <Tab eventKey="overall" title="Comprehensive">
                                 <div className="tab-item-wrapper">
                                   <br></br><br></br>
                                   <h5 className="text-center" style={{fontWeight:"bold", color:"#f40060" }}>Comprehensive Campaign Analytics</h5>
                                   <br></br><br></br>
                                   <br></br><br></br><br></br><br></br>
                                 </div>
-                              </Tab>
+                              </Tab> */}
 
                               <Tab eventKey="views" title="Views">
                                 <div className="tab-item-wrapper">
