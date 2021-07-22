@@ -165,7 +165,7 @@ useEffect(() => {
                             <td width="13%"><VideoViews video_link = {props.influencer.influencer}></VideoViews></td>
                             <td width="13%"><VideoLikes video_link = {props.influencer.influencer}></VideoLikes></td>
                             <td width="13%"><VideoComments video_link = {props.influencer.influencer}></VideoComments></td>
-                            <td width="15%">{props.influencer.date}</td>
+                            <td width="15%"><PostDate postdate = {props.influencer.postdate}></PostDate></td>
                             <td width="1%"><Nav.Link href={props.influencer.influencer} style={{marginTop:"-7%"}}>Link</Nav.Link></td>
                             {editBtn ?(
                                 <td width="1%"><a onClick={() => deleteInfluencer(props.influencer._id)} className="btn btn-outline-danger col-lg-5 mx-1 mb-1" style={{height:"auto"},{width:"auto"}}>x</a></td>

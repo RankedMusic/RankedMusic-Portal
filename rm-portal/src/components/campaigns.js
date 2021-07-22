@@ -300,9 +300,11 @@ const Campaign = props => {
                                 <div className="tab-item-wrapper">
                                   {/* <Card.Body> */}
                                   <br></br>
-                                    <div className="row" id="infl">
+                                  {/* <div className="input-group col-lg-4"> */}
+                                    <div className="col-lg-4" id="infl">
                                         {influencers_map}
-                                    </div>
+                                    {/* </div> */}
+                                  </div>
                                   {/* </Card.Body> */}
                                   <p>Last Update: {updatedDate}</p>
                                 </div>
@@ -326,7 +328,7 @@ const Campaign = props => {
                                             <th width="13%">Views</th>
                                             <th width="12%">Likes</th>
                                             <th width="16%">Comments</th>
-                                            <th width="10%">Date</th>
+                                            <th width="10%">Post Date</th>
                                             <th width="1%">Link</th>
                                           </tr>
                                       </thead>
