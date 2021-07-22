@@ -297,18 +297,18 @@ static async UpdateCampaign(req, res, next) {
 
         res.json(date_updated)
     }
-    // static async pullHistoricalFollowers(req, res, next){
-    //     console.log('Campaign id to pull historical followers is ' + req.body.campaign_id)
-    //     let campaign_id = req.body.campaign_id
-    //     let historical_followers_collection = await getHistoricalDatabasehistoricalFollowersCol()
-    //     const ObjectId = mongodb.ObjectID
-    //     let historical_followers_object = await historical_followers_collection.findOne({campaignId: new ObjectId(String(campaign_id))})
-    //     // console.log(historical_views_object)
-    //     let historical_followers_array = historical_followers_object.historical_followers
-    //     console.log(historical_followers_array)
-    //     res.json(historical_followers_array)
+    static async pullHistoricalFollowers(req, res, next){
+        console.log('Campaign id to pull historical followers is ' + req.body.campaign_id)
+        let campaign_id = req.body.campaign_id
+        let historical_followers_collection = await getHistoricalDatabase.historicalFollowersCol()
+        const ObjectId = mongodb.ObjectID
+        let historical_followers_object = await historical_followers_collection.findOne({campaignId: new ObjectId(String(campaign_id))})
+        // console.log(historical_views_object)
+        let historical_followers_array = historical_followers_object.historical_followers
+        console.log(historical_followers_array)
+        res.json(historical_followers_array)
 
-    // }
+    }
 
 
 
