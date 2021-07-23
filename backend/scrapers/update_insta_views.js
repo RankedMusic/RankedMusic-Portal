@@ -106,6 +106,7 @@ const get_insta_views = async (video_url, profile_url) => {
         width: 1200,
         height: 800
     });
+    let iteration_counter = 1
     await page.waitForTimeout(2000);
     await page.$x('/html/body/div[1]/section/main/div/div[2]/a[2]/div/span');
     let reels = await page.$x('/html/body/div[1]/section/main/div/div[2]/a[2]/div/span');
@@ -114,12 +115,14 @@ const get_insta_views = async (video_url, profile_url) => {
         await page.waitForTimeout(2000);
         page.waitForXPath('/html/body/div[1]/section/main/div/div[1]/a[2]/div/span')
         reels = await page.$x('/html/body/div[1]/section/main/div/div[1]/a[2]/div/span');
+        iteration_counter = 2
         console.log("reels 2", reels);
         if (reels[0] == null){
             await page.waitForTimeout(2000);
             page.waitForXPath('/html/body/div[1]/section/main/div/div[1]/a[2]')
             reels = await page.$x('/html/body/div[1]/section/main/div/div[1]/a[2]'); 
             console.log("reels 3", reels);
+            iteration_counter = 3
         }
     }
 
@@ -129,7 +132,7 @@ const get_insta_views = async (video_url, profile_url) => {
     await page.waitForTimeout(5000);
     await autoScroll(page)
 
-    let fullXPath = await getXPath(page, video_url)
+    let fullXPath = await getXPath(page, video_url, iteration_counter)
 
     
     //NOTE: These xpaths don't work because elements change when we open devtools
@@ -221,7 +224,7 @@ async function autoScroll(page){
     });
 }
 
-const getXPath = async(page, video_url) => {
+const getXPath = async(page, video_url, iteration_counter) => {
 
     // NOTE: set reel_counter to -1 because we have two false links in the beginning of href array
     let reel_counter = 1
@@ -274,12 +277,29 @@ const getXPath = async(page, video_url) => {
     console.log('The roe number is ' + row_num)
     console.log('The col number is ' + col_num)
 
-    let fullXPath = '/html/body/div[1]/section/main/div/div[3]/div/div/div/div[' + row_num +']/div['+col_num+']/div/a/div[2]/div[2]/div/div/div/div[2]/span'
-    return fullXPath
+    //Case where we have four tabs
+    if(iteration_counter == 1){
+        let fullXPath = '/html/body/div[1]/section/main/div/div[3]/div/div/div/div[' + row_num +']/div['+col_num+']/div/a/div[2]/div[2]/div/div/div/div[2]/span'
+        return fullXPath
+    }
+    //Case where we have three tabs
+    else if(iteration_counter == 2){
+        // let sample_XPath_11th_vid = '/html/body/div[1]/section/main/div/div[2]/div/div/div/div[3]/div[3]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
+        // let sample_XPath_15th_vid = '/html/body/div[1]/section/main/div/div[2]/div/div/div/div[4]/div[3]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
+        // let sample_XPath_16th_vid = '/html/body/div[1]/section/main/div/div[2]/div/div/div/div[4]/div[4]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
+        // let general_XPath_yanno   = '/html/body/div[1]/section/main/div/div[2]/div/div/div/div[row]/div[col]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
+
+        let fullXPath = '/html/body/div[1]/section/main/div/div[2]/div/div/div/div[' + row_num + ']/div['+ col_num+']/div/a/div[2]/div[2]/div/div/div/div[2]/span'
+        return fullXPath
+    }
 
 
     
 
 
 }
-get_insta_views("https://www.instagram.com/jeanca.milo/", "https://www.instagram.com/reel/CRRnoGsFhAY/?utm_medium=copy_link")
+//This call to get_insta_views is to see if our scraper works with three tabs (on profile page) instead of four
+// get_insta_views("https://www.instagram.com/reel/CRRnoGsFhAY/?utm_medium=copy_link", "https://www.instagram.com/jeanca.milo/")
+
+// This call to get_insta_views is to work with numbers that have a comma. Why is it like this idk IG devs are stupid
+get_insta_views("https://www.instagram.com/reel/CQ7DcVXAyJS/?utm_medium=copy_link", "https://www.instagram.com/marianamundov/")
