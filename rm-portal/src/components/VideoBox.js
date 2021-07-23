@@ -93,57 +93,39 @@ useEffect(() => {
     return (
         <div>
         {changeView ?(
-        <div className = 'card'style={{marginBottom: ".8%"}}>
-            <div className="" key={props.index}>
+        <Col style={{padding:"6%"}}>
+        <div>
+            <div className ='card' style={{marginBottom: ".8%", height:"250px"}}>
+                <div className="" key={props.index}>
                 
                     <div className="card-body">
-                        {editBtn ?(
-                        <div className="delButton" style={{float:"right"}}>
-                            <a onClick={() => deleteInfluencer(props.influencer._id)} className="btn btn-outline-danger col-lg-5 mx-1 mb-1" style={{height:"auto"},{width:"auto"}}>x</a>
-                        </div>
-                        ) : (
-                            ''
-                        )}
-                        <Row >
-                        {/* <Col md="auto"><Avatar avatar = {props.influencer.avatar_src}></Avatar></Col> */}
-                        <Row className="d-flex" xs="auto" md="auto" lg="auto"><strong>Username:</strong>{username}</Row>
-                        <Row className="d-flex" xs="auto" md="auto" lg="auto"><strong>Platform:</strong><InfluencerPlatform platform = {props.influencer.platform}></InfluencerPlatform></Row>
-                        <Row className="d-flex" xs="auto" md="auto" lg="auto"><strong>Post Date:</strong><PostDate postdate = {props.influencer.postdate}></PostDate></Row>
-                        <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Views:</strong> <VideoViews video_link = {props.influencer.influencer}></VideoViews></Col>
-                        <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Likes: </strong><VideoLikes video_link = {props.influencer.influencer}></VideoLikes></Col>
-                        <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Comments: </strong><VideoComments video_link = {props.influencer.influencer}></VideoComments></Col>
-                        <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Followers: </strong><InfluencerFollowers video_link = {props.influencer.influencer}></InfluencerFollowers></Col>
-                        
-
-                        {/* <Col md="auto" style={{marginLeft:"11%"}}> */}
-                            {/* <p className="video-content"> */}
-                                {/* {props.influencer.text}<br/> */}
-                                <Col md="auto">
+                            {editBtn ?(
+                            <div className="delButton" style={{float:"right"}}>
+                                <a onClick={() => deleteInfluencer(props.influencer._id)} className="btn btn-outline-danger col-lg-5 mx-1 mb-1" style={{height:"auto"},{width:"auto"}}>x</a>
+                            </div>
+                            ) : (
+                                ''
+                            )}
+                            <Row >
+                            {/* <Col md="auto"><Avatar avatar = {props.influencer.avatar_src}></Avatar></Col> */}
+                            <Row className="d-flex" xs="auto" md="auto" lg="auto"><strong>Username:</strong>{username}</Row>
+                            <Row className="d-flex" xs="auto" md="auto" lg="auto"><strong>Platform:</strong><InfluencerPlatform platform = {props.influencer.platform}></InfluencerPlatform></Row>
+                            <Row className="d-flex" xs="auto" md="auto" lg="auto"><strong>Post Date:</strong><PostDate postdate = {props.influencer.postdate}></PostDate></Row>
+                            <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Views:</strong> <VideoViews video_link = {props.influencer.influencer}></VideoViews></Col>
+                            <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Likes: </strong><VideoLikes video_link = {props.influencer.influencer}></VideoLikes></Col>
+                            <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Comments: </strong><VideoComments video_link = {props.influencer.influencer}></VideoComments></Col>
+                            <Col className="d-flex" xs="auto" md="auto" lg="auto"><strong>Followers: </strong><InfluencerFollowers video_link = {props.influencer.influencer}></InfluencerFollowers></Col>
+                            <Col md="auto">
                                 <strong><Nav.Link href={props.influencer.influencer} style={{marginTop:"-7%"}}>Video Link</Nav.Link></strong>
-                                </Col>
-                                <Col md="auto">
-                                    {/* <strong>Date: </strong>{props.influencer.date} */}
-                                </Col>
-                            {/* </p> */}
-                            {/* // </Col> */}
-                        </Row>
-                        {/* NOTE: Kyle made influencer the video url in our influencer object. So influencer.influencer is the video url */}
-                        {/* show buttons depending which user is logged in */}
-                        {/* if there is a user is logged in + is logged in as the creator of the influencer -> && if true = does it*/}
-                        {/* going to give a delete and edit button */}
-                        {props.user && props.user.id === props.influencer.user_id &&
-                            <div className="row">
-                                {/* <Link to={{
-                                pathname: "/campaigns/" + props.match.params.id + "/influencer",
-                                state: {
-                                    currentInfluencer: props.influencer
-                                }
-                                }} className="btn btn-primary col-lg-5 mx-1 mb-1">Edit</Link> */}
-                            </div>                   
-                        }
+                            </Col>
+                            <Col md="auto">
+                            </Col>
+                            </Row>
                     </div>
+                </div>
             </div>
         </div>
+        </Col>
                 ) : (
 
                     
