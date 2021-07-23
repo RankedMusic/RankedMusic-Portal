@@ -96,8 +96,15 @@ async function getInfluencerUsername(url) {
             // execute the JS in the context of the page to get all the links
             // Note, for XPath, we need to use the FULL XPATH from Chrome Dev Ops
                                     
-            await page.waitForXPath('/html/body/div[1]/section/main/div/div[1]/article/header/div[2]/div[1]/div/a')
+            await page.waitForTimeout(2000);
+            page.waitForXPath('/html/body/div[1]/section/main/div/div[1]/article/header/div[2]/div[1]/div/a')
             let username = await page.$x('/html/body/div[1]/section/main/div/div[1]/article/header/div[2]/div[1]/div/a');
+            if (username == null){
+                await page.waitForTimeout(2000);
+                page.waitForXPath('/html/body/div[1]/div/div/section/main/div/div[1]/article/header/div[2]/div[1]/div/a')
+                let username = await page.$x('/html/body/div[1]/div/div/section/main/div/div[1]/article/header/div[2]/div[1]/div/a');
+            }
+            // 
 
                                     // '/html/body/div[1]/section/main/div/div[1]/article/header/div[2]/div[1]/div/a'
             // await page.waitForXPath('/html/body/div[1]/div/div/section/main/div/div[1]/article/header/div[2]/div[1]/div/a')

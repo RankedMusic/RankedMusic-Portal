@@ -30,9 +30,8 @@ const getCommentsFromArray = async (influencers, client, insta_links_array) => {
         let single_vid_link = insta_links_array[i]
         let profile_url_beginning='https://www.instagram.com/'
         
-        let profile_username_string = influencer.username_string
+        let profile_username = influencer.username_string
 
-        let profile_username = await profile_username_string.substring(10, profile_username_string.length)
         let profile_url = profile_url_beginning + profile_username
         console.log(single_vid_link)
         console.log(profile_url)
@@ -89,8 +88,21 @@ const get_insta_comments = async (video_url, profile_url) => {
     });
     
     await page.waitForTimeout(2000);
-
-    const reels = await page.$x('/html/body/div[1]/section/main/div/div[2]/a[2]/div/span');
+    await page.$x('/html/body/div[1]/section/main/div/div[2]/a[2]/div/span');
+    let reels = await page.$x('/html/body/div[1]/section/main/div/div[2]/a[2]/div/span');
+    console.log(reels)
+    if (reels[0] == null){
+        await page.waitForTimeout(2000);
+        page.waitForXPath('/html/body/div[1]/section/main/div/div[1]/a[2]/div/span')
+        reels = await page.$x('/html/body/div[1]/section/main/div/div[1]/a[2]/div/span');
+        console.log("reels 2", reels);
+        if (reels[0] == null){
+            await page.waitForTimeout(2000);
+            page.waitForXPath('/html/body/div[1]/section/main/div/div[1]/a[2]')
+            reels = await page.$x('/html/body/div[1]/section/main/div/div[1]/a[2]'); 
+            console.log("reels 3", reels);
+        }
+    }
     await reels[0].click();
 
     await page.waitForTimeout(2000);

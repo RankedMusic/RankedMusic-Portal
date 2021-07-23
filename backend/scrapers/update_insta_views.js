@@ -8,87 +8,87 @@ const MongoClient = mongodb.MongoClient
 
 // console.log('hello')
 
-async function main() {
-    // we'll add code here soon
-    const uri = "mongodb+srv://machadorm:rankedthiago@cluster0.mlbwz.mongodb.net/campaign_DB?retryWrites=true&w=majority";
+// async function main() {
+//     // we'll add code here soon
+//     const uri = "mongodb+srv://machadorm:rankedthiago@cluster0.mlbwz.mongodb.net/campaign_DB?retryWrites=true&w=majority";
 
-    const client = new MongoClient(uri);
+//     const client = new MongoClient(uri);
 
-    try {
-        // Connect to the MongoDB cluster
-        await client.connect();
+//     try {
+//         // Connect to the MongoDB cluster
+//         await client.connect();
 
         
  
-        // Make the appropriate DB calls
-        // await  listDatabases(client);
+//         // Make the appropriate DB calls
+//         // await  listDatabases(client);
         
-        // console.log(influencers)
-        // let influencer_video_url = await getInfluencerUrl(influencers)
-        // console.log(influencer_video_url)
-        // let video_likes = await getVideoLikes(influencer_video_url)
-        let insta_links_array_object = await client.db("campaign_DB").collection('insta_links_array').findOne({name: 'insta_links_array'});
-        let influencers = await client.db("campaign_DB").collection('influencers');
-        let insta_links_array = insta_links_array_object.insta_links_array
-        // console.log(insta_links_array)
-        // console.log(insta_influencers)
+//         // console.log(influencers)
+//         // let influencer_video_url = await getInfluencerUrl(influencers)
+//         // console.log(influencer_video_url)
+//         // let video_likes = await getVideoLikes(influencer_video_url)
+//         let insta_links_array_object = await client.db("campaign_DB").collection('insta_links_array').findOne({name: 'insta_links_array'});
+//         let influencers = await client.db("campaign_DB").collection('influencers');
+//         let insta_links_array = insta_links_array_object.insta_links_array
+//         // console.log(insta_links_array)
+//         // console.log(insta_influencers)
         
-        await getViewsFromArray(influencers, client, insta_links_array)
+//         await getViewsFromArray(influencers, client, insta_links_array)
 
-    } catch (e) {
-        console.error(e);
-    } finally {
-        await client.close();
-    }
-}
-main().catch(console.error);
+//     } catch (e) {
+//         console.error(e);
+//     } finally {
+//         await client.close();
+//     }
+// }
+// main().catch(console.error);
 
 
-const getViewsFromArray = async (influencers, client, insta_links_array) => {
-    for(let i = 0; i < insta_links_array.length; i = i + 1){
+// const getViewsFromArray = async (influencers, client, insta_links_array) => {
+//     for(let i = 0; i < insta_links_array.length; i = i + 1){
         
-        let influencer = await influencers.findOne({influencer: insta_links_array[i]})
-        let single_vid_link = insta_links_array[i]
-        let profile_url_beginning='https://www.instagram.com/'
+//         let influencer = await influencers.findOne({influencer: insta_links_array[i]})
+//         let single_vid_link = insta_links_array[i]
+//         let profile_url_beginning='https://www.instagram.com/'
         
-        let profile_username = influencer.username_string
-        // console.log(profile_username)
+//         let profile_username = influencer.username_string
+//         // console.log(profile_username)
         
-        let profile_url = profile_url_beginning + profile_username + '/reels/'
-        console.log(single_vid_link)
-        console.log(profile_url)
-        let views_object = await get_insta_views(single_vid_link, profile_url)
+//         let profile_url = profile_url_beginning + profile_username
+//         console.log(single_vid_link)
+//         console.log(profile_url)
+//         let views_object = await get_insta_views(single_vid_link, profile_url)
 
-        if(views_object != null){
-            let date = new Date()
-            let date_string = date.toString()
-            let final_date = date_string.substring(4,15)
-            let date_updated_string = 'Views Updated ' + final_date
-            let date_updated_views_object = {date_views_updated: date_updated_string}
-            console.log('The video ' + single_vid_link + ' has ' + views_object.views_num) 
-            console.log(views_object)
-            await influencers.updateOne(
-                { influencer: single_vid_link},
-                { $set: views_object}
-            )
+//         if(views_object != null){
+//             let date = new Date()
+//             let date_string = date.toString()
+//             let final_date = date_string.substring(4,15)
+//             let date_updated_string = 'Views Updated ' + final_date
+//             let date_updated_views_object = {date_views_updated: date_updated_string}
+//             console.log('The video ' + single_vid_link + ' has ' + views_object.views_num) 
+//             console.log(views_object)
+//             await influencers.updateOne(
+//                 { influencer: single_vid_link},
+//                 { $set: views_object}
+//             )
 
-            await influencers.updateOne(
-                { influencer: single_vid_link},
-                { $set: date_updated_views_object}
-            )
-            await sleep(10000);
-        }
-        else{
+//             await influencers.updateOne(
+//                 { influencer: single_vid_link},
+//                 { $set: date_updated_views_object}
+//             )
+//             await sleep(10000);
+//         }
+//         else{
 
-            console.log('We did not get views for the video ' + single_vid_link)
-            console.log('Most likely because element is not found')
-            console.log('Recheck XPath on chromium')
-            console.log('')
-        }
+//             console.log('We did not get views for the video ' + single_vid_link)
+//             console.log('Most likely because element is not found')
+//             console.log('Recheck XPath on chromium')
+//             console.log('')
+//         }
 
-    }
+//     }
 
-}
+// }
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
@@ -106,7 +106,26 @@ const get_insta_views = async (video_url, profile_url) => {
         width: 1200,
         height: 800
     });
-    
+    await page.waitForTimeout(2000);
+    await page.$x('/html/body/div[1]/section/main/div/div[2]/a[2]/div/span');
+    let reels = await page.$x('/html/body/div[1]/section/main/div/div[2]/a[2]/div/span');
+    console.log(reels)
+    if (reels[0] == null){
+        await page.waitForTimeout(2000);
+        page.waitForXPath('/html/body/div[1]/section/main/div/div[1]/a[2]/div/span')
+        reels = await page.$x('/html/body/div[1]/section/main/div/div[1]/a[2]/div/span');
+        console.log("reels 2", reels);
+        if (reels[0] == null){
+            await page.waitForTimeout(2000);
+            page.waitForXPath('/html/body/div[1]/section/main/div/div[1]/a[2]')
+            reels = await page.$x('/html/body/div[1]/section/main/div/div[1]/a[2]'); 
+            console.log("reels 3", reels);
+        }
+    }
+
+    await reels[0].click();
+
+    // await page.waitForTimeout(2000);
     await page.waitForTimeout(5000);
     await autoScroll(page)
 
@@ -263,3 +282,4 @@ const getXPath = async(page, video_url) => {
 
 
 }
+get_insta_views("https://www.instagram.com/jeanca.milo/", "https://www.instagram.com/reel/CRRnoGsFhAY/?utm_medium=copy_link")
