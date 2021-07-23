@@ -125,7 +125,8 @@ const get_Num_Views = async (video_url, profile_url) => {
     // const captchaSolver = new CaptchaSolver(page)
     // await captchaSolver.solve()
     await page.waitForTimeout(30000);
-    await autoScroll(page)
+    let finishTime = new Date().getTime() + (5000);
+    await autoScroll(page, finishTime)
     // await page.waitForNavigation({waitUntil: 'load'});             // consider navigation to be finished when the load event is fired.
     // await page.waitForNavigation({waitUntil: 'domcontentloaded'}); // consider navigation to be finished when the DOMContentLoaded event is fired.
     // await page.waitForNavigation({waitUntil: 'networkidle0'});     // consider navigation to be finished when there are no more than 0 network connections for at least 500 ms.
@@ -235,7 +236,7 @@ async function autoScroll(page){
                 window.scrollBy(0, distance);
                 totalHeight += distance;
 
-                if(totalHeight >= scrollHeight){
+                if(totalHeight >= scrollHeight || new Date().getTime() > finishTime){
                     clearInterval(timer);
                     resolve();
                 }
