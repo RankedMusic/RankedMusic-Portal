@@ -4,7 +4,9 @@ const ObjectId = mongodb.ObjectID
 let campaigns
 let campaign_id_array_object
 
+
 export default class CampaignsDAO {
+    
     // initially connect to DB -> call as soon as server starts
     static async injectDB(conn) {
         if (campaigns){
@@ -12,6 +14,7 @@ export default class CampaignsDAO {
         }
         // if not filled -> return ref to specific DB
         try{
+            
             campaigns = await conn.db(process.env.CAMPINFLUENCERS_NS).collection("campaigns")
             campaign_id_array_object = await conn.db(process.env.CAMPINFLUENCERS_NS).collection("campaign_id_array")
         }catch (e) {
@@ -23,6 +26,7 @@ export default class CampaignsDAO {
 
     static async addCampaign(name, start, end, genre, id, platform, accountExec, campManager, clientContact, artist, song, songLink) {
         try {
+            
             const campDoc = { 
                 name: name,
                 start: start,
@@ -37,8 +41,8 @@ export default class CampaignsDAO {
                 song: song,
                 songLink: songLink
             }
-            // insert into DB (w campaign id converted to a MongoDb object ID)
-            
+
+
             return await campaigns.insertOne(campDoc)
         } catch(e) {
             console.error(`Unable to post campaign: ${e}`)
