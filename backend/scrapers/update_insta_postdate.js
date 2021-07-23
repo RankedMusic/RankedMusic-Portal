@@ -120,45 +120,46 @@ function formatPostDate(postdate_text){
     let months_array = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 
                         'Nov', 'Dec']
 
-    if(postdate_text.includes('AGO')){
-        // console.log(postdate_text)
-        // let days_ago_num = Number(postdate_text.substring(0,1))
+    if(postdate_text.includes('days')){
+        console.log(postdate_text)
+        let postdate_split = postdate_text.split(' ')
+        let days_ago_num = Number(postdate_split[0])
         
-        // let date = new Date()
-        // let date_string = date.toString()
-        // let today_date = date_string.substring(4,15)
+        let date = new Date()
+        let date_string = date.toString()
+        let today_date = date_string.substring(4,15)
         
         
-        // let split_date = today_date.split(' ')
+        let split_today_date = today_date.split(' ')
         // console.log(days_ago_num)
-        // let today_day_num = Number(split_date[1])
-        // let cur_month = split_date[0]
+        let today_day_num = Number(split_today_date[1])
+        let cur_month = split_today_date[0]
         // console.log(today_day_num)
         
         // // let cur_month = 'Jun'
-        // let cur_month_num = months_array.indexOf(cur_month)
+        let cur_month_num = months_array.indexOf(cur_month)
         // // let today_day_num = 2
         // console.log(cur_month_num)
 
-        // let post_day_num = today_day_num - days_ago_num
-        // let post_month_num = ''
-        // let post_month = ''
+        let post_day_num = today_day_num - days_ago_num
+        let post_month_num = ''
+        let post_month = ''
         // // console.log(post_day_num)
-        // if(post_day_num < 0){
+        if(post_day_num < 0){
         //     // odd_month = 31 days
         //     // even_month = 30 days
         //     // feb = 28
-        //     post_day_num = 30 + post_day_num
+            post_day_num = 30 + post_day_num
         //     console.log(post_day_num)
-        //     post_month_num = cur_month_num - 1
+            post_month_num = cur_month_num - 1
             
-        //     post_month = months_array[post_month_num]
-        // }
-        // post_month = months_array[cur_month_num]
-        // console.log('The post date is ' + post_month + ' ' + post_day_num + ' ' + post_year)
-        // let post_date = post_month + ' ' + post_day_num + ' ' + post_year
-        // return post_date
-        return 'IMPLEMENT'
+            post_month = months_array[post_month_num]
+        }
+        post_month = months_array[cur_month_num]
+        console.log('The post date is ' + post_month + ' ' + post_day_num + ' ' + post_year)
+        let post_date = post_month + ' ' + post_day_num + ' ' + post_year
+        return post_date
+        // return 'IMPLEMENT'
     }
     else{
         let postdate_split = postdate_text.split(' ')
@@ -179,5 +180,5 @@ function formatPostDate(postdate_text){
 
 }
 
-// formatPostDate('5d ago')
+// formatPostDate('5 days ago')
 
