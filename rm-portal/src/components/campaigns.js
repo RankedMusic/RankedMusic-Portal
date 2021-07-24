@@ -108,7 +108,7 @@ const Campaign = props => {
           // return <VideoBox></VideoBox>
           // console.log(video, index)
         //   console.log(influencer)
-          return <VideoBox influencer = {influencer} index = {index} setCampaign = {setCampaign} isSwitchOn={isSwitchOn} dataView={dataView} setDataView={setDataView}></VideoBox>
+          return <div className="col"><div className ='card  h-100' style={{marginBottom: ".8%"}}><VideoBox influencer = {influencer} index = {index} setCampaign = {setCampaign} isSwitchOn={isSwitchOn} dataView={dataView} setDataView={setDataView}></VideoBox></div></div>
           // console.log(videos)
           
         }
@@ -301,17 +301,19 @@ const Campaign = props => {
                                   {/* <Card.Body> */}
                                   <br></br>
                                   {/* <div className="input-group col-lg-4"> */}
+                                {/* <Container  fluid="md"> */}
                                   {/* <Row> */}
-                                    <div id="infl">
+                                    <div className="row row-cols-1 row-cols-md-3 g-4" id="infl"> 
                                     {/* <Col  xs={6}> */}
-                                    <div style={{display: 'flex', flexDirection: 'row'}}> 
+                                    {/* <div style={{display: 'flex', flexDirection: 'row'}}>  */}
                                         {influencers_map}
-                                    </div>
+                                    {/* </div> */}
                                     {/* </Col> */}
                                     {/* </div> */}
                                     
                                   </div>
                                   {/* </Row> */}
+                                {/* </Container> */}
                                   {/* </Card.Body> */}
                                   <p>Last Update: {updatedDate}</p>
                                 </div>
