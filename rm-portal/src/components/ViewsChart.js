@@ -90,29 +90,59 @@ const ViewsChart = props => {
       );
 
       const RADIAN = Math.PI / 180;
-      const render_pie_labels = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-        const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-        const x = cx + radius * Math.cos(-midAngle * RADIAN);
-        const y = cy + radius * Math.sin(-midAngle * RADIAN);
+      const render_pie_labels = ({ cx, cy, midAngle, innerRadius, outerRadius, value, color, startAngle, endAngle, percent, index }) => {
+        // const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+        // const x = cx + radius * Math.cos(-midAngle * RADIAN);
+        // const y = cy + radius * Math.sin(-midAngle * RADIAN);
+        const diffAngle = endAngle - startAngle;
+        const delta = ((360-diffAngle)/15)-1;
+        const radius = innerRadius + (outerRadius - innerRadius);
+        const x = cx + (radius+delta) * Math.cos(-midAngle * RADIAN);
+        const y = cy + (radius+(delta*delta)) * Math.sin(-midAngle * RADIAN);
       
         return (
-          <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central">
+          <text x={x} y={y} fill="white" textAnchor={x > cx ? "start" : "end"} dominantBaseline="central" fontWeight="normal">
             {`${(percent * 100).toFixed(0)}%`}
+            {/* {data[index].name} ({value}) */}
           </text>
         );
       };
+      const renderCustomizedLabelLine = (props) =>{
+        let { cx, cy, midAngle, innerRadius, outerRadius, color, startAngle, endAngle } = props;
+        const RADIAN = Math.PI / 180;
+        const diffAngle = endAngle - startAngle;
+        const radius = innerRadius + (outerRadius - innerRadius);
+        let path='';
+        for(let i=0;i<((360-diffAngle)/15);i++){
+          path += `${(cx + (radius+i) * Math.cos(-midAngle * RADIAN))},${(cy + (radius+i*i) * Math.sin(-midAngle * RADIAN))} `
+        }
+        return (
+          <polyline points={path} stroke={color} fill="none" />
+        );
+      }
+      const CustomTooltip = ({ active, payload, label }) => {
+        if (active) {
+            return (
+                <div className="custom-tooltip" style={{ backgroundColor: '#ffff', padding: '5px', border: '1px solid #cccc' }}>
+                    <label>{`${payload[0].name} : ${payload[0].value}%`}</label>
+                </div>
+            );
+        }
 
+        return null;
+    };
     const renderPieChart = (
         // <ResponsiveContainer width="6250%" height="3125%">
         // historical_views = [{views: 100, user: 'kyle'},{views: 200},{views: 400}]
-        <PieChart width={1000} height={500} label = {render_pie_labels}>
+        <PieChart width={1000} height={500} >
+              <Tooltip content={<CustomTooltip />} />
               <Legend align="right" verticalAlign="middle" height={36} layout="vertical" />
 
-            <Pie data={influencer_views} dataKey='views' legendType='square' outerRadius={200} label = {render_pie_labels}>
+            <Pie data={influencer_views} color="#000000" dataKey='views' legendType='square' outerRadius={200} label fill="#f40060">
               {data.map((entry, index) => (
                 
-                <Cell key={`cell-${entry}`} fill={colors[index % colors.length]} label = {render_pie_labels}/>
-              ))}
+                <Cell key={`cell-${entry}`} fill={colors[index % colors.length]} label = {render_pie_labels} labelLine={renderCustomizedLabelLine}/>
+                ))}
             </Pie>
             
             {/* <CartesianGrid stroke="#ccc" strokeDasharray="5 5" /> */}
