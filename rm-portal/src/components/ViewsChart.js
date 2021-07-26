@@ -3,10 +3,14 @@ import React, { useState, useEffect } from "react";
 import CampaignDataService from "../services/campaign";
 import Card from 'react-bootstrap/Card'
 import { Form, Row, Col, Tab, Tabs, Nav, FormControl, Button, Table, FormCheck, OverlayTrigger, Popover} from 'react-bootstrap';
+import { ResponsivePieCanvas } from '@nivo/pie'
+import { ResponsivePie } from '@nivo/pie'
+import { animated } from '@react-spring/web'
+
 
 const ViewsChart = props => {
     const [historical_views, setHistoricalViews] = useState(null)
-    const [influencer_views, setInfluencerViews] = useState(null)
+    const [influencer_views, setInfluencerViews] = useState([])
     const data = [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}];
     // const infData = [{username_string:'tuckercomedy', views_string: 100}, {username_string:'oficialdankhumor', views_string: 6824}, {username_string:'tuckercomedy', views_string: 100}];
     
@@ -36,7 +40,7 @@ const ViewsChart = props => {
             
             let views = influencers_array[i].views_num
             // console.log('Username for pie chart is ' + only_username + ' and has ' + views + ' views')
-            influencer_views_array.push({name: username_string, views: views})
+            influencer_views_array.push({id: username_string, value: views})
             // let new_object = {username: username, }
           }
           // NOTE: influencer_views_array is an array of objects of the form [{username: 'name', views: 324}, ...]
@@ -52,7 +56,10 @@ const ViewsChart = props => {
           console.log(e)
       })
   };
-    const colors = ["#f40060","#830056","#3f0350","#26004f","#7cbf3e","#d6de35", "blue", "green", "yellow"]
+    const colorsPallete = ["#f40060","#E1005E","#CF005D","#BC005B","#A9005A","#960058","#840057","#710055","#5E0054","#4B0052","#390051","#26004F"]
+    const colorsPallete2 = ["#F40060","#E9115D","#DE235A","#D33457","#C84554","#BD5751","#B3684D","#A87A4A","#9D8B47","#929C44","#87AE41","#7CBF3E"]
+    const colorsPallete3 = ["#6200F5","#8C00F5","#B600F5","#E000F5","#F500E0","#F500B6","#F5008C","#FF67A4","#FF7AAF","#F40060","#D10075","#C00080","#AE008B","#9D0095","#7A00AB"]
+
     const totHistViewsPopover = (
       <Popover id="popover-basic">
         <Popover.Title as="h3">Total Historical Views</Popover.Title>
@@ -131,29 +138,151 @@ const ViewsChart = props => {
 
         return null;
     };
-    const renderPieChart = (
-        // <ResponsiveContainer width="6250%" height="3125%">
-        // historical_views = [{views: 100, user: 'kyle'},{views: 200},{views: 400}]
-        <PieChart width={1000} height={500} >
-              <Tooltip content={<CustomTooltip />} />
-              <Legend align="right" verticalAlign="middle" height={36} layout="vertical" />
+    // const renderPieChart = (
+    //     // <ResponsiveContainer width="6250%" height="3125%">
+    //     // historical_views = [{views: 100, user: 'kyle'},{views: 200},{views: 400}]
+    //     <PieChart width={1000} height={500} >
+    //           <Tooltip content={<CustomTooltip />} />
+    //           <Legend align="right" verticalAlign="middle" height={36} layout="vertical" />
 
-            <Pie data={influencer_views} color="#000000" dataKey='views' legendType='square' outerRadius={200} label fill="#f40060">
-              {data.map((entry, index) => (
+    //         <Pie data={influencer_views} color="#000000" dataKey='views' legendType='square' outerRadius={200} paddingAngle={3} label fill="#f40060">
+    //           {data.map((entry, index) => (
                 
-                <Cell key={`cell-${entry}`} fill={colors[index % colors.length]} label = {render_pie_labels} labelLine={renderCustomizedLabelLine}/>
-                ))}
-            </Pie>
+    //             <Cell key={`cell-${entry}`} fill={colors[index % colors.length]} label = {render_pie_labels} labelLine={renderCustomizedLabelLine}/>
+    //             ))}
+    //         </Pie>
             
-            {/* <CartesianGrid stroke="#ccc" strokeDasharray="5 5" /> */}
+    //         {/* <CartesianGrid stroke="#ccc" strokeDasharray="5 5" /> */}
             
-            <Tooltip />
-          </PieChart>
+    //         <Tooltip />
+    //       </PieChart>
           
 
-        // </ResponsiveContainer>
+    //     // </ResponsiveContainer>
 
-    );
+    // );
+
+    // *****Value in center of pie******
+  //   const CenteredMetric = ({ centerX, centerY }) => {
+  //     let total = 0
+  //     influencer_views.forEach(datum => {
+  //         total += datum.value
+  //     })
+  //     return (
+  //         <text
+  //             x={centerX}
+  //             y={centerY}
+  //             textAnchor="middle"
+  //             dominantBaseline="central"
+  //             style={{
+  //                 fontSize: '40px',
+  //                 fontWeight: 600,
+  //             }}
+  //         >
+  //             {total}
+  //             {/* 1000 */}
+  //         </text>
+  //     )
+  // }
+    const renderPieChart = (
+      <div style={{height: 650}}>
+      <ResponsivePie
+          data={ influencer_views }
+          // width={1000} 
+          // height={500}
+          id={influencer_views.id}
+          value={influencer_views.value}
+          margin={{ top: 40, right: 200, bottom: 40, left: 80 }}
+          innerRadius={0.45}
+          arcLabelsRadiusOffset={0.55}
+          motionConfig= 'gentle'
+          padAngle={0.8}
+          cornerRadius={5}
+          activeOuterRadiusOffset={8}
+          // colors={{ scheme: 'pink_yellowGreen' }}
+          // colors={{ scheme: 'red_purple' }}
+          // colors={ colorsPallete }
+          // colors={ colorsPallete2 }
+          colors={ colorsPallete3 }
+          arcLinkLabelsOffset={2}
+          borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.6 ] ] }}
+          arcLinkLabelsSkipAngle={3}
+          arcLinkLabelsTextColor="#333333"
+          arcLinkLabelsThickness={2}
+          // ******Divide value from total and add %
+          arcLinkLabel={d => `${d.id}: ${d.value}`}
+          arcLinkLabelsColor={{ from: 'color' }}
+          arcLabelsSkipAngle={10}        
+          arcLabelsRadiusOffset={0.70}
+          arcLinkLabelsDiagonalLength={25}
+          arcLinkLabelsTextOffset={8}
+          arcLinkLabelsStraightLength={35}
+          arcLabelsTextColor="#333333"
+          activeInnerRadiusOffset={8}
+        // layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}
+        // Make icon colors associated w pie
+        arcLabelsComponent={({ datum, label, style }) => (
+          <animated.g transform={style.transform} style={{ pointerEvents: 'none' }}>
+              <circle fill={style.textColor} cy={6} r={15} />
+              <circle fill="#242424" stroke={datum.color} strokeWidth={2} r={16} />
+              <text
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  fill={"white"}
+                  style={{
+                      fontSize: 10,
+                      fontWeight: 800,
+                  }}
+              >
+                  {label}
+              </text>
+          </animated.g>
+      )}
+          defs={[
+              {
+                  id: 'dots',
+                  type: 'patternDots',
+                  background: 'inherit',
+                  color: 'rgba(255, 255, 255, 0.3)',
+                  size: 4,
+                  padding: 1,
+                  stagger: true
+              },
+              {
+                  value: 'lines',
+                  type: 'patternLines',
+                  background: 'inherit',
+                  color: 'rgba(255, 255, 255, 0.3)',
+                  rotation: -45,
+                  lineWidth: 6,
+                  spacing: 10
+              }
+          ]}
+          fill={[
+            { match: d => d.value > 10, id: 'squares' },
+            { match: influencer_views => influencer_views.id === "oscarinking", id: 'lines' }
+          ]}
+          legends={[
+              {
+                  anchor: 'right',
+                  direction: 'column',
+                  justify: false,
+                  translateX: 140,
+                  translateY: 0,
+                  itemsSpacing: 2,
+                  itemWidth: 60,
+                  itemHeight: 20,
+                  itemTextColor: '#999',
+                  itemDirection: 'left-to-right',
+                  itemOpacity: 1,
+                  itemsSpacing: 10,
+                  symbolSize: 20,
+                  symbolShape: 'circle'
+              }
+          ]}
+      />
+      </div>
+  );
 
     return(
       <div>
@@ -190,8 +319,12 @@ const ViewsChart = props => {
               </OverlayTrigger>
             </Card.Header>
             <Card.Body>
-
-            {renderPieChart}
+              
+                {renderPieChart}
+              
+              
+              
+            
 
             </Card.Body>
 
