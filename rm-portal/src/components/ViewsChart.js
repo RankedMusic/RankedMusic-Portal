@@ -2,11 +2,12 @@ import { LineChart, Line, CartesianGrid, XAxis, YAxis, Legend, Tooltip, Responsi
 import React, { useState, useEffect } from "react";
 import CampaignDataService from "../services/campaign";
 import Card from 'react-bootstrap/Card'
-import { Form, Row, Col, Tab, Tabs, Nav, FormControl, Button, Table, FormCheck, OverlayTrigger, Popover} from 'react-bootstrap';
+import { Form, Row, Col, Tab, Alert, Tabs, Nav, Toast, FormControl, Button, Table, FormCheck, OverlayTrigger, Popover} from 'react-bootstrap';
 import { ResponsivePieCanvas } from '@nivo/pie'
 import { ResponsivePie } from '@nivo/pie'
 import { animated } from '@react-spring/web'
-
+import ContentLoader from 'react-content-loader'
+// import ToastContainer from 'react-bootstrap/ToastContainer'
 
 const ViewsChart = props => {
     const [historical_views, setHistoricalViews] = useState(null)
@@ -83,17 +84,43 @@ const ViewsChart = props => {
         //   only will get called if id is updated
       }, [props.campaign_id]);
   
+      const [showAlert, setShowAlert] = useState(true);
+      const toggleShowAlert = () => setShowAlert(!showAlert);
+
     const renderLineChart = (
-      // <div>
-        <LineChart width={1000} height={500} data={historical_views} margin={{ top: 5, right: 20, bottom: 5, left: 20 }}>
-          <Legend verticalAlign="top" height={36} layout="vertical" />
-          <Line type="monotone" dataKey="views" stroke="#8884d8" />
-          <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-          <XAxis dataKey="date" />
-          <YAxis />
-          <Tooltip />
-        </LineChart>
-      // </div> 
+      <div>
+        { historical_views>0 ? (
+          <LineChart width={1000} height={500} data={historical_views} margin={{ top: 5, right: 20, bottom: 5, left: 20 }}>
+                    <Legend verticalAlign="top" height={36} layout="vertical" />
+                    <Line type="monotone" dataKey="views" stroke="#8884d8" />
+                    <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                  </LineChart>
+        ) : (
+            <div className="text-center" style={{marginTop:"-10%"}}>
+              {/* <ToastContainer> */}
+                <Toast  className="p-3" position="top-right"show={showAlert} bg="Secondary" onClose={toggleShowAlert} animation={true}>
+                  <Toast.Header>
+                    <img src="../rmLogo.png" className="rounded-circle me-2" width="15%" />
+                    <strong className="me-auto">Error</strong>
+                    <small>Now</small>
+                  </Toast.Header>
+                  <Toast.Body>Trouble loading historical data. Historical data required.</Toast.Body>
+                </Toast>
+              {/* </ToastContainer> */}
+                <ContentLoader width={300} height={300} speed={3} backgroundColor={'#f40060'} foregroundColor={'#3f0350'} viewBox="0 0 200 200" {...props}>
+                  <rect x="0" y="160" rx="0" ry="0" width="25" height="40" />
+                  <rect x="30" y="145" rx="0" ry="0" width="25" height="55" />
+                  <rect x="60" y="126" rx="0" ry="0" width="25" height="74" />
+                  <rect x="90" y="80" rx="0" ry="0" width="25" height="120" />
+                  <rect x="120" y="142" rx="0" ry="0" width="25" height="58" />
+                </ContentLoader>
+            </div>
+        )}
+        
+      </div> 
       );
 
       const RADIAN = Math.PI / 180;

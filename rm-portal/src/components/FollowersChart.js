@@ -3,10 +3,14 @@ import React, { useState, useEffect } from "react";
 import CampaignDataService from "../services/campaign";
 import Card from 'react-bootstrap/Card'
 import { Form, Row, Col, Tab, Tabs, Nav, FormControl, Button, Table, FormCheck, OverlayTrigger, Popover} from 'react-bootstrap';
+import { ResponsivePieCanvas } from '@nivo/pie'
+import { ResponsivePie } from '@nivo/pie'
+import { animated } from '@react-spring/web'
+import ContentLoader from 'react-content-loader'
 
 const FollowersChart = props => {
     const [historical_followers, setHistoricalFollowers] = useState(null)
-    const [influencer_followers, setInfluencerFollowers] = useState(null)
+    const [influencer_followers, setInfluencerFollowers] = useState([])
     const data = [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}];
     
     const gather_historical_followers = () => {        
@@ -33,9 +37,9 @@ const FollowersChart = props => {
            
             let followers = influencers_array[i].num_followers
             // console.log('Username for pie chart is ' + only_username + ' and has ' + followers + ' followers')
-            influencer_followers_array.push({name: username_string, followers: followers})
+            influencer_followers_array.push({id: username_string, value: followers})
           }
-          // NOTE: influencer_views_array is an array of objects of the form [{username: 'name', followers: 324}, ...]
+          // NOTE: influencer_followers_array is an array of objects of the form [{username: 'name', followers: 324}, ...]
           // console.log(influencer_followers_array)
           setInfluencerFollowers(influencer_followers_array)
       })
@@ -43,7 +47,7 @@ const FollowersChart = props => {
           console.log(e)
       })
   };
-    const colors = ["#f40060","#830056","#3f0350","#26004f","#7cbf3e","#d6de35", "blue", "green", "yellow"]
+    const colorsPallete3 = ["#6200F5","#8C00F5","#B600F5","#E000F5","#F500E0","#F500B6","#F5008C","#FF67A4","#FF7AAF","#F40060","#D10075","#C00080","#AE008B","#9D0095","#7A00AB"]
     const totHistFollowersPopover = (
       <Popover id="popover-basic">
         <Popover.Title as="h3">Total Historical Followers</Popover.Title>
@@ -68,7 +72,8 @@ const FollowersChart = props => {
       }, [props.campaign_id]);
   
     const renderLineChart = (
-      // <div>
+    <div>
+      { historical_followers>0 ? (
         <LineChart width={1000} height={500} data={historical_followers} margin={{ top: 5, right: 20, bottom: 5, left: 20 }}>
           <Legend verticalAlign="top" height={36} layout="vertical" />
           <Line type="monotone" dataKey="followers" stroke="#8884d8" />
@@ -77,7 +82,19 @@ const FollowersChart = props => {
           <YAxis />
           <Tooltip />
         </LineChart>
-      // </div> 
+    ) : (
+      <div className="text-center" style={{marginTop:"-10%"}}>
+          <ContentLoader width={300} height={300} speed={3} backgroundColor={'#f40060'} foregroundColor={'#3f0350'} viewBox="0 0 200 200" {...props}>
+            <rect x="0" y="160" rx="0" ry="0" width="25" height="40" />
+            <rect x="30" y="145" rx="0" ry="0" width="25" height="55" />
+            <rect x="60" y="126" rx="0" ry="0" width="25" height="74" />
+            <rect x="90" y="80" rx="0" ry="0" width="25" height="120" />
+            <rect x="120" y="142" rx="0" ry="0" width="25" height="58" />
+          </ContentLoader>
+      </div>
+    )}
+
+    </div> 
       );
 
       const RADIAN = Math.PI / 180;
@@ -94,15 +111,103 @@ const FollowersChart = props => {
       };
 
     const renderPieChart = (
-        <PieChart width={1000} height={500} label = {render_pie_labels}>
-              <Legend align="right" verticalAlign="middle" height={36} layout="vertical" />
-            <Pie data={influencer_followers} dataKey='followers' legendType='square' outerRadius={200} label = {render_pie_labels}>
-              {data.map((entry, index) => (
-                <Cell key={`cell-${entry}`} fill={colors[index % colors.length]} label = {render_pie_labels}/>
-              ))}
-            </Pie>
-            <Tooltip />
-          </PieChart>
+      <div style={{height: 650}}>
+      <ResponsivePie
+          data={ influencer_followers }
+          // width={1000} 
+          // height={500}
+          id={influencer_followers.id}
+          value={influencer_followers.value}
+          margin={{ top: 40, right: 200, bottom: 40, left: 80 }}
+          innerRadius={0.45}
+          arcLabelsRadiusOffset={0.55}
+          motionConfig= 'gentle'
+          padAngle={0.8}
+          cornerRadius={5}
+          activeOuterRadiusOffset={8}
+          // colors={{ scheme: 'pink_yellowGreen' }}
+          // colors={{ scheme: 'red_purple' }}
+          // colors={ colorsPallete }
+          // colors={ colorsPallete2 }
+          colors={ colorsPallete3 }
+          arcLinkLabelsOffset={2}
+          borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.6 ] ] }}
+          arcLinkLabelsSkipAngle={3}
+          arcLinkLabelsTextColor="#333333"
+          arcLinkLabelsThickness={2}
+          // ******Divide value from total and add %
+          arcLinkLabel={d => `${d.id}: ${d.value}`}
+          arcLinkLabelsColor={{ from: 'color' }}
+          arcLabelsSkipAngle={10}        
+          arcLabelsRadiusOffset={0.70}
+          arcLinkLabelsDiagonalLength={25}
+          arcLinkLabelsTextOffset={8}
+          arcLinkLabelsStraightLength={35}
+          arcLabelsTextColor="#333333"
+          activeInnerRadiusOffset={8}
+        // layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}
+        // Make icon colors associated w pie
+        arcLabelsComponent={({ datum, label, style }) => (
+          <animated.g transform={style.transform} style={{ pointerEvents: 'none' }}>
+              <circle fill={style.textColor} cy={6} r={15} />
+              <circle fill="#242424" stroke={datum.color} strokeWidth={2} r={16} />
+              <text
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  fill={"white"}
+                  style={{
+                      fontSize: 10,
+                      fontWeight: 800,
+                  }}
+              >
+                  {label}
+              </text>
+          </animated.g>
+      )}
+          defs={[
+              {
+                  id: 'dots',
+                  type: 'patternDots',
+                  background: 'inherit',
+                  color: 'rgba(255, 255, 255, 0.3)',
+                  size: 4,
+                  padding: 1,
+                  stagger: true
+              },
+              {
+                  value: 'lines',
+                  type: 'patternLines',
+                  background: 'inherit',
+                  color: 'rgba(255, 255, 255, 0.3)',
+                  rotation: -45,
+                  lineWidth: 6,
+                  spacing: 10
+              }
+          ]}
+          fill={[
+            { match: d => d.value > 10, id: 'squares' },
+            { match: influencer_followers => influencer_followers.id === "oscarinking", id: 'lines' }
+          ]}
+          legends={[
+              {
+                  anchor: 'right',
+                  direction: 'column',
+                  justify: false,
+                  translateX: 140,
+                  translateY: 0,
+                  itemsSpacing: 2,
+                  itemWidth: 60,
+                  itemHeight: 20,
+                  itemTextColor: '#999',
+                  itemDirection: 'left-to-right',
+                  itemOpacity: 1,
+                  itemsSpacing: 10,
+                  symbolSize: 20,
+                  symbolShape: 'circle'
+              }
+          ]}
+      />
+      </div>
     );
 
     return(
