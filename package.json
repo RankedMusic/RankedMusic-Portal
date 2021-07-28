@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "bootstrap-switch-button-react": "^1.2.0"
+    "bootstrap-switch-button-react": "^1.2.0",
+    "cogo-toast": "^4.2.3"
   }
 }

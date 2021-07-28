@@ -7,6 +7,8 @@ import { ResponsivePieCanvas } from '@nivo/pie'
 import { ResponsivePie } from '@nivo/pie'
 import { animated } from '@react-spring/web'
 import ContentLoader from 'react-content-loader'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const FollowersChart = props => {
     const [historical_followers, setHistoricalFollowers] = useState(null)
@@ -48,6 +50,59 @@ const FollowersChart = props => {
       })
   };
     const colorsPallete3 = ["#6200F5","#8C00F5","#B600F5","#E000F5","#F500E0","#F500B6","#F5008C","#FF67A4","#FF7AAF","#F40060","#D10075","#C00080","#AE008B","#9D0095","#7A00AB"]
+    const toastId = React.useRef(null);
+    const ErrorMsg = ({ closeToast, toastProps }) => (
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+        </svg> 
+        <div style={{display:"inline", paddingLeft:"3%"}}>
+          <strong>Error:</strong> Historical <strong>followers</strong> data required
+        </div>
+      </div>
+    )
+    const SuccessMsg = ({ closeToast, toastProps }) => (
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </svg>
+        <div style={{display:"inline", paddingLeft:"3%"}}>
+          <strong>Success:</strong> Historical <strong>followers</strong> data loaded
+        </div>
+      </div>
+    )
+    const followId = "f1";
+    const showError = () =>{
+      if (historical_followers>0) {
+          toast.success(<SuccessMsg />, {
+            delay: 3000,
+            toastId: followId,
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });
+      }
+      else {
+        toast.error(
+            <ErrorMsg />,
+          {
+          // delay: 2000,
+          delay: 3000,
+          toastId: followId,
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
+      }
+    }
     const totHistFollowersPopover = (
       <Popover id="popover-basic">
         <Popover.Title as="h3">Total Historical Followers</Popover.Title>
@@ -212,6 +267,17 @@ const FollowersChart = props => {
 
     return(
       <div>
+        <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        />
         <div className="lineFollowers">
           <Card>
             <Card.Header style={{fontWeight:"bold", color:"#f40060" }}>

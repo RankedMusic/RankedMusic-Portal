@@ -7,7 +7,9 @@ import { ResponsivePieCanvas } from '@nivo/pie'
 import { ResponsivePie } from '@nivo/pie'
 import { animated } from '@react-spring/web'
 import ContentLoader from 'react-content-loader'
-// import ToastContainer from 'react-bootstrap/ToastContainer'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const ViewsChart = props => {
     const [historical_views, setHistoricalViews] = useState(null)
@@ -60,7 +62,58 @@ const ViewsChart = props => {
     const colorsPallete = ["#f40060","#E1005E","#CF005D","#BC005B","#A9005A","#960058","#840057","#710055","#5E0054","#4B0052","#390051","#26004F"]
     const colorsPallete2 = ["#F40060","#E9115D","#DE235A","#D33457","#C84554","#BD5751","#B3684D","#A87A4A","#9D8B47","#929C44","#87AE41","#7CBF3E"]
     const colorsPallete3 = ["#6200F5","#8C00F5","#B600F5","#E000F5","#F500E0","#F500B6","#F5008C","#FF67A4","#FF7AAF","#F40060","#D10075","#C00080","#AE008B","#9D0095","#7A00AB"]
-
+    // const notify = () => toast('Here is your toast.');
+    const toastId = React.useRef(null);
+    const ErrorMsg = ({ closeToast, toastProps }) => (
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+        </svg> 
+        <div style={{display:"inline", paddingLeft:"3%"}}>
+        <strong>Error:</strong> Historical <strong>views</strong> data required
+        </div>
+      </div>
+    )
+    const SuccessMsg = ({ closeToast, toastProps }) => (
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </svg>
+        <div style={{display:"inline", paddingLeft:"3%"}}>
+        <strong>Success:</strong> Historical <strong>views</strong> data loaded
+        </div>
+      </div>
+    )
+    const viewsId = "v1";
+    const showError = () =>{
+      if (historical_views>0) {
+        toast.success(<SuccessMsg />, {
+          toastId: viewsId,
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });
+      }
+      else {
+        toast.error(
+            <ErrorMsg />,
+          {
+          // delay: 2000,
+          toastId: viewsId,
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
+      }
+    }
     const totHistViewsPopover = (
       <Popover id="popover-basic">
         <Popover.Title as="h3">Total Historical Views</Popover.Title>
@@ -81,17 +134,17 @@ const ViewsChart = props => {
         //   console.log(props.match.params.id)
           gather_historical_views();
           gather_influencer_views();
+          showError();
         //   only will get called if id is updated
       }, [props.campaign_id]);
   
       const [showAlert, setShowAlert] = useState(true);
       const toggleShowAlert = () => setShowAlert(!showAlert);
-
     const renderLineChart = (
       <div>
         { historical_views>0 ? (
           <LineChart width={1000} height={500} data={historical_views} margin={{ top: 5, right: 20, bottom: 5, left: 20 }}>
-                    <Legend verticalAlign="top" height={36} layout="vertical" />
+                    <Legend verticalAlign="top" height={36} layout="vertical"/>
                     <Line type="monotone" dataKey="views" stroke="#8884d8" />
                     <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
                     <XAxis dataKey="date" />
@@ -101,14 +154,16 @@ const ViewsChart = props => {
         ) : (
             <div className="text-center" style={{marginTop:"-10%"}}>
               {/* <ToastContainer> */}
-                <Toast  className="p-3" position="top-right"show={showAlert} bg="Secondary" onClose={toggleShowAlert} animation={true}>
+                {/* <Toast style={{float:"right", marginTop:"10%"}} position="top-right"show={showAlert} bg="Secondary" onClose={toggleShowAlert} animation={true}>
                   <Toast.Header>
                     <img src="../rmLogo.png" className="rounded-circle me-2" width="15%" />
                     <strong className="me-auto">Error</strong>
                     <small>Now</small>
                   </Toast.Header>
                   <Toast.Body>Trouble loading historical data. Historical data required.</Toast.Body>
-                </Toast>
+                </Toast> */}
+                
+                {/* <cogoToast.info("This is an info message", { position: 'top-center', heading: 'Information' }) /> */}
               {/* </ToastContainer> */}
                 <ContentLoader width={300} height={300} speed={3} backgroundColor={'#f40060'} foregroundColor={'#3f0350'} viewBox="0 0 200 200" {...props}>
                   <rect x="0" y="160" rx="0" ry="0" width="25" height="40" />
@@ -313,6 +368,19 @@ const ViewsChart = props => {
 
     return(
       <div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        />
+      {/* </div>
+      <div> */}
         <div className="lineViews">
           <Card>
             <Card.Header style={{fontWeight:"bold", color:"#f40060" }}>
