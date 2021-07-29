@@ -93,9 +93,9 @@ useEffect(() => {
     return (
         <div>
         {changeView ?(
-        <Col style={{padding:"6%"}}>
+        // <Col style={{padding:"6%"}}>
         <div>
-            <div className ='card' style={{marginBottom: ".8%", height:"250px"}}>
+            
                 <div className="" key={props.index}>
                 
                     <div className="card-body">
@@ -122,14 +122,14 @@ useEffect(() => {
                             </Col>
                             </Row>
                     </div>
-                </div>
+                {/* </div> */}
             </div>
         </div>
-        </Col>
+        // </Col>
                 ) : (
 
                     
-                    <div key={props.index} style={{marginBottom: "-1.3%"}}>
+                    <div key={props.index} style={{marginBottom: "-1.5%"}}>
                                     
                     <Table bordered hover>
                     {/* <thead>

@@ -1,9 +1,13 @@
 {
   "dependencies": {
     "bootstrap-switch-button-react": "^1.2.0",
+<<<<<<< HEAD
     "mongodb": "^4.0.1",
     "puppeteer-extra": "^3.1.18",
     "puppeteer-extra-plugin-stealth": "^2.7.8",
     "request-promise": "^4.2.6"
+=======
+    "cogo-toast": "^4.2.3"
+>>>>>>> 2f2e3366add13ba76d6c60a333d2b1b3afc50064
   }
 }
