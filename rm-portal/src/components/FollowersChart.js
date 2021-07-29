@@ -267,7 +267,7 @@ const FollowersChart = props => {
 
     return(
       <div>
-        <ToastContainer
+        {/* <ToastContainer
         position="top-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -277,7 +277,7 @@ const FollowersChart = props => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        />
+        /> */}
         <div className="lineFollowers">
           <Card>
             <Card.Header style={{fontWeight:"bold", color:"#f40060" }}>

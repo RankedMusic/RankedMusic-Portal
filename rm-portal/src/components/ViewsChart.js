@@ -14,6 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const ViewsChart = props => {
     const [historical_views, setHistoricalViews] = useState(null)
     const [influencer_views, setInfluencerViews] = useState([])
+    const [influencer_views_percent, setInfluencerViewsPercent] = useState([])
     const data = [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}];
     // const infData = [{username_string:'tuckercomedy', views_string: 100}, {username_string:'oficialdankhumor', views_string: 6824}, {username_string:'tuckercomedy', views_string: 100}];
     
@@ -29,6 +30,7 @@ const ViewsChart = props => {
             console.log(e)
         })
     };
+    let sumViews = 0
     const gather_influencer_views = () => {
       // [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}]
       
@@ -42,6 +44,7 @@ const ViewsChart = props => {
             
             
             let views = influencers_array[i].views_num
+            sumViews+=views
             // console.log('Username for pie chart is ' + only_username + ' and has ' + views + ' views')
             influencer_views_array.push({id: username_string, value: views})
             // let new_object = {username: username, }
@@ -59,6 +62,26 @@ const ViewsChart = props => {
           console.log(e)
       })
   };
+  const gather_influencer_views_percent = () => {
+    CampaignDataService.get(props.campaign_id)
+    .then(response => {
+        let influencers_array = response.data.influencers
+        let influencer_views_percent_array = []
+        for(let i = 0; i < influencers_array.length; i = i + 1){
+          let username_string = influencers_array[i].username_string
+          let viewsNum = influencers_array[i].views_num/sumViews*100
+          let views = viewsNum.toFixed(2); //convert number to string
+          // let result = viewsStr.substring(0,2)  // cut six first character
+          // let views = parseInt(result);
+          influencer_views_percent_array.push({id: username_string, value: views})
+        }
+        setInfluencerViewsPercent(influencer_views_percent_array)
+    })
+    .catch(e => {
+        console.log(e)
+    })
+};
+console.log(influencer_views_percent)
     const colorsPallete = ["#f40060","#E1005E","#CF005D","#BC005B","#A9005A","#960058","#840057","#710055","#5E0054","#4B0052","#390051","#26004F"]
     const colorsPallete2 = ["#F40060","#E9115D","#DE235A","#D33457","#C84554","#BD5751","#B3684D","#A87A4A","#9D8B47","#929C44","#87AE41","#7CBF3E"]
     const colorsPallete3 = ["#6200F5","#8C00F5","#B600F5","#E000F5","#F500E0","#F500B6","#F5008C","#FF67A4","#FF7AAF","#F40060","#D10075","#C00080","#AE008B","#9D0095","#7A00AB"]
@@ -70,7 +93,7 @@ const ViewsChart = props => {
           <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
         </svg> 
         <div style={{display:"inline", paddingLeft:"3%"}}>
-        <strong>Error:</strong> Historical <strong>views</strong> data required
+        Error: <u><strong>Historical data</strong></u> required
         </div>
       </div>
     )
@@ -80,7 +103,7 @@ const ViewsChart = props => {
           <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
         </svg>
         <div style={{display:"inline", paddingLeft:"3%"}}>
-        <strong>Success:</strong> Historical <strong>views</strong> data loaded
+          Success: <u><strong>Historical data</strong></u> loaded
         </div>
       </div>
     )
@@ -135,6 +158,7 @@ const ViewsChart = props => {
           gather_historical_views();
           gather_influencer_views();
           showError();
+          gather_influencer_views_percent();
         //   only will get called if id is updated
       }, [props.campaign_id]);
   
@@ -264,16 +288,16 @@ const ViewsChart = props => {
   //             {total}
   //             {/* 1000 */}
   //         </text>
-  //     )
+  //     ) 
   // }
     const renderPieChart = (
       <div style={{height: 650}}>
       <ResponsivePie
-          data={ influencer_views }
+          data={ influencer_views_percent }
           // width={1000} 
           // height={500}
-          id={influencer_views.id}
-          value={influencer_views.value}
+          id={influencer_views_percent.id}
+          value={influencer_views_percent.value}
           margin={{ top: 40, right: 200, bottom: 40, left: 80 }}
           innerRadius={0.45}
           arcLabelsRadiusOffset={0.55}
@@ -291,8 +315,8 @@ const ViewsChart = props => {
           arcLinkLabelsSkipAngle={3}
           arcLinkLabelsTextColor="#333333"
           arcLinkLabelsThickness={2}
-          // ******Divide value from total and add %
-          arcLinkLabel={d => `${d.id}: ${d.value}`}
+          // ******fix % on tooltip hover + add actual value on tooltip
+          arcLinkLabel={d => `${d.id}: ${d.value}%`}
           arcLinkLabelsColor={{ from: 'color' }}
           arcLabelsSkipAngle={10}        
           arcLabelsRadiusOffset={0.70}
@@ -316,7 +340,7 @@ const ViewsChart = props => {
                       fontWeight: 800,
                   }}
               >
-                  {label}
+                  {label}%
               </text>
           </animated.g>
       )}
