@@ -87,7 +87,7 @@ async function getViewsFromArray(influencers, client, links_array){
                 { influencer: single_video_url},
                 { $set: date_updated_views_object}
             )
-            await sleep(10000);
+            await sleep(5000);
         }
         else{
 
@@ -97,6 +97,7 @@ async function getViewsFromArray(influencers, client, links_array){
             console.log('')
         }
     }
+    console.log('And that\'s the end')
 }
 
 const get_Num_Views = async (video_url, profile_url) => {

@@ -8,11 +8,20 @@ async function main() {
     const uri = "mongodb+srv://machadorm:rankedthiago@cluster0.mlbwz.mongodb.net/campaign_DB?retryWrites=true&w=majority";
     const client = new MongoClient(uri);
     try {
+        
         await client.connect();
-        let insta_links_array_object = await client.db("campaign_DB").collection('insta_links_array').findOne({name: 'insta_links_array'});
+        let cl_args_array = process.argv
+        let link_args_array = []
+        
+        for(let i = 0; i < cl_args_array.length; i = i + 1){
+            // console.log(i)
+            if(i > 1){
+                link_args_array.push(cl_args_array[i])
+            }
+        }
         let influencers = await client.db("campaign_DB").collection('influencers');
-        let insta_links_array = insta_links_array_object.insta_links_array
-        await getCommentsFromArray(influencers, client, insta_links_array)
+        console.log(link_args_array)
+        await getCommentsFromArray(influencers, client, link_args_array)
 
     } catch (e) {
         console.error(e);
@@ -234,7 +243,11 @@ const getXPath = async(page, video_url, iteration_counter) => {
     
    
 }
-get_insta_comments("https://www.instagram.com/reel/CRRnoGsFhAY/?utm_medium=copy_link", "https://www.instagram.com/jeanca.milo/")
+//Call to test three tabs instead of 4
+// get_insta_comments("https://www.instagram.com/reel/CRRnoGsFhAY/?utm_medium=copy_link", "https://www.instagram.com/jeanca.milo/")
+
+//Call to test commas in number yanno
+// get_insta_comments("https://www.instagram.com/reel/CRRnoGsFhAY/?utm_medium=copy_link", "https://www.instagram.com/jeanca.milo/")
 
 
 

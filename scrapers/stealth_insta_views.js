@@ -1,9 +1,8 @@
 // Run this file to update instagram reels views
-import puppeteer from 'puppeteer'
-// const { chromium } = require('playwright')
-// import CaptchaSolver from 'tiktok-captcha-solver'
+const puppeteer = require('puppeteer')
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 
-import mongodb from "mongodb"
+const mongodb = require("mongodb")
 const MongoClient = mongodb.MongoClient
 
 // console.log('hello')
@@ -45,8 +44,6 @@ main().catch(console.error);
 
 
 const getViewsFromArray = async (influencers, client, insta_links_array) => {
-    let finished_all = true
-    let index_stopped = 0
     for(let i = 0; i < insta_links_array.length; i = i + 1){
         
         let influencer = await influencers.findOne({influencer: insta_links_array[i]})
@@ -81,27 +78,15 @@ const getViewsFromArray = async (influencers, client, insta_links_array) => {
             await sleep(10000);
         }
         else{
-            index_stopped = i
-            finished_all = false
-            console.log('If you were redirected to the login page then switch to hot spot and switch back')
-            break;
-            
+            console.log('')
+            console.log('We did not get views for the video ' + single_vid_link)
+            console.log('Most likely because element is not found')
+            console.log('Recheck XPath on chromium')
+            console.log('')
         }
 
     }
-    if(finished_all == true){
-        console.log('And that\'s the end')
-    }
-    else{
-        console.log('We still need views from the following:')
-        let full_string = ''
-        for(let i = index_stopped; i < insta_links_array.length; i++){
-            full_string = full_string + ' ' + insta_links_array[i]
-            // console.log(insta_links_array[i])
-        }
-        console.log(full_string)
-        
-    }
+    console.log('And that\'s the end');
 
 }
 function sleep(ms) {
@@ -140,94 +125,85 @@ const get_insta_views = async (video_url, profile_url) => {
             iteration_counter = 3
         }
     }
+
+    await reels[0].click();
+
+    // await page.waitForTimeout(2000);
+    await page.waitForTimeout(5000);
+    await autoScroll(page)
+
+    let fullXPath = await getXPath(page, video_url, iteration_counter)
+
     
-    if(reels[0] != null){
+    //NOTE: These xpaths don't work because elements change when we open devtools
+    //      had to use args in the puppeteer launch in order to find the correct xpath... See below
+    // let xpath_1st_vid = '/html/body/div[1]/section/main/div/div[4]/div/div/div/div[1]/div[1]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
+    // let xpath_7th_vid = '/html/body/div[1]/section/main/div/div[4]/div/div/div/div[3]/div[1]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
+    // let xpath_5th_vid = '/html/body/div[1]/section/main/div/div[4]/div/div/div/div[2]/div[2]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
+    // let xpath_9th_vid = '/html/body/div[1]/section/main/div/div[4]/div/div/div/div[3]/div[3]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
+    // let gen_xpath_vid = '/html/body/div[1]/section/main/div/div[4]/div/div/div/div[row_num]/div[col_num]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
 
-        await reels[0].click();
-        
+    let work_xpath_7v = '/html/body/div[1]/section/main/div/div[3]/div/div/div/div[2]/div[3]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
+    let gen_work_xpat = '/html/body/div[1]/section/main/div/div[3]/div/div/div/div[row_num]/div[col_num]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
+    // console.log('The full x path is ' + fullXPath)
+    // await page.waitForXPath(args_xpath_7v)
 
-        
-
-        // await page.waitForTimeout(2000);
-        await page.waitForTimeout(5000);
-        await autoScroll(page)
-
-        let fullXPath = await getXPath(page, video_url, iteration_counter)
-
-        
-        //NOTE: These xpaths don't work because elements change when we open devtools
-        //      had to use args in the puppeteer launch in order to find the correct xpath... See below
-        // let xpath_1st_vid = '/html/body/div[1]/section/main/div/div[4]/div/div/div/div[1]/div[1]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
-        // let xpath_7th_vid = '/html/body/div[1]/section/main/div/div[4]/div/div/div/div[3]/div[1]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
-        // let xpath_5th_vid = '/html/body/div[1]/section/main/div/div[4]/div/div/div/div[2]/div[2]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
-        // let xpath_9th_vid = '/html/body/div[1]/section/main/div/div[4]/div/div/div/div[3]/div[3]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
-        // let gen_xpath_vid = '/html/body/div[1]/section/main/div/div[4]/div/div/div/div[row_num]/div[col_num]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
-
-        let work_xpath_7v = '/html/body/div[1]/section/main/div/div[3]/div/div/div/div[2]/div[3]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
-        let gen_work_xpat = '/html/body/div[1]/section/main/div/div[3]/div/div/div/div[row_num]/div[col_num]/div/a/div[2]/div[2]/div/div/div/div[2]/span'
-        // console.log('The full x path is ' + fullXPath)
-        // await page.waitForXPath(args_xpath_7v)
-
-        let views = await page.$x(fullXPath);
-        if(views.length == 0){
-            console.log('try again')
-            return null
-        }
-        else{
-            let views_text = await page.evaluate(element => element.textContent, views[0]);
-            console.log(views_text)
-            let number = 0
-            if(views_text.includes('k')){
-                let regex_no_K = /[^k]*/
-                views_text = views_text.match(regex_no_K)
-                // console.log('views_text after match is ' + views_text)
-                // console.log(typeof(likes_string))
-                views_text = String(views_text)
-                // console.log(typeof(likes_string))
-                
-                // console.log(no_string)
-                number = Number(views_text)
-                
-                number = number * 1000
-                // console.log(number)
-                // console.log(likes_string + ' has a K')
-            }
-            else if(views_text.includes('m')){
-                let regex_no_K = /[^m]*/
-                views_text = views_text.match(regex_no_K)
-                // console.log(typeof(likes_string))
-                views_text = String(views_text)
-                // console.log(typeof(likes_string))
-                
-                // console.log(no_string)
-                number = Number(views_text)
-                number = number * 1000000
-                // console.log(likes_string + ' has a K')
-            }
-            else if (views_text.includes(',')){
-                console.log('This number has a comma')
-                number = parseFloat(views_text.replace(/,/g, ''));
-            }
-            else{
-                // console.log(likes_string + ' no K')
-                
-                number = Number(views_text)
-                // console.log(number)
-            }
-            
-            // console.log('influencer_likes regex test is ' + number)
-            // console.log(typeof(number))
-            
-            
-            let views_object = {views_num: number}
-            console.log(views_object)
-            
-            await browser.close();
-            return views_object
-        }
+    let views = await page.$x(fullXPath);
+    if(views.length == 0){
+        console.log('try again')
+        return null
     }
     else{
-        return null
+        let views_text = await page.evaluate(element => element.textContent, views[0]);
+        console.log(views_text)
+        let number = 0
+        if(views_text.includes('k')){
+            let regex_no_K = /[^k]*/
+            views_text = views_text.match(regex_no_K)
+            // console.log('views_text after match is ' + views_text)
+            // console.log(typeof(likes_string))
+            views_text = String(views_text)
+            // console.log(typeof(likes_string))
+            
+            // console.log(no_string)
+            number = Number(views_text)
+            
+            number = number * 1000
+            // console.log(number)
+            // console.log(likes_string + ' has a K')
+        }
+        else if(views_text.includes('m')){
+            let regex_no_K = /[^m]*/
+            views_text = views_text.match(regex_no_K)
+            // console.log(typeof(likes_string))
+            views_text = String(views_text)
+            // console.log(typeof(likes_string))
+            
+            // console.log(no_string)
+            number = Number(views_text)
+            number = number * 1000000
+            // console.log(likes_string + ' has a K')
+        }
+        else if (views_text.includes(',')){
+            console.log('This number has a comma')
+            number = parseFloat(views_text.replace(/,/g, ''));
+        }
+        else{
+            // console.log(likes_string + ' no K')
+            
+            number = Number(views_text)
+            // console.log(number)
+        }
+        
+        // console.log('influencer_likes regex test is ' + number)
+        // console.log(typeof(number))
+        
+        
+        let views_object = {views_num: number}
+        console.log(views_object)
+        
+        await browser.close();
+        return views_object
     }
     
 }
