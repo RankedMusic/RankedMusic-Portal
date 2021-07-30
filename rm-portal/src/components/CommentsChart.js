@@ -14,6 +14,7 @@ const CommentsChart = props => {
     const [historical_comments, setHistoricalComments] = useState(null)
     const [influencer_comments, setInfluencerComments] = useState([])
     const [influencer_comments_percent, setInfluencerCommentsPercent] = useState([])
+    const [totalComments, setTotalComments] = useState(null)
 
     const data = [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}];
     
@@ -45,6 +46,7 @@ const CommentsChart = props => {
           // NOTE: influencer_comments_array is an array of objects of the form [{username: 'name', comments: 324}, ...]
           // console.log(influencer_comments_array)
           setInfluencerComments(influencer_comments_array)
+          setTotalComments(sumComments);
       })
       .catch(e => {
           console.log(e)
@@ -144,6 +146,7 @@ const CommentsChart = props => {
           gather_historical_comments();
           gather_influencer_comments();
           gather_influencer_comments_percent();
+          setTotalComments();
         //   only will get called if id is updated
       }, [props.campaign_id]);
   
@@ -185,7 +188,27 @@ const CommentsChart = props => {
           </text>
         );
       };
-
+      const CenteredTotal = ({ centerX, centerY }) => {
+        // let total = 0
+        // dataWithArc.forEach(datum => {
+        //     total += datum.value
+        // })
+        // let totNum = (totalView).toLocaleString('en')
+        return (
+            <text
+                x={centerX}
+                y={centerY}
+                textAnchor="middle"
+                dominantBaseline="central"
+                style={{
+                    fontSize: '2.5vw',
+                    fontWeight: 600,
+                }}
+            >
+                Total: {totalComments}
+            </text>
+        )
+    }
     const renderPieChart = (
       <div style={{height: 650}}>
       <ResponsivePie
@@ -206,6 +229,9 @@ const CommentsChart = props => {
           // colors={ colorsPallete }
           // colors={ colorsPallete2 }
           colors={ colorsPallete3 }
+          // tooltip={({ datum: { id, value } }) => (
+          //   <strong>{id}: {value}: {({value}/100)*{totalComments}}</strong>
+          // )}
           arcLinkLabelsOffset={2}
           borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.6 ] ] }}
           arcLinkLabelsSkipAngle={3}
@@ -220,11 +246,16 @@ const CommentsChart = props => {
           arcLinkLabelsTextOffset={8}
           arcLinkLabelsStraightLength={35}
           // arcLabelsTextColor="#333333"
+          // tooltipFormat={
+          //   (id=datum.id,
+          //   value=datum.value)
+          // }  
           arcLinkLabelsTextColor={{ from: 'color', modifiers: [] }}
           activeInnerRadiusOffset={8}
         // layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}
         // Make icon colors associated w pie
-        arcLabelsComponent={({ datum, label, style }) => (
+        layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredTotal]}
+        arcLabelsComponent={({ datum, label, style, CenteredTotal }) => (
           <animated.g transform={style.transform} style={{ pointerEvents: 'none' }}>
               <circle fill={style.textColor} cy={6} r={15} />
               <circle fill="#242424" stroke={datum.color} strokeWidth={2} r={16} />

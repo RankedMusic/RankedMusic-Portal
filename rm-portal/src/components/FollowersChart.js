@@ -15,7 +15,8 @@ const FollowersChart = props => {
     const [influencer_followers, setInfluencerFollowers] = useState([])
     const [influencer_followers_percent, setInfluencerFollowersPercent] = useState([])
     const data = [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}];
-    
+    const [totalFollower, setTotalFollower] = useState(null)
+
     const gather_historical_followers = () => {        
         CampaignDataService.getHistoricalFollowersArray({campaign_id: props.campaign_id})
         .then(response => {
@@ -47,6 +48,7 @@ const FollowersChart = props => {
           // NOTE: influencer_followers_array is an array of objects of the form [{username: 'name', followers: 324}, ...]
           // console.log(influencer_followers_array)
           setInfluencerFollowers(influencer_followers_array)
+          setTotalFollower(sumFollowers);
       })
       .catch(e => {
           console.log(e)
@@ -146,6 +148,7 @@ const FollowersChart = props => {
           gather_historical_followers();
           gather_influencer_followers();
           gather_influencer_followers_percent();
+          setTotalFollower();
         //   only will get called if id is updated
       }, [props.campaign_id]);
   
@@ -187,6 +190,27 @@ const FollowersChart = props => {
           </text>
         );
       };
+      const CenteredTotal = ({ centerX, centerY }) => {
+        // let total = 0
+        // dataWithArc.forEach(datum => {
+        //     total += datum.value
+        // })
+        // let totNum = (totalView).toLocaleString('en')
+        return (
+            <text
+                x={centerX}
+                y={centerY}
+                textAnchor="middle"
+                dominantBaseline="central"
+                style={{
+                    fontSize: '2.5vw',
+                    fontWeight: 600,
+                }}
+            >
+                Total: {totalFollower}
+            </text>
+        )
+    }
 
     const renderPieChart = (
       <div style={{height: 650}}>
@@ -226,7 +250,8 @@ const FollowersChart = props => {
           activeInnerRadiusOffset={8}
         // layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}
         // Make icon colors associated w pie
-        arcLabelsComponent={({ datum, label, style }) => (
+        layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredTotal]}
+        arcLabelsComponent={({ datum, label, style, CenteredTotal }) => (
           <animated.g transform={style.transform} style={{ pointerEvents: 'none' }}>
               <circle fill={style.textColor} cy={6} r={15} />
               <circle fill="#242424" stroke={datum.color} strokeWidth={2} r={16} />

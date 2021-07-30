@@ -9,12 +9,13 @@ import { animated } from '@react-spring/web'
 import ContentLoader from 'react-content-loader'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import TotalViews from './TotalViews';
+// import TotalViews from './TotalViews';
 
 const ViewsChart = props => {
     const [historical_views, setHistoricalViews] = useState(null)
     const [influencer_views, setInfluencerViews] = useState([])
-    const [totalView, setTotalView] = useState(0)
+    const [totalView, setTotalView] = useState(null)
+    // const [sumView, setSumView] = useState(null)
     const [influencer_views_percent, setInfluencerViewsPercent] = useState([])
     const data = [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}];
     // const infData = [{username_string:'tuckercomedy', views_string: 100}, {username_string:'oficialdankhumor', views_string: 6824}, {username_string:'tuckercomedy', views_string: 100}];
@@ -53,7 +54,7 @@ const ViewsChart = props => {
           // NOTE: influencer_views_array is an array of objects of the form [{username: 'name', views: 324}, ...]
           // console.log(influencer_views_array)
           setInfluencerViews(influencer_views_array)
-        
+          setTotalView(sumViews);
           
           // CampaignDataService.saveUsername(response.influencer)
           // CampaignDataService.getVideoViews(response.influencer)
@@ -77,7 +78,7 @@ const ViewsChart = props => {
           influencer_views_percent_array.push({id: username_string, value: views})
         }
         setInfluencerViewsPercent(influencer_views_percent_array)
-        setTotalView(totalView);
+        
     })
     .catch(e => {
         console.log(e)
@@ -293,11 +294,13 @@ console.log(influencer_views_percent)
   //         </text>
   //     ) 
   // }
-  const CenteredTotal = ({ totalView, centerX, centerY }) => {
+  // setSumView(totalView)
+  const CenteredTotal = ({ centerX, centerY }) => {
     // let total = 0
     // dataWithArc.forEach(datum => {
     //     total += datum.value
     // })
+    // let totNum = (totalView).toLocaleString('en')
     return (
         <text
             x={centerX}
@@ -305,7 +308,7 @@ console.log(influencer_views_percent)
             textAnchor="middle"
             dominantBaseline="central"
             style={{
-                fontSize: '47px',
+                fontSize: '2.5vw',
                 fontWeight: 600,
             }}
         >
@@ -466,7 +469,7 @@ console.log(influencer_views_percent)
             </Card.Header>
             <Card.Body>
               
-                {renderPieChart}
+            {renderPieChart}
               
               
               

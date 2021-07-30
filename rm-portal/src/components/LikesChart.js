@@ -14,6 +14,7 @@ const LikesChart = props => {
     const [historical_likes, setHistoricalLikes] = useState(null)
     const [influencer_likes, setInfluencerLikes] = useState([])
     const [influencer_likes_percent, setInfluencerLikesPercent] = useState([])
+    const [totalLikes, setTotalLikes] = useState(null)
 
     const data = [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}];
     
@@ -46,6 +47,8 @@ const LikesChart = props => {
           // NOTE: influencer_likes_array is an array of objects of the form [{username: 'name', likes: 324}, ...]
           // console.log(influencer_likes_array)
           setInfluencerLikes(influencer_likes_array)
+          setTotalLikes(sumLikes);
+
       })
       .catch(e => {
           console.log(e)
@@ -146,6 +149,7 @@ const LikesChart = props => {
           gather_historical_likes();
           gather_influencer_likes();
           gather_influencer_likes_percent();
+          setTotalLikes();
         //   only will get called if id is updated
       }, [props.campaign_id]);
   
@@ -186,7 +190,27 @@ const LikesChart = props => {
           </text>
         );
       };
-
+      const CenteredTotal = ({ centerX, centerY }) => {
+        // let total = 0
+        // dataWithArc.forEach(datum => {
+        //     total += datum.value
+        // })
+        // let totNum = (totalView).toLocaleString('en')
+        return (
+            <text
+                x={centerX}
+                y={centerY}
+                textAnchor="middle"
+                dominantBaseline="central"
+                style={{
+                    fontSize: '2.5vw',
+                    fontWeight: 600,
+                }}
+            >
+                Total: {totalLikes}
+            </text>
+        )
+    }
     const renderPieChart = (
       <div style={{height: 650}}>
       <ResponsivePie
@@ -225,7 +249,8 @@ const LikesChart = props => {
           activeInnerRadiusOffset={8}
         // layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}
         // Make icon colors associated w pie
-        arcLabelsComponent={({ datum, label, style }) => (
+        layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredTotal]}
+        arcLabelsComponent={({ datum, label, style, CenteredTotal }) => (
           <animated.g transform={style.transform} style={{ pointerEvents: 'none' }}>
               <circle fill={style.textColor} cy={6} r={15} />
               <circle fill="#242424" stroke={datum.color} strokeWidth={2} r={16} />
