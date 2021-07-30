@@ -9,7 +9,7 @@ import { animated } from '@react-spring/web'
 import ContentLoader from 'react-content-loader'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import TotalViews from './TotalViews';
 
 const ViewsChart = props => {
     const [historical_views, setHistoricalViews] = useState(null)

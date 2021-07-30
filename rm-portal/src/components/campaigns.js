@@ -53,6 +53,8 @@ const Campaign = props => {
   const changeViewAction = () => {
     setDataView(!dataView);
   };
+
+
   const getCampaign = id => {
     // console.log('The id is ' + id)
     // console.log(props.user);
@@ -67,19 +69,26 @@ const Campaign = props => {
           const date = month + " " + day + ", " + year
           setUpdatedDate(date)
 
+          let months_array = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 
+                        'Nov', 'Dec']
           const startString = response.data.start
           const startString_array = startString.split("-")
-          const startMonth = startString_array[0]
-          const startDay = startString_array[1]
-          const startYear = startString_array[2]
+          const startMonthNum = parseInt(startString_array[1])
+          const startMonth = months_array[startMonthNum-1]
+          const startDay = startString_array[2]
+          const startYear = startString_array[0]
+          console.log("start month: ", startMonth)
           const sDate = startMonth + " " + startDay + ", " + startYear
           setStartDate(sDate)
-console.log("SSSS", sDate)
-          const endString = response.data.end.substring(14)
-          const endString_array = endString.split(" ")
-          const endMonth = endString_array[0]
-          const endDay = endString_array[1]
-          const endYear = endString_array[2]
+
+
+          const endString = response.data.end
+          const endString_array = endString.split("-")
+          const endMonthNum = parseInt(endString_array[1])
+          const endMonth = months_array[endMonthNum-1]
+          const endDay = endString_array[2]
+          const endYear = endString_array[0]
+          console.log("start month: ", endMonth)
           const eDate = endMonth + " " + endDay + ", " + endYear
           setEndDate(eDate)
 
@@ -178,7 +187,7 @@ console.log("SSSS", sDate)
                         <strong>Start Date: {startDate}</strong>
                         </Col>
                         <Col>
-                        <strong>End Date: {campaign.end}</strong>
+                        <strong>End Date: {endDate}</strong>
                         </Col>
                         <Col>
                         <strong>Genre: </strong>{campaign.genre}
