@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import CampaignDataService from "../services/campaign";
 import { Link } from "react-router-dom";
 import { Form, Row, Col, FormControl, Button, Dropdown, DropdownButton, InputGroup  } from 'react-bootstrap';
-
+import confirmAlert from "react-confirm-alert";
 
 const AddInfluencer = props => {
   // event.preventDefault();
@@ -28,7 +28,6 @@ const AddInfluencer = props => {
   const [avatar, setAvatar] = useState(null);
   const [finishedGrab, setFinishedGrab] = useState(false);
   const isFirstRun = useRef(true);
-
 
   //NOTE SET USERNAME AND AVATAR AND THEN PASS INTO THE USE EFFECT AND THEN INPUT ALL OF IT INTO DATABASE
   async function saveInfluencer(event) {
@@ -124,7 +123,21 @@ const AddInfluencer = props => {
     // event.preventDefault();
     setPlatform(event.target.value);
   };
-
+  const showSubmit = () => {
+    confirmAlert({
+      title: 'Influencer Submitted',
+      message: 'Would you like to go back?',
+      buttons: [
+        {
+          label: 'Go to Campaigns',
+          onClick: () => props.history.push('/campaigns')
+        },
+        {
+          label: 'Back to overview',
+          onClick: () => props.history.push('/campaigns/'+ props.campaign_id)
+        }
+      ]
+    }) }
   return (
     <div className="addInf">
       
@@ -136,8 +149,14 @@ const AddInfluencer = props => {
             <br></br>
             <h4>You submitted successfully!</h4>
             <Link to={"/campaigns/" + props.match.params.id} className="btn btn-success">
-              Back to Campaigns
+              Back to Campaign
             </Link>
+
+      {/* <div className="container">
+        {showSubmit}
+      </div> */}
+
+
           </div>
         ) : (
           <div>

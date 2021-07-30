@@ -118,8 +118,6 @@ useEffect(() => {
                             <Col md="auto">
                                 <strong><Nav.Link href={props.influencer.influencer} style={{marginTop:"-7%"}}>Video Link</Nav.Link></strong>
                             </Col>
-                            <Col md="auto">
-                            </Col>
                             </Row>
                     </div>
                 {/* </div> */}
@@ -129,7 +127,7 @@ useEffect(() => {
                 ) : (
 
                     
-                    <div key={props.index} style={{marginBottom: "-1.5%"}}>
+                    <div key={props.index} style={{margin: "-1%"}}>
                                     
                     <Table bordered hover>
                     {/* <thead>
@@ -140,7 +138,7 @@ useEffect(() => {
                         <th>Username</th>
                         </tr>
                     </thead> */}
-                    <tbody>
+                        <tbody>
                         <tr>
                             <td width="7.3%"><InfluencerPlatform platform = {props.influencer.platform}></InfluencerPlatform></td>
                             <td width="15%">{username}</td>
@@ -152,11 +150,13 @@ useEffect(() => {
                             {editBtn ?(
                                 <td width="1%"><a onClick={() => deleteInfluencer(props.influencer._id)} className="btn btn-outline-danger col-lg-5 mx-1 mb-1" style={{height:"auto"},{width:"auto"}}>x</a></td>
                             ) : (
-                                ''
+                                ""
                             )}
                         </tr>
+                        
                         </tbody>
-                        </Table>
+                        
+                    </Table>
                     </div>
 
 

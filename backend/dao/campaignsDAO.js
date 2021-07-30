@@ -174,9 +174,20 @@ export default class CampaignsDAO {
                                         },
                                     },
                                 },
+                                // {
+                                //     $project: {
+                                //        postdate: {
+                                //           $dateFromString: {
+                                //             //  dateString: '$date',
+                                //              timezone: 'America/New_York'
+                                //           }
+                                //        }
+                                //     }
+                                //  },
                                 {
                                     $sort: {
-                                        date: -1,
+                                        postdate : 1,
+                                        views_num : -1,
                                     },
                                 },
                             ],

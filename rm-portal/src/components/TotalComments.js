@@ -3,6 +3,7 @@ import CampaignDataService from "../services/campaign";
 import {Link} from "react-router-dom";
 import { Form, Row, Col, FormControl, Button, Table} from 'react-bootstrap';
 import VideoBox from './VideoBox'
+import ReactLoading from 'react-loading';
 // import TotalLikes from './TotalLikes'
 
 
@@ -35,8 +36,13 @@ const TotalComments = props => {
     },[]);
 
     return(
-        <div>
-            <strong id = 'tot_comments'>Total Comments: </strong>{tot_comments}
+        <div className="d-flex">
+            <strong className="d-flex" id = 'tot_comments'>Total Comments: </strong>
+            {tot_comments ?(
+                <div>{tot_comments}</div>
+            ):(
+                <ReactLoading type={"bars"} color={"#f40060"} height={0} width={25}/>
+            )}
             
 
         </div>

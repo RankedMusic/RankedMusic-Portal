@@ -13,6 +13,8 @@ import 'react-toastify/dist/ReactToastify.css';
 const LikesChart = props => {
     const [historical_likes, setHistoricalLikes] = useState(null)
     const [influencer_likes, setInfluencerLikes] = useState([])
+    const [influencer_likes_percent, setInfluencerLikesPercent] = useState([])
+
     const data = [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}];
     
     const gather_historical_likes = () => {        
@@ -25,6 +27,7 @@ const LikesChart = props => {
             console.log(e)
         })
     };
+    let sumLikes = 0;
     const gather_influencer_likes = () => {
       // [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}]
       
@@ -35,9 +38,8 @@ const LikesChart = props => {
           let influencer_likes_array = []
           for(let i = 0; i < influencers_array.length; i = i + 1){
             let username_string = influencers_array[i].username_string
-            
-            
             let likes = influencers_array[i].num_likes
+            sumLikes+=likes
             // console.log('Username for pie chart is ' + only_username + ' and has ' + likes + ' likes')
             influencer_likes_array.push({id: username_string, value: likes})
           }
@@ -49,6 +51,25 @@ const LikesChart = props => {
           console.log(e)
       })
   };
+  const gather_influencer_likes_percent = () => {
+    CampaignDataService.get(props.campaign_id)
+    .then(response => {
+        let influencers_array = response.data.influencers
+        let influencer_likes_percent_array = []
+        for(let i = 0; i < influencers_array.length; i = i + 1){
+          let username_string = influencers_array[i].username_string
+          let likesNum = influencers_array[i].num_likes/sumLikes*100
+          let likes = likesNum.toFixed(2); //convert number to string
+          // let result = likesStr.substring(0,2)  // cut six first character
+          // let likes = parseInt(result);
+          influencer_likes_percent_array.push({id: username_string, value: likes})
+        }
+        setInfluencerLikesPercent(influencer_likes_percent_array)
+    })
+    .catch(e => {
+        console.log(e)
+    })
+};
     const colorsPallete3 = ["#6200F5","#8C00F5","#B600F5","#E000F5","#F500E0","#F500B6","#F5008C","#FF67A4","#FF7AAF","#F40060","#D10075","#C00080","#AE008B","#9D0095","#7A00AB"]
     const toastId = React.useRef(null);
     const ErrorMsg = ({ closeToast, toastProps }) => (
@@ -124,6 +145,7 @@ const LikesChart = props => {
         //   console.log(props.match.params.id)
           gather_historical_likes();
           gather_influencer_likes();
+          gather_influencer_likes_percent();
         //   only will get called if id is updated
       }, [props.campaign_id]);
   
@@ -168,11 +190,11 @@ const LikesChart = props => {
     const renderPieChart = (
       <div style={{height: 650}}>
       <ResponsivePie
-          data={ influencer_likes }
+          data={ influencer_likes_percent }
           // width={1000} 
           // height={500}
-          id={influencer_likes.id}
-          value={influencer_likes.value}
+          id={influencer_likes_percent.id}
+          value={influencer_likes_percent.value}
           margin={{ top: 40, right: 200, bottom: 40, left: 80 }}
           innerRadius={0.45}
           arcLabelsRadiusOffset={0.55}
@@ -191,14 +213,15 @@ const LikesChart = props => {
           arcLinkLabelsTextColor="#333333"
           arcLinkLabelsThickness={2}
           // ******Divide value from total and add %
-          arcLinkLabel={d => `${d.id}: ${d.value}`}
+          arcLinkLabel={d => `${d.id}: ${d.value}%`}
           arcLinkLabelsColor={{ from: 'color' }}
           arcLabelsSkipAngle={10}        
           arcLabelsRadiusOffset={0.70}
           arcLinkLabelsDiagonalLength={25}
           arcLinkLabelsTextOffset={8}
           arcLinkLabelsStraightLength={35}
-          arcLabelsTextColor="#333333"
+          // arcLabelsTextColor="#333333"
+          arcLinkLabelsTextColor={{ from: 'color', modifiers: [] }}
           activeInnerRadiusOffset={8}
         // layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}
         // Make icon colors associated w pie
@@ -215,7 +238,7 @@ const LikesChart = props => {
                       fontWeight: 800,
                   }}
               >
-                  {label}
+                  {label}%
               </text>
           </animated.g>
       )}

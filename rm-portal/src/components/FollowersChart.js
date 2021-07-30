@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const FollowersChart = props => {
     const [historical_followers, setHistoricalFollowers] = useState(null)
     const [influencer_followers, setInfluencerFollowers] = useState([])
+    const [influencer_followers_percent, setInfluencerFollowersPercent] = useState([])
     const data = [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}];
     
     const gather_historical_followers = () => {        
@@ -25,6 +26,7 @@ const FollowersChart = props => {
             console.log(e)
         })
     };
+    let sumFollowers = 0;
     const gather_influencer_followers = () => {
       // [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}]
       
@@ -38,6 +40,7 @@ const FollowersChart = props => {
             
            
             let followers = influencers_array[i].num_followers
+            sumFollowers+=followers
             // console.log('Username for pie chart is ' + only_username + ' and has ' + followers + ' followers')
             influencer_followers_array.push({id: username_string, value: followers})
           }
@@ -49,6 +52,25 @@ const FollowersChart = props => {
           console.log(e)
       })
   };
+  const gather_influencer_followers_percent = () => {
+    CampaignDataService.get(props.campaign_id)
+    .then(response => {
+        let influencers_array = response.data.influencers
+        let influencer_followers_percent_array = []
+        for(let i = 0; i < influencers_array.length; i = i + 1){
+          let username_string = influencers_array[i].username_string
+          let followersNum = influencers_array[i].num_followers/sumFollowers*100
+          let followers = followersNum.toFixed(2); //convert number to string
+          // let result = followersStr.substring(0,2)  // cut six first character
+          // let followers = parseInt(result);
+          influencer_followers_percent_array.push({id: username_string, value: followers})
+        }
+        setInfluencerFollowersPercent(influencer_followers_percent_array)
+    })
+    .catch(e => {
+        console.log(e)
+    })
+};
     const colorsPallete3 = ["#6200F5","#8C00F5","#B600F5","#E000F5","#F500E0","#F500B6","#F5008C","#FF67A4","#FF7AAF","#F40060","#D10075","#C00080","#AE008B","#9D0095","#7A00AB"]
     const toastId = React.useRef(null);
     const ErrorMsg = ({ closeToast, toastProps }) => (
@@ -123,6 +145,7 @@ const FollowersChart = props => {
         //   console.log(props.match.params.id)
           gather_historical_followers();
           gather_influencer_followers();
+          gather_influencer_followers_percent();
         //   only will get called if id is updated
       }, [props.campaign_id]);
   
@@ -168,11 +191,11 @@ const FollowersChart = props => {
     const renderPieChart = (
       <div style={{height: 650}}>
       <ResponsivePie
-          data={ influencer_followers }
+          data={ influencer_followers_percent }
           // width={1000} 
           // height={500}
-          id={influencer_followers.id}
-          value={influencer_followers.value}
+          id={influencer_followers_percent.id}
+          value={influencer_followers_percent.value}
           margin={{ top: 40, right: 200, bottom: 40, left: 80 }}
           innerRadius={0.45}
           arcLabelsRadiusOffset={0.55}
@@ -191,14 +214,15 @@ const FollowersChart = props => {
           arcLinkLabelsTextColor="#333333"
           arcLinkLabelsThickness={2}
           // ******Divide value from total and add %
-          arcLinkLabel={d => `${d.id}: ${d.value}`}
+          arcLinkLabel={d => `${d.id}: ${d.value}%`}
           arcLinkLabelsColor={{ from: 'color' }}
           arcLabelsSkipAngle={10}        
           arcLabelsRadiusOffset={0.70}
           arcLinkLabelsDiagonalLength={25}
           arcLinkLabelsTextOffset={8}
           arcLinkLabelsStraightLength={35}
-          arcLabelsTextColor="#333333"
+          // arcLabelsTextColor="#333333"
+          arcLinkLabelsTextColor={{ from: 'color', modifiers: [] }}
           activeInnerRadiusOffset={8}
         // layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}
         // Make icon colors associated w pie
@@ -215,7 +239,7 @@ const FollowersChart = props => {
                       fontWeight: 800,
                   }}
               >
-                  {label}
+                  {label}%
               </text>
           </animated.g>
       )}
