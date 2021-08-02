@@ -58,44 +58,60 @@ async function getViewsFromArray(influencers, client, links_array){
     
     for (let i = 0; i < links_array.length; i = i + 1){
         
+        
         let influencer = await influencers.findOne({influencer: links_array[i]})
         let single_video_url = influencer.influencer
-        let profile_url_beginning='https://www.tiktok.com/@'
         
-        let profile_username = influencer.username_string
-        // console.log(profile_username)
-        let profile_url = profile_url_beginning + profile_username
-        // console.log(profile_url)
-        
-        // console.log(single_video_url)
-        let views_object = await get_Num_Views(single_video_url, profile_url)
-        
-        if(views_object != null){
-            let date = new Date()
-            let date_string = date.toString()
-            let final_date = date_string.substring(4,15)
-            let date_updated_string = 'Views Updated ' + final_date
-            let date_updated_views_object = {date_views_updated: date_updated_string}
-            console.log('The video ' + single_video_url + ' has ' + views_object.views_num) 
-            console.log(views_object)
-            await influencers.updateOne(
-                { influencer: single_video_url},
-                { $set: views_object}
-            )
-
-            await influencers.updateOne(
-                { influencer: single_video_url},
-                { $set: date_updated_views_object}
-            )
-            await sleep(5000);
+        let last_date_updated = ''
+        if(influencer.dates_updated.views_updated == undefined){
+            last_date_updated = 'never'
         }
         else{
-
-            console.log('We did not get views for the video ' + single_video_url)
-            console.log('Most likely because element is not found')
-            console.log('Recheck XPath on chromium')
-            console.log('')
+            last_date_updated = influencer.dates_updated.views_updated
+            
         }
+
+        let date = new Date()
+        let date_string = date.toString()
+        let current_date_string = date_string.substring(4,15)
+        
+        console.log(last_date_updated)
+        if(!last_date_updated.includes(current_date_string)){
+            let profile_url_beginning='https://www.tiktok.com/@'
+            
+            let profile_username = influencer.username_string
+            // console.log(profile_username)
+            let profile_url = profile_url_beginning + profile_username
+            // console.log(profile_url)
+            
+            // console.log(single_video_url)
+            let views_object = await get_Num_Views(single_video_url, profile_url)
+            
+            if(views_object != null){
+                // let date_updated_views_object = {date_views_updated: date_updated_string}
+                console.log('The video ' + single_video_url + ' has ' + views_object.views_num) 
+                console.log(views_object)
+                await influencers.updateOne(
+                    { influencer: single_video_url},
+                    { $set: views_object}
+                )
+                
+                await influencers.updateOne(
+                    { influencer: single_video_url},
+                    { $set: {'dates_updated.views_updated' : current_date_string}}
+                )
+                
+                await sleep(5000);
+            }
+            else{
+
+                console.log('We did not get views for the video ' + single_video_url)
+                console.log('Most likely because element is not found')
+                console.log('Recheck XPath on chromium')
+                console.log('')
+            }
+        }
+
     }
     console.log('And that\'s the end')
 }

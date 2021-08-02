@@ -46,15 +46,39 @@ async function getCommentsFromArray(influencers, client, links_array){
         
         let influencer = await influencers.findOne({influencer: links_array[i]})
         let single_video_url = influencer.influencer
-        console.log(single_video_url)
-        let video_comments = await getVideoComments(single_video_url)
-        console.log(video_comments)
-        await influencers.updateOne(
-            { influencer: single_video_url},
-            { $set: video_comments},
-        )
-        await sleep(5000);
-    }
+        let last_date_updated = ''
+        if(influencer.dates_updated.comments_updated == undefined){
+            last_date_updated = 'never'
+        }
+        else{
+            last_date_updated = influencer.dates_updated.comments_updated
+        }
+       
+
+        
+        let date = new Date()
+        let date_string = date.toString()
+        let current_date_string = date_string.substring(4,15)
+
+        
+        console.log(last_date_updated)
+        if(!last_date_updated.includes(current_date_string)){
+            console.log(single_video_url)
+            let video_comments = await getVideoComments(single_video_url)
+            console.log(video_comments)
+            await influencers.updateOne(
+                { influencer: single_video_url},
+                { $set: video_comments},
+            )
+            await influencers.updateOne(
+                { influencer: single_video_url},
+                { $set: {'dates_updated.comments_updated' : current_date_string}}
+            )
+            await sleep(5000);
+        }
+}
+console.log('And that\'s the end')
+
 }
 
 

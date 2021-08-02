@@ -24,7 +24,8 @@ export default class InfluencersDAO {
                 influencer: influencer,
                 platform: platform,
                 date: date,
-                campaignId: ObjectId(campaignId)
+                campaignId: ObjectId(campaignId),
+                dates_updated: {}
                 // influencer_username: influencer_username,
                 // avatar_src: avatar_src 
             }

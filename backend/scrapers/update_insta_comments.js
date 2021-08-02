@@ -28,41 +28,52 @@ const getCommentsFromArray = async (influencers, client, insta_links_array) => {
         
         let influencer = await influencers.findOne({influencer: insta_links_array[i]})
         let single_vid_link = insta_links_array[i]
-        let profile_url_beginning='https://www.instagram.com/'
+        if(influencer.dates_updated == null){
+            await influencers.updateOne(
+                { influencer: single_video_url},
+                { $set: {dates_updated: {comments_updated: ''}}}
+            )
+        }
+        let date = new Date()
+        let date_string = date.toString()
+        let current_date_string = date_string.substring(4,15)
         
-        let profile_username = influencer.username_string
+        let current_date_updated = influencer.dates_updated.views_updated
+        if(!current_date_updated.includes(current_date_string)){
+            let profile_url_beginning='https://www.instagram.com/'
+            
+            let profile_username = influencer.username_string
 
-        let profile_url = profile_url_beginning + profile_username
-        console.log(single_vid_link)
-        console.log(profile_url)
-        let comments_object = await get_insta_comments(single_vid_link, profile_url)
+            let profile_url = profile_url_beginning + profile_username
+            console.log(single_vid_link)
+            console.log(profile_url)
+            let comments_object = await get_insta_comments(single_vid_link, profile_url)
 
-        if(comments_object != null){
-            let date = new Date()
-            let date_string = date.toString()
-            let final_date = date_string.substring(4,15)
-            let date_updated_string = 'Comments Updated ' + final_date
-            let date_updated_comments_object = {date_comments_updated: date_updated_string}
-            console.log('The video ' + single_vid_link + ' has ' + comments_object.num_comments) 
-            console.log(comments_object)
-            await influencers.updateOne(
-                { influencer: single_vid_link},
-                { $set: comments_object}
-            )
+            if(comments_object != null){
+                
+                // let date_updated_comments_object = {date_comments_updated: date_updated_string}
+                console.log('The video ' + single_vid_link + ' has ' + comments_object.num_comments) 
+                console.log(comments_object)
+                await influencers.updateOne(
+                    { influencer: single_vid_link},
+                    { $set: comments_object}
+                )
 
-            await influencers.updateOne(
-                { influencer: single_vid_link},
-                { $set: date_updated_comments_object}
-            )
-            await sleep(10000);
+                await influencers.updateOne(
+                    { influencer: single_video_url},
+                    { $set: {'dates_updated.comments_updated' : current_date_string}}
+                )
+                await sleep(10000);
+            }
+            else{
+
+                console.log('We did not get comments for the video ' + single_vid_link)
+                console.log('Most likely because element is not found')
+                console.log('Recheck XPath on chromium')
+                console.log('')
+            }
         }
-        else{
-
-            console.log('We did not get comments for the video ' + single_vid_link)
-            console.log('Most likely because element is not found')
-            console.log('Recheck XPath on chromium')
-            console.log('')
-        }
+    console.log('And that\'s the end')
 
     }
 

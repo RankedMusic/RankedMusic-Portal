@@ -51,57 +51,69 @@ const getViewsFromArray = async (influencers, client, insta_links_array) => {
         
         let influencer = await influencers.findOne({influencer: insta_links_array[i]})
         let single_vid_link = insta_links_array[i]
-        let profile_url_beginning='https://www.instagram.com/'
-        
-        let profile_username = influencer.username_string
-        // console.log(profile_username)
-        
-        let profile_url = profile_url_beginning + profile_username
-        console.log(single_vid_link)
-        console.log(profile_url)
-        let views_object = await get_insta_views(single_vid_link, profile_url)
-
-        if(views_object != null){
-            let date = new Date()
-            let date_string = date.toString()
-            let final_date = date_string.substring(4,15)
-            let date_updated_string = 'Views Updated ' + final_date
-            let date_updated_views_object = {date_views_updated: date_updated_string}
-            console.log('The video ' + single_vid_link + ' has ' + views_object.views_num) 
-            console.log(views_object)
-            await influencers.updateOne(
-                { influencer: single_vid_link},
-                { $set: views_object}
-            )
-
-            await influencers.updateOne(
-                { influencer: single_vid_link},
-                { $set: date_updated_views_object}
-            )
-            await sleep(10000);
+        let last_date_updated = ''
+        if(influencer.dates_updated.views_updated == undefined){
+            last_date_updated = 'never'
         }
         else{
-            index_stopped = i
-            finished_all = false
-            console.log('If you were redirected to the login page then switch to hot spot and switch back')
-            break;
+            last_date_updated = influencer.dates_updated.views_updated
+        }
+        let date = new Date()
+        let date_string = date.toString()
+        let current_date_string = date_string.substring(4,15)
+
+       
+        if(!last_date_updated.includes(current_date_string)){
+            let profile_url_beginning='https://www.instagram.com/'
+            
+            let profile_username = influencer.username_string
+            // console.log(profile_username)
+            
+            let profile_url = profile_url_beginning + profile_username
+            console.log(single_vid_link)
+            console.log(profile_url)
+            let views_object = await get_insta_views(single_vid_link, profile_url)
+
+            if(views_object != null){
+                
+                console.log('The video ' + single_vid_link + ' has ' + views_object.views_num) 
+                console.log(views_object)
+                await influencers.updateOne(
+                    { influencer: single_vid_link},
+                    { $set: views_object}
+                )
+
+                await influencers.updateOne(
+                    { influencer: single_vid_link},
+                    { $set: {'dates_updated.views_updated' : current_date_string}}
+                )
+                await sleep(10000);
+            }
+            else{
+                index_stopped = i
+                finished_all = false
+                console.log('If you were redirected to the login page then switch to hot spot and switch back')
+                break;
+                
+            }
+
+        }
+        if(finished_all == true){
+            console.log('And that\'s the end')
+        }
+        else{
+            console.log('We still need views from the following:')
+            let full_string = ''
+            for(let i = index_stopped; i < insta_links_array.length; i++){
+                full_string = full_string + ' ' + insta_links_array[i]
+                // console.log(insta_links_array[i])
+            }
+            console.log(full_string)
             
         }
-
-    }
-    if(finished_all == true){
-        console.log('And that\'s the end')
-    }
-    else{
-        console.log('We still need views from the following:')
-        let full_string = ''
-        for(let i = index_stopped; i < insta_links_array.length; i++){
-            full_string = full_string + ' ' + insta_links_array[i]
-            // console.log(insta_links_array[i])
-        }
-        console.log(full_string)
-        
-    }
+    
+}
+console.log('And that\'s the end')
 
 }
 function sleep(ms) {
