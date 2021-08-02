@@ -136,7 +136,7 @@ const Campaign = props => {
           // return <VideoBox></VideoBox>
           // console.log(video, index)
         //   console.log(influencer)
-          return <div className="col"><div className ='card  h-100 w-100' style={{marginBottom: ".2%"}}><VideoBox influencer = {influencer} index = {index} setCampaign = {setCampaign} isSwitchOn={isSwitchOn} dataView={dataView} setDataView={setDataView}></VideoBox></div></div>
+          return <div className="h-100"><VideoBox influencer = {influencer} index = {index} setCampaign = {setCampaign} isSwitchOn={isSwitchOn} dataView={dataView} setDataView={setDataView}></VideoBox></div>
           // console.log(videos)
           
         }

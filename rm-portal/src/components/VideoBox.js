@@ -96,7 +96,7 @@ useEffect(() => {
         // <Col style={{padding:"6%"}}>
         <div>
             
-                <div className="" key={props.index}>
+                <div className="card" key={props.index}>
                 
                     <div className="card-body">
                             {editBtn ?(
@@ -127,7 +127,7 @@ useEffect(() => {
                 ) : (
 
                     
-                    <div key={props.index} style={{margin: "-1%"}}>
+                    <div key={props.index} style={{margin: "-1.35%", marginTop:".2%"}}>
                                     
                     <Table bordered hover>
                     {/* <thead>
