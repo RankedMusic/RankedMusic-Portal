@@ -16,6 +16,7 @@ const FollowersChart = props => {
     const [influencer_followers_percent, setInfluencerFollowersPercent] = useState([])
     const data = [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}];
     const [totalFollower, setTotalFollower] = useState(null)
+    const [totalComma, setTotalComma] = useState(null)
 
     const gather_historical_followers = () => {        
         CampaignDataService.getHistoricalFollowersArray({campaign_id: props.campaign_id})
@@ -143,12 +144,17 @@ const FollowersChart = props => {
         </Popover.Content>
       </Popover>
     );
+    const sumComma = () => {
+      let followers_commas = (totalFollower).toLocaleString('en')  
+      setTotalComma(followers_commas)
+    }
     useEffect(() => {
         //   console.log(props.match.params.id)
           gather_historical_followers();
           gather_influencer_followers();
           gather_influencer_followers_percent();
           setTotalFollower();
+          sumComma();
         //   only will get called if id is updated
       }, [props.campaign_id]);
   
@@ -190,26 +196,52 @@ const FollowersChart = props => {
           </text>
         );
       };
-      const CenteredTotal = ({ centerX, centerY }) => {
+      const CenteredTital = ({ centerX, centerY }) => {
         // let total = 0
         // dataWithArc.forEach(datum => {
         //     total += datum.value
         // })
         // let totNum = (totalView).toLocaleString('en')
+        let adjustedY = centerY*.75
         return (
             <text
                 x={centerX}
-                y={centerY}
+                y={adjustedY}
                 textAnchor="middle"
                 dominantBaseline="central"
                 style={{
                     fontSize: '2.5vw',
                     fontWeight: 600,
+                    // textAlign: "justify",
+                    overflowWrap: "anywhere",
                 }}
             >
-                Total: {totalFollower}
+                Total: 
             </text>
         )
+    }
+    const CenteredTotal = ({ centerX, centerY }) => {
+      // let total = 0
+      // dataWithArc.forEach(datum => {
+      //     total += datum.value
+      // })
+      // let totNum = (totalView).toLocaleString('en')
+      return (
+          <text
+              x={centerX}
+              y={centerY}
+              textAnchor="middle"
+              dominantBaseline="central"
+              style={{
+                  fontSize: '2.5vw',
+                  fontWeight: 600,
+                  // textAlign: "justify",
+                  overflowWrap: "anywhere",
+              }}
+          >
+            {totalComma}
+          </text>
+      )
     }
 
     const renderPieChart = (
@@ -250,7 +282,7 @@ const FollowersChart = props => {
           activeInnerRadiusOffset={8}
         // layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}
         // Make icon colors associated w pie
-        layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredTotal]}
+        layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredTital, CenteredTotal]}
         arcLabelsComponent={({ datum, label, style, CenteredTotal }) => (
           <animated.g transform={style.transform} style={{ pointerEvents: 'none' }}>
               <circle fill={style.textColor} cy={6} r={15} />

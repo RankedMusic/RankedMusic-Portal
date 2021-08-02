@@ -15,6 +15,7 @@ const LikesChart = props => {
     const [influencer_likes, setInfluencerLikes] = useState([])
     const [influencer_likes_percent, setInfluencerLikesPercent] = useState([])
     const [totalLikes, setTotalLikes] = useState(null)
+    const [totalComma, setTotalComma] = useState(null)
 
     const data = [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}];
     
@@ -144,12 +145,17 @@ const LikesChart = props => {
         </Popover.Content>
       </Popover>
     );
+    const sumComma = () => {
+      let likes_commas = (totalLikes).toLocaleString('en')  
+      setTotalComma(likes_commas)
+    }
     useEffect(() => {
         //   console.log(props.match.params.id)
           gather_historical_likes();
           gather_influencer_likes();
           gather_influencer_likes_percent();
           setTotalLikes();
+          sumComma();
         //   only will get called if id is updated
       }, [props.campaign_id]);
   
@@ -190,26 +196,52 @@ const LikesChart = props => {
           </text>
         );
       };
-      const CenteredTotal = ({ centerX, centerY }) => {
+      const CenteredTital = ({ centerX, centerY }) => {
         // let total = 0
         // dataWithArc.forEach(datum => {
         //     total += datum.value
         // })
         // let totNum = (totalView).toLocaleString('en')
+        let adjustedY = centerY*.75
         return (
             <text
                 x={centerX}
-                y={centerY}
+                y={adjustedY}
                 textAnchor="middle"
                 dominantBaseline="central"
                 style={{
                     fontSize: '2.5vw',
                     fontWeight: 600,
+                    // textAlign: "justify",
+                    overflowWrap: "anywhere",
                 }}
             >
-                Total: {totalLikes}
+                Total: 
             </text>
         )
+    }
+    const CenteredTotal = ({ centerX, centerY }) => {
+      // let total = 0
+      // dataWithArc.forEach(datum => {
+      //     total += datum.value
+      // })
+      // let totNum = (totalView).toLocaleString('en')
+      return (
+          <text
+              x={centerX}
+              y={centerY}
+              textAnchor="middle"
+              dominantBaseline="central"
+              style={{
+                  fontSize: '2.5vw',
+                  fontWeight: 600,
+                  // textAlign: "justify",
+                  overflowWrap: "anywhere",
+              }}
+          >
+            {totalComma}
+          </text>
+      )
     }
     const renderPieChart = (
       <div style={{height: 650}}>
@@ -249,7 +281,7 @@ const LikesChart = props => {
           activeInnerRadiusOffset={8}
         // layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}
         // Make icon colors associated w pie
-        layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredTotal]}
+        layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredTital, CenteredTotal]}
         arcLabelsComponent={({ datum, label, style, CenteredTotal }) => (
           <animated.g transform={style.transform} style={{ pointerEvents: 'none' }}>
               <circle fill={style.textColor} cy={6} r={15} />

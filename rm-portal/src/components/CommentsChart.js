@@ -15,6 +15,7 @@ const CommentsChart = props => {
     const [influencer_comments, setInfluencerComments] = useState([])
     const [influencer_comments_percent, setInfluencerCommentsPercent] = useState([])
     const [totalComments, setTotalComments] = useState(null)
+    const [totalComma, setTotalComma] = useState(null)
 
     const data = [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}];
     
@@ -141,12 +142,17 @@ const CommentsChart = props => {
         </Popover.Content>
       </Popover>
     );
+    const sumComma = () => {
+      let comments_commas = (totalComments).toLocaleString('en')  
+      setTotalComma(comments_commas)
+    }
     useEffect(() => {
         //   console.log(props.match.params.id)
           gather_historical_comments();
           gather_influencer_comments();
           gather_influencer_comments_percent();
           setTotalComments();
+          sumComma();
         //   only will get called if id is updated
       }, [props.campaign_id]);
   
@@ -188,26 +194,52 @@ const CommentsChart = props => {
           </text>
         );
       };
-      const CenteredTotal = ({ centerX, centerY }) => {
+      const CenteredTital = ({ centerX, centerY }) => {
         // let total = 0
         // dataWithArc.forEach(datum => {
         //     total += datum.value
         // })
         // let totNum = (totalView).toLocaleString('en')
+        let adjustedY = centerY*.75
         return (
             <text
                 x={centerX}
-                y={centerY}
+                y={adjustedY}
                 textAnchor="middle"
                 dominantBaseline="central"
                 style={{
                     fontSize: '2.5vw',
                     fontWeight: 600,
+                    // textAlign: "justify",
+                    overflowWrap: "anywhere",
                 }}
             >
-                Total: {totalComments}
+                Total: 
             </text>
         )
+    }
+    const CenteredTotal = ({ centerX, centerY }) => {
+      // let total = 0
+      // dataWithArc.forEach(datum => {
+      //     total += datum.value
+      // })
+      // let totNum = (totalView).toLocaleString('en')
+      return (
+          <text
+              x={centerX}
+              y={centerY}
+              textAnchor="middle"
+              dominantBaseline="central"
+              style={{
+                  fontSize: '2.5vw',
+                  fontWeight: 600,
+                  // textAlign: "justify",
+                  overflowWrap: "anywhere",
+              }}
+          >
+            {totalComma}
+          </text>
+      )
     }
     const renderPieChart = (
       <div style={{height: 650}}>
@@ -224,6 +256,15 @@ const CommentsChart = props => {
           padAngle={0.8}
           cornerRadius={5}
           activeOuterRadiusOffset={8}
+          // tooltip={
+          //   <Chip key="chip" color={datum.color} />,
+          //       // 'User:',
+          //       {datum.id},
+          //       ': ',
+          //       <strong key="id">{datum.value}</strong>,
+          //       ', ',
+          //       <strong key="id">(({datum.value}/100)*</strong>,
+          // }
           // colors={{ scheme: 'pink_yellowGreen' }}
           // colors={{ scheme: 'red_purple' }}
           // colors={ colorsPallete }
@@ -254,7 +295,7 @@ const CommentsChart = props => {
           activeInnerRadiusOffset={8}
         // layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}
         // Make icon colors associated w pie
-        layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredTotal]}
+        layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredTital, CenteredTotal]}
         arcLabelsComponent={({ datum, label, style, CenteredTotal }) => (
           <animated.g transform={style.transform} style={{ pointerEvents: 'none' }}>
               <circle fill={style.textColor} cy={6} r={15} />

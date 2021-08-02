@@ -9,12 +9,14 @@ import { animated } from '@react-spring/web'
 import ContentLoader from 'react-content-loader'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import TotalViews from './TotalViews';
 // import TotalViews from './TotalViews';
 
 const ViewsChart = props => {
     const [historical_views, setHistoricalViews] = useState(null)
     const [influencer_views, setInfluencerViews] = useState([])
     const [totalView, setTotalView] = useState(null)
+    const [totalComma, setTotalComma] = useState(null)
     // const [sumView, setSumView] = useState(null)
     const [influencer_views_percent, setInfluencerViewsPercent] = useState([])
     const data = [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}];
@@ -156,6 +158,11 @@ console.log(influencer_views_percent)
         </Popover.Content>
       </Popover>
     );
+    const sumComma = () => {
+      let views_commas = (totalView).toLocaleString('en')  
+      console.log('We have a total of ' + views_commas + ' views');
+      setTotalComma(views_commas)
+    }
     useEffect(() => {
         //   console.log(props.match.params.id)
           gather_historical_views();
@@ -163,6 +170,7 @@ console.log(influencer_views_percent)
           showError();
           gather_influencer_views_percent();
           setTotalView();
+          sumComma();
         //   only will get called if id is updated
       }, [props.campaign_id]);
   
@@ -295,28 +303,53 @@ console.log(influencer_views_percent)
   //     ) 
   // }
   // setSumView(totalView)
-  const CenteredTotal = ({ centerX, centerY }) => {
+  const CenteredTital = ({ centerX, centerY }) => {
     // let total = 0
     // dataWithArc.forEach(datum => {
     //     total += datum.value
     // })
     // let totNum = (totalView).toLocaleString('en')
+    let adjustedY = centerY*.75
     return (
         <text
             x={centerX}
-            y={centerY}
+            y={adjustedY}
             textAnchor="middle"
             dominantBaseline="central"
             style={{
                 fontSize: '2.5vw',
                 fontWeight: 600,
+                // textAlign: "justify",
+                overflowWrap: "anywhere",
             }}
         >
-            Total: {totalView}
+            Total: 
         </text>
     )
 }
-
+const CenteredTotal = ({ centerX, centerY }) => {
+  // let total = 0
+  // dataWithArc.forEach(datum => {
+  //     total += datum.value
+  // })
+  // let totNum = (totalView).toLocaleString('en')
+  return (
+      <text
+          x={centerX}
+          y={centerY}
+          textAnchor="middle"
+          dominantBaseline="central"
+          style={{
+              fontSize: '2.5vw',
+              fontWeight: 600,
+              // textAlign: "justify",
+              overflowWrap: "anywhere",
+          }}
+      >
+        {totalComma}
+      </text>
+  )
+}
     const renderPieChart = (
       <div style={{height: 650}}>
         
@@ -356,8 +389,8 @@ console.log(influencer_views_percent)
           activeInnerRadiusOffset={8}
         // layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}
         // Make icon colors associated w pie
-        layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredTotal]}
-        arcLabelsComponent={({ datum, label, style, CenteredTotal }) => (
+        layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredTital, CenteredTotal]}
+        arcLabelsComponent={({ datum, label, style, CenteredTital, CenteredTotal }) => (
           <animated.g transform={style.transform} style={{ pointerEvents: 'none' }}>
               <circle fill={style.textColor} cy={6} r={15} />
               <circle fill="#242424" stroke={datum.color} strokeWidth={2} r={16} />
