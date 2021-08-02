@@ -48,6 +48,10 @@ const CommentsChart = props => {
           // console.log(influencer_comments_array)
           setInfluencerComments(influencer_comments_array)
           setTotalComments(sumComments);
+          
+          let comments_commas = (sumComments).toLocaleString('en')  
+          // console.log('We have a total of ' + comments_commas + ' comments');
+          setTotalComma(comments_commas);
       })
       .catch(e => {
           console.log(e)
@@ -152,7 +156,7 @@ const CommentsChart = props => {
           gather_influencer_comments();
           gather_influencer_comments_percent();
           setTotalComments();
-          sumComma();
+          // sumComma();
         //   only will get called if id is updated
       }, [props.campaign_id]);
   

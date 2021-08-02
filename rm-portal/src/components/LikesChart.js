@@ -50,6 +50,10 @@ const LikesChart = props => {
           setInfluencerLikes(influencer_likes_array)
           setTotalLikes(sumLikes);
 
+          let likes_commas = (sumLikes).toLocaleString('en')  
+          // console.log('We have a total of ' + comments_commas + ' comments');
+          setTotalComma(likes_commas);
+
       })
       .catch(e => {
           console.log(e)
@@ -155,7 +159,7 @@ const LikesChart = props => {
           gather_influencer_likes();
           gather_influencer_likes_percent();
           setTotalLikes();
-          sumComma();
+          // sumComma();
         //   only will get called if id is updated
       }, [props.campaign_id]);
   

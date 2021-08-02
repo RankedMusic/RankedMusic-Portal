@@ -50,6 +50,10 @@ const FollowersChart = props => {
           // console.log(influencer_followers_array)
           setInfluencerFollowers(influencer_followers_array)
           setTotalFollower(sumFollowers);
+
+          let followers_commas = (sumFollowers).toLocaleString('en')  
+          // console.log('We have a total of ' + comments_commas + ' comments');
+          setTotalComma(followers_commas);
       })
       .catch(e => {
           console.log(e)
@@ -154,7 +158,7 @@ const FollowersChart = props => {
           gather_influencer_followers();
           gather_influencer_followers_percent();
           setTotalFollower();
-          sumComma();
+          // sumComma();
         //   only will get called if id is updated
       }, [props.campaign_id]);
   

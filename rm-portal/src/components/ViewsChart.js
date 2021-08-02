@@ -56,7 +56,15 @@ const ViewsChart = props => {
           // NOTE: influencer_views_array is an array of objects of the form [{username: 'name', views: 324}, ...]
           // console.log(influencer_views_array)
           setInfluencerViews(influencer_views_array)
+
+          
           setTotalView(sumViews);
+          
+
+          //This code is to add a comma to the total views in the pie chart
+          let views_commas = (sumViews).toLocaleString('en')  
+          console.log('We have a total of ' + views_commas + ' views');
+          setTotalComma(views_commas);
           
           // CampaignDataService.saveUsername(response.influencer)
           // CampaignDataService.getVideoViews(response.influencer)
@@ -158,11 +166,7 @@ console.log(influencer_views_percent)
         </Popover.Content>
       </Popover>
     );
-    const sumComma = () => {
-      let views_commas = (totalView).toLocaleString('en')  
-      console.log('We have a total of ' + views_commas + ' views');
-      setTotalComma(views_commas)
-    }
+    
     useEffect(() => {
         //   console.log(props.match.params.id)
           gather_historical_views();
@@ -170,7 +174,7 @@ console.log(influencer_views_percent)
           showError();
           gather_influencer_views_percent();
           setTotalView();
-          sumComma();
+          // sumComma();
         //   only will get called if id is updated
       }, [props.campaign_id]);
   
