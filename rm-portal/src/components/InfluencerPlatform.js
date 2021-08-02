@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CampaignDataService from "../services/campaign";
+import ReactLoading from 'react-loading';
 // import {Link} from "react-router-dom";
 
 
@@ -16,7 +17,13 @@ const InfluencerPlatform = props => {
     
     return (
         <div>
-            {props.platform}
+            {props.platform ? (
+              <div>
+                {props.platform}
+              </div>
+            ):(
+              <ReactLoading type={"bars"} color={"#f40060"} height={0} width={25}/>
+            )}
             
         </div>
     );

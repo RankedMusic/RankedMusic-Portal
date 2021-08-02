@@ -13,6 +13,9 @@ import 'react-toastify/dist/ReactToastify.css';
 const CommentsChart = props => {
     const [historical_comments, setHistoricalComments] = useState(null)
     const [influencer_comments, setInfluencerComments] = useState([])
+    const [influencer_comments_percent, setInfluencerCommentsPercent] = useState([])
+    const [totalComments, setTotalComments] = useState(null)
+
     const data = [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}];
     
     const gather_historical_comments = () => {        
@@ -25,6 +28,7 @@ const CommentsChart = props => {
             console.log(e)
         })
     };
+    let sumComments = 0;
     const gather_influencer_comments = () => {
       // [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}]
       
@@ -35,20 +39,38 @@ const CommentsChart = props => {
           let influencer_comments_array = []
           for(let i = 0; i < influencers_array.length; i = i + 1){
             let username_string = influencers_array[i].username_string
-            
-            
             let comments = influencers_array[i].num_comments
-            // console.log('Username for pie chart is ' + only_username + ' and has ' + comments + ' comments')
+            sumComments+=comments
             influencer_comments_array.push({id: username_string, value: comments})
           }
           // NOTE: influencer_comments_array is an array of objects of the form [{username: 'name', comments: 324}, ...]
           // console.log(influencer_comments_array)
           setInfluencerComments(influencer_comments_array)
+          setTotalComments(sumComments);
       })
       .catch(e => {
           console.log(e)
       })
   };
+  const gather_influencer_comments_percent = () => {
+    CampaignDataService.get(props.campaign_id)
+    .then(response => {
+        let influencers_array = response.data.influencers
+        let influencer_comments_percent_array = []
+        for(let i = 0; i < influencers_array.length; i = i + 1){
+          let username_string = influencers_array[i].username_string
+          let commentsNum = influencers_array[i].num_comments/sumComments*100
+          let comments = commentsNum.toFixed(2); //convert number to string
+          // let result = commentsStr.substring(0,2)  // cut six first character
+          // let comments = parseInt(result);
+          influencer_comments_percent_array.push({id: username_string, value: comments})
+        }
+        setInfluencerCommentsPercent(influencer_comments_percent_array)
+    })
+    .catch(e => {
+        console.log(e)
+    })
+};
     const colorsPallete3 = ["#6200F5","#8C00F5","#B600F5","#E000F5","#F500E0","#F500B6","#F5008C","#FF67A4","#FF7AAF","#F40060","#D10075","#C00080","#AE008B","#9D0095","#7A00AB"]
     const toastId = React.useRef(null);
     const ErrorMsg = ({ closeToast, toastProps }) => (
@@ -123,6 +145,8 @@ const CommentsChart = props => {
         //   console.log(props.match.params.id)
           gather_historical_comments();
           gather_influencer_comments();
+          gather_influencer_comments_percent();
+          setTotalComments();
         //   only will get called if id is updated
       }, [props.campaign_id]);
   
@@ -164,15 +188,35 @@ const CommentsChart = props => {
           </text>
         );
       };
-
+      const CenteredTotal = ({ centerX, centerY }) => {
+        // let total = 0
+        // dataWithArc.forEach(datum => {
+        //     total += datum.value
+        // })
+        // let totNum = (totalView).toLocaleString('en')
+        return (
+            <text
+                x={centerX}
+                y={centerY}
+                textAnchor="middle"
+                dominantBaseline="central"
+                style={{
+                    fontSize: '2.5vw',
+                    fontWeight: 600,
+                }}
+            >
+                Total: {totalComments}
+            </text>
+        )
+    }
     const renderPieChart = (
       <div style={{height: 650}}>
       <ResponsivePie
-          data={ influencer_comments }
+          data={ influencer_comments_percent }
           // width={1000} 
           // height={500}
-          id={influencer_comments.id}
-          value={influencer_comments.value}
+          id={influencer_comments_percent.id}
+          value={influencer_comments_percent.value}
           margin={{ top: 40, right: 200, bottom: 40, left: 80 }}
           innerRadius={0.45}
           arcLabelsRadiusOffset={0.55}
@@ -185,24 +229,33 @@ const CommentsChart = props => {
           // colors={ colorsPallete }
           // colors={ colorsPallete2 }
           colors={ colorsPallete3 }
+          // tooltip={({ datum: { id, value } }) => (
+          //   <strong>{id}: {value}: {({value}/100)*{totalComments}}</strong>
+          // )}
           arcLinkLabelsOffset={2}
           borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.6 ] ] }}
           arcLinkLabelsSkipAngle={3}
           arcLinkLabelsTextColor="#333333"
           arcLinkLabelsThickness={2}
           // ******Divide value from total and add %
-          arcLinkLabel={d => `${d.id}: ${d.value}`}
+          arcLinkLabel={d => `${d.id}: ${d.value}%`}
           arcLinkLabelsColor={{ from: 'color' }}
           arcLabelsSkipAngle={10}        
           arcLabelsRadiusOffset={0.70}
           arcLinkLabelsDiagonalLength={25}
           arcLinkLabelsTextOffset={8}
           arcLinkLabelsStraightLength={35}
-          arcLabelsTextColor="#333333"
+          // arcLabelsTextColor="#333333"
+          // tooltipFormat={
+          //   (id=datum.id,
+          //   value=datum.value)
+          // }  
+          arcLinkLabelsTextColor={{ from: 'color', modifiers: [] }}
           activeInnerRadiusOffset={8}
         // layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}
         // Make icon colors associated w pie
-        arcLabelsComponent={({ datum, label, style }) => (
+        layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredTotal]}
+        arcLabelsComponent={({ datum, label, style, CenteredTotal }) => (
           <animated.g transform={style.transform} style={{ pointerEvents: 'none' }}>
               <circle fill={style.textColor} cy={6} r={15} />
               <circle fill="#242424" stroke={datum.color} strokeWidth={2} r={16} />
@@ -215,7 +268,7 @@ const CommentsChart = props => {
                       fontWeight: 800,
                   }}
               >
-                  {label}
+                  {label}%
               </text>
           </animated.g>
       )}

@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import { Form, Row, Col, FormControl, Button, Table} from 'react-bootstrap';
 import VideoBox from './VideoBox'
 // import TotalLikes from './TotalLikes'
-
+import ReactLoading from 'react-loading';
 
 
 const TotalViews = props => {
@@ -29,7 +29,6 @@ const TotalViews = props => {
 
 
     }
-
     useEffect(() => {
     
         getTotalLikes(campaign_id);
@@ -37,8 +36,14 @@ const TotalViews = props => {
     },[]);
 
     return(
-        <div>
-            <strong id = 'tot_views'>Total Views: </strong>{tot_views}
+        <div className="d-flex">
+            <strong className="d-flex" id = 'tot_views'>Total Views: </strong>
+            {tot_views ?(
+                <div>
+                {tot_views}</div>
+            ):(
+                <ReactLoading type={"bars"} color={"#f40060"} height={0} width={25}/>
+            )}
             
 
         </div>

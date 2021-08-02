@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CampaignDataService from "../services/campaign";
+import ReactLoading from 'react-loading';
 // import {Link} from "react-router-dom";
 
 
@@ -14,7 +15,7 @@ const InfluencerFollowers = props => {
 //   };
 
 //   use init rest. state to create a restautant
-  const [followers, setFollowers] = useState(null)
+  const [followers, setFollowers] = useState([])
 
   const getFollowers = () => {
     CampaignDataService.getInfluencerFollowers({video_url : props.video_link})
@@ -63,7 +64,7 @@ const InfluencerFollowers = props => {
               </div>
               ):(
                 <div>
-                <p>Loading Data</p>
+                  <ReactLoading type={"bars"} color={"#f40060"} height={0} width={25}/>
                 </div>
               )
             }

@@ -39,6 +39,8 @@ const Campaign = props => {
   const [campaign, setCampaign] = useState(initialCampaignState)
   const [influencers_map, setInfluencersMap] = useState(null)
   const [updatedDate, setUpdatedDate] = useState(null)
+  const [startDate, setStartDate] = useState(null)
+  const [endDate, setEndDate] = useState(null)
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [dataView, setDataView] = useState(true);
   // let [editBtn,setEditBtn] = useState(null)
@@ -51,6 +53,8 @@ const Campaign = props => {
   const changeViewAction = () => {
     setDataView(!dataView);
   };
+
+
   const getCampaign = id => {
     // console.log('The id is ' + id)
     // console.log(props.user);
@@ -64,6 +68,30 @@ const Campaign = props => {
           const year = string_array[2]
           const date = month + " " + day + ", " + year
           setUpdatedDate(date)
+
+          let months_array = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 
+                        'Nov', 'Dec']
+          const startString = response.data.start
+          const startString_array = startString.split("-")
+          const startMonthNum = parseInt(startString_array[1])
+          const startMonth = months_array[startMonthNum-1]
+          const startDay = startString_array[2]
+          const startYear = startString_array[0]
+          console.log("start month: ", startMonth)
+          const sDate = startMonth + " " + startDay + ", " + startYear
+          setStartDate(sDate)
+
+
+          const endString = response.data.end
+          const endString_array = endString.split("-")
+          const endMonthNum = parseInt(endString_array[1])
+          const endMonth = months_array[endMonthNum-1]
+          const endDay = endString_array[2]
+          const endYear = endString_array[0]
+          console.log("start month: ", endMonth)
+          const eDate = endMonth + " " + endDay + ", " + endYear
+          setEndDate(eDate)
+
         })
         .catch(e => {
             console.log(e);
@@ -108,7 +136,7 @@ const Campaign = props => {
           // return <VideoBox></VideoBox>
           // console.log(video, index)
         //   console.log(influencer)
-          return <div className="col"><div className ='card  h-100' style={{marginBottom: ".8%"}}><VideoBox influencer = {influencer} index = {index} setCampaign = {setCampaign} isSwitchOn={isSwitchOn} dataView={dataView} setDataView={setDataView}></VideoBox></div></div>
+          return <div className="col"><div className ='card  h-100 w-100' style={{marginBottom: ".2%"}}><VideoBox influencer = {influencer} index = {index} setCampaign = {setCampaign} isSwitchOn={isSwitchOn} dataView={dataView} setDataView={setDataView}></VideoBox></div></div>
           // console.log(videos)
           
         }
@@ -156,10 +184,10 @@ const Campaign = props => {
                     <Card.Body>
                     <Row className="cInfo">
                         <Col>
-                        <strong>Start Date: {campaign.start}</strong>
+                        <strong>Start Date: {startDate}</strong>
                         </Col>
                         <Col>
-                        <strong>End Date: {campaign.end}</strong>
+                        <strong>End Date: {endDate}</strong>
                         </Col>
                         <Col>
                         <strong>Genre: </strong>{campaign.genre}
@@ -329,9 +357,9 @@ const Campaign = props => {
                               >
                                 <div className="tab-item-wrapper">
                                   {/* <div className="row" id="infl"> */}
-                                    <Table borderless style={{marginBottom: "-.1%", marginLeft:"1%",  width:"98%"}}>
+                                    <Table borderless style={{marginBottom: "-.01%", marginLeft:"1%",  width:"98%"}}>
                                       <thead>
-                                          <tr >
+                                          <tr>
                                             <th width="10.3%">Platform</th>
                                             <th width="15%">Username</th>
                                             <th width="13%">Views</th>
@@ -348,9 +376,9 @@ const Campaign = props => {
                                         {/* </tr> */}
                                       {/* </tbody> */}
                                     {/* </Table> */}
-                                    </div>
                                   <p>Last Update: {updatedDate}</p>
                                 {/* </div> */}
+                                    </div>
                               </Tab>
                             </Tabs>
 

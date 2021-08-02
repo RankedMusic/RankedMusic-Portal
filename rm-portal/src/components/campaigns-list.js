@@ -23,6 +23,7 @@ const CampaignsList = props => {
     retrieveCampaigns();
     retrieveGenre();
   }, []);
+ 
 
   // when someone types in search + set below to whatever typed in
   const onChangeSearchName = e => {
@@ -37,7 +38,6 @@ const CampaignsList = props => {
     const searchGenre = e.target.value;
     setSearchGenre(searchGenre);
   };
-
     
   const retrieveCampaigns = () => {
     CampaignDataService.getAll()
@@ -48,7 +48,27 @@ const CampaignsList = props => {
       .catch(e => {
         console.log(e);
       });
-  } 
+    } 
+
+
+  const getDate = date => {
+
+      let months_array = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 
+      'Nov', 'Dec']
+      const startString = date
+      const startString_array = startString.split("-")
+      const startMonthNum = parseInt(startString_array[1])
+      const startMonth = months_array[startMonthNum-1]
+      const startDay = startString_array[2]
+      const startYear = startString_array[0]
+      console.log("start month: ", startMonth)
+      const sDate = startMonth + " " + startDay + ", " + startYear
+      return(sDate);
+
+  };
+
+
+  
 
   const retrieveGenre = () => {
     CampaignDataService.getGenre()
@@ -111,7 +131,7 @@ const CampaignsList = props => {
   };
 
   return (
-    <div>
+    <div style={{width:"95%"}}>
       <div className="row pb-1">
         {/* input group -> 3 ways ppl can search */}
         <div className="input-group col-lg-4">
@@ -160,21 +180,24 @@ const CampaignsList = props => {
 
         </div>
       </div>
-      <div className="row">
+      <div className="row" >
         {/* map f(n) to map thru campaigns array */}
-        {campaigns.map((campaign) => {
+        {campaigns.sort(function(a,b){
+          return new Date(b.start)- new Date (a.start)
+        })
+          .map((campaign) => {
           // getting address of each campaign + put 3 components of addy in 1 string
           // const address = `${campaign.address.building} ${campaign.address.street}, ${campaign.address.zipcode}`;
           // for each campaign returning info of each campaign in a card
           return (
-            <div className="col-lg-4 pb-1">
+            <div className="col-lg-4 pb-1 h-100">
               <Card action border="light" bg="light">
-                <Card.Header as="h6">Some Info Here?</Card.Header>
+                <Card.Header as="h7" style={{fontSize:"80%", color:"#f40060"}}><em><strong>Account Executive: </strong></em>{campaign.accountExec}</Card.Header>
                 <Card.Body>
                   <Card.Title as="h5">{campaign.name}</Card.Title>
                   <Card.Text>
-                    <strong>Start Date: </strong>{campaign.start}<br/>
-                    <strong>End Date: </strong>{campaign.end}<br/>
+                    <strong>Start Date: </strong>{getDate(campaign.start)}<br/>
+                    <strong>End Date: </strong>{getDate(campaign.end)}<br/>
                     <strong>Genre: </strong>{campaign.genre}
                     {/* {address} */}
                   </Card.Text>

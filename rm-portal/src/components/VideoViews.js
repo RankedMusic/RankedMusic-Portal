@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CampaignDataService from "../services/campaign";
 // import {Link} from "react-router-dom";
-
+import ReactLoading from 'react-loading';
 
 
 const VideoViews = props => {
@@ -61,7 +61,7 @@ const VideoViews = props => {
               </div>
               ):(
                 <div>
-                <p>Loading Data</p>
+                <ReactLoading type={"bars"} color={"#f40060"} height={0} width={25}/>
                 </div>
               )
             }

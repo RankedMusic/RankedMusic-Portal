@@ -9,11 +9,13 @@ import { animated } from '@react-spring/web'
 import ContentLoader from 'react-content-loader'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+// import TotalViews from './TotalViews';
 
 const ViewsChart = props => {
     const [historical_views, setHistoricalViews] = useState(null)
     const [influencer_views, setInfluencerViews] = useState([])
+    const [totalView, setTotalView] = useState(null)
+    // const [sumView, setSumView] = useState(null)
     const [influencer_views_percent, setInfluencerViewsPercent] = useState([])
     const data = [{name: 'Jun 30 2021', uv: 400, pv: 2400, amt: 2400}, {name: 'July 01 2021', uv: 600, pv: 2400, amt: 2400}, {name: 'July 02 2021', uv: 760, pv: 2400, amt: 2400}];
     // const infData = [{username_string:'tuckercomedy', views_string: 100}, {username_string:'oficialdankhumor', views_string: 6824}, {username_string:'tuckercomedy', views_string: 100}];
@@ -52,7 +54,7 @@ const ViewsChart = props => {
           // NOTE: influencer_views_array is an array of objects of the form [{username: 'name', views: 324}, ...]
           // console.log(influencer_views_array)
           setInfluencerViews(influencer_views_array)
-        
+          setTotalView(sumViews);
           
           // CampaignDataService.saveUsername(response.influencer)
           // CampaignDataService.getVideoViews(response.influencer)
@@ -76,6 +78,7 @@ const ViewsChart = props => {
           influencer_views_percent_array.push({id: username_string, value: views})
         }
         setInfluencerViewsPercent(influencer_views_percent_array)
+        
     })
     .catch(e => {
         console.log(e)
@@ -159,6 +162,7 @@ console.log(influencer_views_percent)
           gather_influencer_views();
           showError();
           gather_influencer_views_percent();
+          setTotalView();
         //   only will get called if id is updated
       }, [props.campaign_id]);
   
@@ -290,8 +294,32 @@ console.log(influencer_views_percent)
   //         </text>
   //     ) 
   // }
+  // setSumView(totalView)
+  const CenteredTotal = ({ centerX, centerY }) => {
+    // let total = 0
+    // dataWithArc.forEach(datum => {
+    //     total += datum.value
+    // })
+    // let totNum = (totalView).toLocaleString('en')
+    return (
+        <text
+            x={centerX}
+            y={centerY}
+            textAnchor="middle"
+            dominantBaseline="central"
+            style={{
+                fontSize: '2.5vw',
+                fontWeight: 600,
+            }}
+        >
+            Total: {totalView}
+        </text>
+    )
+}
+
     const renderPieChart = (
       <div style={{height: 650}}>
+        
       <ResponsivePie
           data={ influencer_views_percent }
           // width={1000} 
@@ -299,7 +327,7 @@ console.log(influencer_views_percent)
           id={influencer_views_percent.id}
           value={influencer_views_percent.value}
           margin={{ top: 40, right: 200, bottom: 40, left: 80 }}
-          innerRadius={0.45}
+          innerRadius={0.55}
           arcLabelsRadiusOffset={0.55}
           motionConfig= 'gentle'
           padAngle={0.8}
@@ -323,11 +351,13 @@ console.log(influencer_views_percent)
           arcLinkLabelsDiagonalLength={25}
           arcLinkLabelsTextOffset={8}
           arcLinkLabelsStraightLength={35}
-          arcLabelsTextColor="#333333"
+          // arcLabelsTextColor="#333333"
+          arcLinkLabelsTextColor={{ from: 'color', modifiers: [] }}
           activeInnerRadiusOffset={8}
         // layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}
         // Make icon colors associated w pie
-        arcLabelsComponent={({ datum, label, style }) => (
+        layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredTotal]}
+        arcLabelsComponent={({ datum, label, style, CenteredTotal }) => (
           <animated.g transform={style.transform} style={{ pointerEvents: 'none' }}>
               <circle fill={style.textColor} cy={6} r={15} />
               <circle fill="#242424" stroke={datum.color} strokeWidth={2} r={16} />
@@ -439,7 +469,7 @@ console.log(influencer_views_percent)
             </Card.Header>
             <Card.Body>
               
-                {renderPieChart}
+            {renderPieChart}
               
               
               

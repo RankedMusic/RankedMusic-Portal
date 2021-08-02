@@ -86,7 +86,7 @@ const Login = props => {
                     {/* </div>
         
             <div> */}
-            <Form onSubmit={handleLogin} className="loginForm" variant='dark'>
+            <Form style={{width:"95%"}} onSubmit={handleLogin} className="loginForm" variant='dark'>
                 <Form.Group className="mb-3" controlId="validationUname">
                     <Form.Label>Username</Form.Label>
                     <FormControl
