@@ -246,7 +246,9 @@ const CommentsChart = props => {
       )
     }
     const renderPieChart = (
-      <div style={{height: 650}}>
+      <div>
+        { totalComments >1 || !totalComments ? (
+      <div style={{height: 575}}>
       <ResponsivePie
           data={ influencer_comments_percent }
           // width={1000} 
@@ -258,7 +260,7 @@ const CommentsChart = props => {
           arcLabelsRadiusOffset={0.55}
           motionConfig= 'gentle'
           padAngle={0.8}
-          cornerRadius={5}
+          cornerRadius={3}
           activeOuterRadiusOffset={8}
           // tooltip={
           //   <Chip key="chip" color={datum.color} />,
@@ -279,17 +281,17 @@ const CommentsChart = props => {
           // )}
           arcLinkLabelsOffset={2}
           borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.6 ] ] }}
-          arcLinkLabelsSkipAngle={3}
+          arcLinkLabelsSkipAngle={8}
           arcLinkLabelsTextColor="#333333"
           arcLinkLabelsThickness={2}
           // ******Divide value from total and add %
           arcLinkLabel={d => `${d.id}: ${d.value}%`}
-          arcLinkLabelsColor={{ from: 'color' }}
-          arcLabelsSkipAngle={10}        
+          arcLinkLabelsColor={{ from: 'color' }}   
+          arcLabelsSkipAngle={10}          
           arcLabelsRadiusOffset={0.70}
-          arcLinkLabelsDiagonalLength={25}
-          arcLinkLabelsTextOffset={8}
-          arcLinkLabelsStraightLength={35}
+          arcLinkLabelsDiagonalLength={20}
+          // arcLinkLabelsTextOffset={8}
+          arcLinkLabelsStraightLength={25}
           // arcLabelsTextColor="#333333"
           // tooltipFormat={
           //   (id=datum.id,
@@ -299,6 +301,9 @@ const CommentsChart = props => {
           activeInnerRadiusOffset={8}
         // layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}
         // Make icon colors associated w pie
+        valueFormat={value =>
+          `${Number(value)}%`
+      }
         layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredTital, CenteredTotal]}
         arcLabelsComponent={({ datum, label, style, CenteredTotal }) => (
           <animated.g transform={style.transform} style={{ pointerEvents: 'none' }}>
@@ -313,7 +318,7 @@ const CommentsChart = props => {
                       fontWeight: 800,
                   }}
               >
-                  {label}%
+                  {label}
               </text>
           </animated.g>
       )}
@@ -353,7 +358,7 @@ const CommentsChart = props => {
                   itemHeight: 20,
                   itemTextColor: '#999',
                   itemDirection: 'left-to-right',
-                  itemOpacity: 1,
+                  itemOpacity: .75,
                   itemsSpacing: 10,
                   symbolSize: 20,
                   symbolShape: 'circle'
@@ -361,6 +366,23 @@ const CommentsChart = props => {
           ]}
       />
       </div>
+        ):(
+        <div className="text-center" style={{marginTop:"-5%"}}>
+          <ContentLoader viewBox="0 0 400 200" height={400} width={1000} speed={3} backgroundColor={'#f40060'} foregroundColor={'#3f0350'}  {...props}>
+      {/* <rect x="100" y="5" rx="0" ry="0" width="200" height="15" /> */}
+            <circle cx="140" cy="110" r="70" />
+            <rect x="250" y="90" rx="0" ry="0" width="7" height="7" />
+            <rect x="270" y="90" rx="0" ry="0" width="35" height="7" />
+            <rect x="250" y="104" rx="0" ry="0" width="7" height="7" />
+            <rect x="270" y="104" rx="0" ry="0" width="35" height="7" />
+            <rect x="250" y="118" rx="0" ry="0" width="7" height="7" />
+            <rect x="270" y="118" rx="0" ry="0" width="35" height="7" />
+            <rect x="250" y="132" rx="0" ry="0" width="7" height="7" />
+            <rect x="270" y="132" rx="0" ry="0" width="35" height="7" />
+          </ContentLoader>
+        </div>
+        )}
+        </div>
     );
 
     return(

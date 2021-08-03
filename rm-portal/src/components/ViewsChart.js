@@ -355,105 +355,126 @@ const CenteredTotal = ({ centerX, centerY }) => {
   )
 }
     const renderPieChart = (
-      <div style={{height: 650}}>
-        
-      <ResponsivePie
-          data={ influencer_views_percent }
-          // width={1000} 
-          // height={500}
-          id={influencer_views_percent.id}
-          value={influencer_views_percent.value}
-          margin={{ top: 40, right: 200, bottom: 40, left: 80 }}
-          innerRadius={0.55}
-          arcLabelsRadiusOffset={0.55}
-          motionConfig= 'gentle'
-          padAngle={0.8}
-          cornerRadius={5}
-          activeOuterRadiusOffset={8}
-          // colors={{ scheme: 'pink_yellowGreen' }}
-          // colors={{ scheme: 'red_purple' }}
-          // colors={ colorsPallete }
-          // colors={ colorsPallete2 }
-          colors={ colorsPallete3 }
-          arcLinkLabelsOffset={2}
-          borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.6 ] ] }}
-          arcLinkLabelsSkipAngle={3}
-          arcLinkLabelsTextColor="#333333"
-          arcLinkLabelsThickness={2}
-          // ******fix % on tooltip hover + add actual value on tooltip
-          arcLinkLabel={d => `${d.id}: ${d.value}%`}
-          arcLinkLabelsColor={{ from: 'color' }}
-          arcLabelsSkipAngle={10}        
-          arcLabelsRadiusOffset={0.70}
-          arcLinkLabelsDiagonalLength={25}
-          arcLinkLabelsTextOffset={8}
-          arcLinkLabelsStraightLength={35}
-          // arcLabelsTextColor="#333333"
-          arcLinkLabelsTextColor={{ from: 'color', modifiers: [] }}
-          activeInnerRadiusOffset={8}
-        // layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}
-        // Make icon colors associated w pie
-        layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredTital, CenteredTotal]}
-        arcLabelsComponent={({ datum, label, style, CenteredTital, CenteredTotal }) => (
-          <animated.g transform={style.transform} style={{ pointerEvents: 'none' }}>
-              <circle fill={style.textColor} cy={6} r={15} />
-              <circle fill="#242424" stroke={datum.color} strokeWidth={2} r={16} />
-              <text
-                  textAnchor="middle"
-                  dominantBaseline="central"
-                  fill={"white"}
-                  style={{
-                      fontSize: 10,
-                      fontWeight: 800,
-                  }}
-              >
-                  {label}%
-              </text>
-          </animated.g>
+      <div>
+      { totalView > 1 || !totalView ? (
+          <div style={{height: 575}}>
+          <ResponsivePie
+              data={ influencer_views_percent }
+              // width={800} 
+              // height={1000}
+              id={influencer_views_percent.id}
+              value={influencer_views_percent.value}
+              margin={{ top: 40, right: 200, bottom: 40, left: 80 }}
+              innerRadius={0.55}
+              arcLabelsRadiusOffset={0.55}
+              motionConfig= 'gentle'
+              padAngle={0.8}
+              cornerRadius={3}
+              activeOuterRadiusOffset={8}
+              // colors={{ scheme: 'pink_yellowGreen' }}
+              // colors={{ scheme: 'red_purple' }}
+              // colors={ colorsPallete }
+              // colors={ colorsPallete2 }
+              colors={ colorsPallete3 }
+              arcLinkLabelsOffset={2}
+              borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.6 ] ] }}
+              arcLinkLabelsSkipAngle={8}
+              arcLinkLabelsTextColor="#333333"
+              arcLinkLabelsThickness={2}
+              // ******fix % on tooltip hover + add actual value on tooltip
+              arcLinkLabel={d => `${d.id}: ${d.value}%`}
+              arcLinkLabelsColor={{ from: 'color' }}
+              arcLabelsSkipAngle={10}        
+              arcLabelsRadiusOffset={0.70}
+              arcLinkLabelsDiagonalLength={20}
+              // arcLinkLabelsTextOffset={40}
+              arcLinkLabelsStraightLength={25}
+              // arcLabelsTextColor="#333333"
+              arcLinkLabelsTextColor={{ from: 'color', modifiers: [] }}
+              activeInnerRadiusOffset={8}
+            // layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}
+            // Make icon colors associated w pie
+            valueFormat={value =>
+              `${Number(value)}%`
+          }
+            layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredTital, CenteredTotal]}
+            arcLabelsComponent={({ datum, label, style, CenteredTital, CenteredTotal }) => (
+              <animated.g transform={style.transform} style={{ pointerEvents: 'none' }}>
+                  <circle fill={style.textColor} cy={6} r={15} />
+                  <circle fill="#242424" stroke={datum.color} strokeWidth={2} r={16} />
+                  <text
+                      textAnchor="middle"
+                      dominantBaseline="central"
+                      fill={"white"}
+                      style={{
+                          fontSize: 10,
+                          fontWeight: 800,
+                      }}
+                  >
+                      {label}
+                  </text>
+              </animated.g>
+          )}
+              defs={[
+                  {
+                      id: 'dots',
+                      type: 'patternDots',
+                      background: 'inherit',
+                      color: 'rgba(255, 255, 255, 0.3)',
+                      size: 4,
+                      padding: 1,
+                      stagger: true
+                  },
+                  {
+                      value: 'lines',
+                      type: 'patternLines',
+                      background: 'inherit',
+                      color: 'rgba(255, 255, 255, 0.3)',
+                      rotation: -45,
+                      lineWidth: 6,
+                      spacing: 10
+                  }
+              ]}
+              fill={[
+                { match: d => d.value > 10, id: 'squares' },
+                { match: influencer_views => influencer_views.id === "oscarinking", id: 'lines' }
+              ]}
+              legends={[
+                  {
+                      anchor: 'right',
+                      direction: 'column',
+                      justify: false,
+                      translateX: 140,
+                      translateY: 0,
+                      itemsSpacing: 2,
+                      itemWidth: 60,
+                      itemHeight: 20,
+                      itemTextColor: '#999',
+                      itemDirection: 'left-to-right',
+                      itemOpacity: .75,
+                      itemsSpacing: 10,
+                      symbolSize: 20,
+                      symbolShape: 'circle'
+                  }
+              ]}
+              />
+            </div>
+        ):(
+        <div className="text-center" style={{marginTop:"-5%"}}>
+          <ContentLoader viewBox="0 0 400 200" height={400} width={1000} speed={3} backgroundColor={'#f40060'} foregroundColor={'#3f0350'}  {...props}>
+      {/* <rect x="100" y="5" rx="0" ry="0" width="200" height="15" /> */}
+            <circle cx="140" cy="110" r="70" />
+            <rect x="250" y="90" rx="0" ry="0" width="7" height="7" />
+            <rect x="270" y="90" rx="0" ry="0" width="35" height="7" />
+            <rect x="250" y="104" rx="0" ry="0" width="7" height="7" />
+            <rect x="270" y="104" rx="0" ry="0" width="35" height="7" />
+            <rect x="250" y="118" rx="0" ry="0" width="7" height="7" />
+            <rect x="270" y="118" rx="0" ry="0" width="35" height="7" />
+            <rect x="250" y="132" rx="0" ry="0" width="7" height="7" />
+            <rect x="270" y="132" rx="0" ry="0" width="35" height="7" />
+          </ContentLoader>
+        </div>
       )}
-          defs={[
-              {
-                  id: 'dots',
-                  type: 'patternDots',
-                  background: 'inherit',
-                  color: 'rgba(255, 255, 255, 0.3)',
-                  size: 4,
-                  padding: 1,
-                  stagger: true
-              },
-              {
-                  value: 'lines',
-                  type: 'patternLines',
-                  background: 'inherit',
-                  color: 'rgba(255, 255, 255, 0.3)',
-                  rotation: -45,
-                  lineWidth: 6,
-                  spacing: 10
-              }
-          ]}
-          fill={[
-            { match: d => d.value > 10, id: 'squares' },
-            { match: influencer_views => influencer_views.id === "oscarinking", id: 'lines' }
-          ]}
-          legends={[
-              {
-                  anchor: 'right',
-                  direction: 'column',
-                  justify: false,
-                  translateX: 140,
-                  translateY: 0,
-                  itemsSpacing: 2,
-                  itemWidth: 60,
-                  itemHeight: 20,
-                  itemTextColor: '#999',
-                  itemDirection: 'left-to-right',
-                  itemOpacity: 1,
-                  itemsSpacing: 10,
-                  symbolSize: 20,
-                  symbolShape: 'circle'
-              }
-          ]}
-      />
       </div>
   );
 
