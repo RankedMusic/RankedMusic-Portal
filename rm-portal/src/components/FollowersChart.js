@@ -164,7 +164,7 @@ const FollowersChart = props => {
   
     const renderLineChart = (
     <div>
-      { historical_followers>0 ? (
+      { historical_followers ? (
         <LineChart width={1000} height={500} data={historical_followers} margin={{ top: 5, right: 20, bottom: 5, left: 20 }}>
           <Legend verticalAlign="top" height={36} layout="vertical" />
           <Line type="monotone" dataKey="followers" stroke="#8884d8" />

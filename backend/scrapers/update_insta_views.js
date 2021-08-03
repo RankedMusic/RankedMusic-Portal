@@ -62,7 +62,7 @@ const getViewsFromArray = async (influencers, client, insta_links_array) => {
         let date_string = date.toString()
         let current_date_string = date_string.substring(4,15)
 
-       
+       console.log(last_date_updated)
         if(!last_date_updated.includes(current_date_string)){
             let profile_url_beginning='https://www.instagram.com/'
             
@@ -98,8 +98,8 @@ const getViewsFromArray = async (influencers, client, insta_links_array) => {
             }
 
         }
-        if(finished_all == true){
-            console.log('And that\'s the end')
+        if(finished_all == true) {
+            console.log('Moving on')
         }
         else{
             console.log('We still need views from the following:')

@@ -122,7 +122,7 @@ console.log(influencer_views_percent)
     )
     const viewsId = "v1";
     const showError = () =>{
-      if (historical_views>0) {
+      if (historical_views != 0) {
         toast.success(<SuccessMsg />, {
           toastId: viewsId,
             position: "top-right",
@@ -182,7 +182,7 @@ console.log(influencer_views_percent)
       const toggleShowAlert = () => setShowAlert(!showAlert);
     const renderLineChart = (
       <div>
-        { historical_views>0 ? (
+        { historical_views ? (
           <LineChart width={1000} height={500} data={historical_views} margin={{ top: 5, right: 20, bottom: 5, left: 20 }}>
                     <Legend verticalAlign="top" height={36} layout="vertical"/>
                     <Line type="monotone" dataKey="views" stroke="#8884d8" />

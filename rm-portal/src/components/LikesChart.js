@@ -102,7 +102,7 @@ const LikesChart = props => {
     )
     const likesId="l1";
     const showError = () =>{
-      if (historical_likes>0) {
+      if (historical_likes != null) {
           toast.success(<SuccessMsg />, {
             delay: 1000,
             toastId: likesId,
@@ -165,7 +165,7 @@ const LikesChart = props => {
   
     const renderLineChart = (
       <div>
-        { historical_likes>0 ? (
+        { historical_likes ? (
         <LineChart width={1000} height={500} data={historical_likes} margin={{ top: 5, right: 20, bottom: 5, left: 20 }}>
           <Legend verticalAlign="top" height={36} layout="vertical" />
           <Line type="monotone" dataKey="likes" stroke="#8884d8" />

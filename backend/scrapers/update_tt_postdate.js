@@ -64,7 +64,7 @@ async function getPostDateFromArray(influencers, client, links_array){
         let single_video_url = influencer.influencer
         // console.log(single_video_url)
         
-        
+        if(influencer.postdate == null){
         
             let postdate = await getPostDate(single_video_url)
             // console.log('The influencer postdate is ' + influencer_postdate.postdate_string)
@@ -74,7 +74,9 @@ async function getPostDateFromArray(influencers, client, links_array){
             )
             await sleep(5000);
         
+        }
     }
+console.log('And that\'s the end')
 }
 
 
@@ -138,15 +140,16 @@ function formatPostDate(postdate_text){
         
         
         let split_date = today_date.split(' ')
-        console.log(days_ago_num)
+        
+        // console.log(days_ago_num)
         let today_day_num = Number(split_date[1])
         let cur_month = split_date[0]
-        console.log(today_day_num)
+        // console.log(today_day_num)
         
         // let cur_month = 'Jun'
         let cur_month_num = months_array.indexOf(cur_month)
         // let today_day_num = 2
-        console.log(cur_month_num)
+        // console.log(cur_month_num)
 
         let post_day_num = today_day_num - days_ago_num
         let post_month_num = ''
@@ -159,10 +162,13 @@ function formatPostDate(postdate_text){
             post_day_num = 30 + post_day_num
             console.log(post_day_num)
             post_month_num = cur_month_num - 1
-            
+            // console.log(post_month_num)
             post_month = months_array[post_month_num]
+            console.log(post_month)
         }
-        post_month = months_array[cur_month_num]
+        else{
+            post_month = months_array[cur_month_num]
+        }
         console.log('The post date is ' + post_month + ' ' + post_day_num + ' ' + post_year)
         let post_date = post_month + ' ' + post_day_num + ' ' + post_year
         return post_date

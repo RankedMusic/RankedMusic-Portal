@@ -64,7 +64,7 @@ async function getPostDateFromArray(influencers, client, insta_links_array){
         let single_video_url = influencer.influencer
         // console.log(single_video_url)
         
-        
+        if(influencer.postdate == null){
         
             let postdate = await getPostDate(single_video_url)
             // console.log('The influencer postdate is ' + influencer_postdate.postdate_string)
@@ -73,6 +73,7 @@ async function getPostDateFromArray(influencers, client, insta_links_array){
                 { $set: postdate},
             )
             await sleep(5000);
+        }
         
     }
 }
@@ -155,7 +156,9 @@ function formatPostDate(postdate_text){
             
             post_month = months_array[post_month_num]
         }
-        post_month = months_array[cur_month_num]
+        else{
+            post_month = months_array[cur_month_num]
+        }
         console.log('The post date is ' + post_month + ' ' + post_day_num + ' ' + post_year)
         let post_date = post_month + ' ' + post_day_num + ' ' + post_year
         return post_date

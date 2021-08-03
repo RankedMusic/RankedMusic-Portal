@@ -60,28 +60,51 @@ async function getFollowersFromArray(influencers, client, links_array){
         
         let influencer = await influencers.findOne({influencer: links_array[i]})
         let single_video_url = influencer.influencer
-        let profile_url_beginning='https://www.tiktok.com/@'
-        
-        let profile_username = influencer.username_string
-        // console.log(profile_username)
-        let profile_username = await profile_username_string
-        let profile_url = profile_url_beginning + profile_username
-        // console.log(profile_url)
-        
-        // console.log(single_video_url)
-        let followers_object = await get_tt_followers(profile_url)
-        
+        let last_date_updated = ''
+        if(influencer.dates_updated.followers_updated == undefined){
+            last_date_updated = 'never'
+        }
+        else{
+            last_date_updated = influencer.dates_updated.followers_updated
+        }
        
-        await influencers.updateOne(
-            { influencer: single_video_url},
-            { $set: followers_object}
-        )
 
-            
-            await sleep(5000);
         
+        let date = new Date()
+        let date_string = date.toString()
+        let current_date_string = date_string.substring(4,15)
+
+        
+        console.log(last_date_updated)
+        if(!last_date_updated.includes(current_date_string)){
+
+            let profile_url_beginning='https://www.tiktok.com/@'
+            
+            let profile_username = influencer.username_string
+            // console.log(profile_username)
+           
+            let profile_url = profile_url_beginning + profile_username
+            // console.log(profile_url)
+            
+            // console.log(single_video_url)
+            let followers_object = await get_tt_followers(profile_url)
+            
+        
+            await influencers.updateOne(
+                { influencer: single_video_url},
+                { $set: followers_object}
+            )
+            await influencers.updateOne(
+                { influencer: single_video_url},
+                { $set: {'dates_updated.followers_updated' : current_date_string}}
+            )
+
+                
+                await sleep(5000);
+        }
         
     }
+    console.log('And that\'s the end')
 }
 
 const get_tt_followers = async (profile_url) => {

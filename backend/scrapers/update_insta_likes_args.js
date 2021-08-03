@@ -14,22 +14,27 @@ async function main() {
         // Connect to the MongoDB cluster
         await client.connect();
 
+        let cl_args_array = process.argv
+        let link_args_array = []
         
- 
-        // Make the appropriate DB calls
-        // await  listDatabases(client);
-        
-        // console.log(influencers)
-        // let influencer_video_url = await getInfluencerUrl(influencers)
-        // console.log(influencer_video_url)
-        // let video_likes = await getVideoLikes(influencer_video_url)
-        let insta_links_array_object = await client.db("campaign_DB").collection('insta_links_array').findOne({name: 'insta_links_array'});
+        for(let i = 0; i < cl_args_array.length; i = i + 1){
+            // console.log(i)
+            if(i > 1){
+                link_args_array.push(cl_args_array[i])
+            }
+        }
         let influencers = await client.db("campaign_DB").collection('influencers');
-        let insta_links_array = insta_links_array_object.insta_links_array
+        console.log(link_args_array)
+
+        
+
+      
+       
+        
         // console.log(insta_links_array)
         // console.log(insta_influencers)
         
-        await getLikesFromArray(influencers, client, insta_links_array)
+        await getLikesFromArray(influencers, client, link_args_array)
         
         
         

@@ -24,22 +24,27 @@ main().catch(console.error);
 
 
 const getCommentsFromArray = async (influencers, client, insta_links_array) => {
+    let finished_all = true
+    let index_stopped = 0
     for(let i = 0; i < insta_links_array.length; i = i + 1){
         
         let influencer = await influencers.findOne({influencer: insta_links_array[i]})
         let single_vid_link = insta_links_array[i]
-        if(influencer.dates_updated == null){
-            await influencers.updateOne(
-                { influencer: single_video_url},
-                { $set: {dates_updated: {comments_updated: ''}}}
-            )
-        }
+        
         let date = new Date()
         let date_string = date.toString()
         let current_date_string = date_string.substring(4,15)
         
-        let current_date_updated = influencer.dates_updated.views_updated
-        if(!current_date_updated.includes(current_date_string)){
+        let last_date_updated = ''
+        if(influencer.dates_updated.comments_updated == undefined){
+            last_date_updated = 'never'
+        }
+        else{
+            last_date_updated = influencer.dates_updated.comments_updated
+            
+        }
+        console.log(last_date_updated)
+        if(!last_date_updated.includes(current_date_string)){
             let profile_url_beginning='https://www.instagram.com/'
             
             let profile_username = influencer.username_string
@@ -60,17 +65,30 @@ const getCommentsFromArray = async (influencers, client, insta_links_array) => {
                 )
 
                 await influencers.updateOne(
-                    { influencer: single_video_url},
+                    { influencer: single_vid_link},
                     { $set: {'dates_updated.comments_updated' : current_date_string}}
                 )
                 await sleep(10000);
             }
             else{
-
-                console.log('We did not get comments for the video ' + single_vid_link)
-                console.log('Most likely because element is not found')
-                console.log('Recheck XPath on chromium')
-                console.log('')
+                index_stopped = i
+                finished_all = false
+                console.log('If you were redirected to the login page then switch to hot spot and switch back')
+                break;
+                
+            }
+            if(finished_all == true) {
+                console.log('Moving on')
+            }
+            else{
+                console.log('We still need views from the following:')
+                let full_string = ''
+                for(let i = index_stopped; i < insta_links_array.length; i++){
+                    full_string = full_string + ' ' + insta_links_array[i]
+                    // console.log(insta_links_array[i])
+                }
+                console.log(full_string)
+                
             }
         }
     console.log('And that\'s the end')
@@ -117,53 +135,57 @@ const get_insta_comments = async (video_url, profile_url) => {
             iteration_counter = 3
         }
     }
-    await reels[0].click();
+    if(reels[0] != null){
+        await reels[0].click();
 
-    await page.waitForTimeout(2000);
-    await autoScroll(page)
+        await page.waitForTimeout(2000);
+        await autoScroll(page)
 
-    let fullXPath = await getXPath(page, video_url, iteration_counter)
+        let fullXPath = await getXPath(page, video_url, iteration_counter)
 
-    // /html/body/div[1]/section/main/div/div[3]/div/div/div/div[1]/div[1]/div/a/div[2]/div[1]/div/ul/li[2]/span[1]
-    // /html/body/div[1]/section/main/div/div[3]/div/div/div/div[1]/div[2]/div/a/div[2]/div[1]/div/ul/li[2]/span[1] -
-    // /html/body/div[1]/section/main/div/div[3]/div/div/div/div[row_num]/div[col_num]/div/a/div[2]/div[1]/div/ul/li[2]/span[1]
+        // /html/body/div[1]/section/main/div/div[3]/div/div/div/div[1]/div[1]/div/a/div[2]/div[1]/div/ul/li[2]/span[1]
+        // /html/body/div[1]/section/main/div/div[3]/div/div/div/div[1]/div[2]/div/a/div[2]/div[1]/div/ul/li[2]/span[1] -
+        // /html/body/div[1]/section/main/div/div[3]/div/div/div/div[row_num]/div[col_num]/div/a/div[2]/div[1]/div/ul/li[2]/span[1]
 
-    // let gen_work_xpat = '/html/body/div[1]/section/main/div/div[3]/div/div/div/div[row_num]/div[col_num]/div/a/div[2]/div[1]/div/ul/li[2]/span[1]'
-    let comments = await page.$x(fullXPath);
-    if(comments.length == 0){
-        console.log('try again')
-        return null
-    }
-    else{
-        let comments_text = await page.evaluate(element => element.textContent, comments[0]);
-        console.log(comments_text)
-        let number = 0
-        if(comments_text.includes('k')){
-            let regex_no_K = /[^k]*/
-            comments_text = comments_text.match(regex_no_K)
-            comments_text = String(comments_text)
-
-            number = Number(comments_text)
-            number = number * 1000
-        }
-        else if(comments_text.includes('m')){
-            let regex_no_K = /[^m]*/
-            comments_text = comments_text.match(regex_no_K)
-            comments_text = String(comments_text)
-
-            number = Number(comments_text)
-            number = number * 1000000
+        // let gen_work_xpat = '/html/body/div[1]/section/main/div/div[3]/div/div/div/div[row_num]/div[col_num]/div/a/div[2]/div[1]/div/ul/li[2]/span[1]'
+        let comments = await page.$x(fullXPath);
+        if(comments.length == 0){
+            console.log('try again')
+            return null
         }
         else{
-            number = Number(comments_text)
+            let comments_text = await page.evaluate(element => element.textContent, comments[0]);
+            console.log(comments_text)
+            let number = 0
+            if(comments_text.includes('k')){
+                let regex_no_K = /[^k]*/
+                comments_text = comments_text.match(regex_no_K)
+                comments_text = String(comments_text)
+
+                number = Number(comments_text)
+                number = number * 1000
+            }
+            else if(comments_text.includes('m')){
+                let regex_no_K = /[^m]*/
+                comments_text = comments_text.match(regex_no_K)
+                comments_text = String(comments_text)
+
+                number = Number(comments_text)
+                number = number * 1000000
+            }
+            else{
+                number = Number(comments_text)
+            }
+            let comments_object = {num_comments: number}
+            console.log(comments_object)
+            
+            await browser.close();
+            return comments_object
         }
-        let comments_object = {num_comments: number}
-        console.log(comments_object)
-        
-        await browser.close();
-        return comments_object
     }
-    
+    else{
+        return null
+    }
 }
 
 async function autoScroll(page){
@@ -245,7 +267,7 @@ const getXPath = async(page, video_url, iteration_counter) => {
     
    
 }
-get_insta_comments("https://www.instagram.com/reel/CRRnoGsFhAY/?utm_medium=copy_link", "https://www.instagram.com/jeanca.milo/")
+// get_insta_comments("https://www.instagram.com/reel/CRRnoGsFhAY/?utm_medium=copy_link", "https://www.instagram.com/jeanca.milo/")
 
 
 
