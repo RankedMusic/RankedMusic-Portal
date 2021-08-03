@@ -192,7 +192,7 @@ const CampaignsList = props => {
           return (
             <div className="col-lg-4 pb-1 h-100">
               <Card action border="light" bg="light">
-                <Card.Header as="h7" style={{fontSize:"80%", color:"#f40060"}}><em><strong>Account Executive: </strong></em>{campaign.accountExec}</Card.Header>
+                <Card.Header as="h7" style={{fontSize:"80%", color:"#f40060"}}><em><strong>Campaign Manager: </strong></em>{campaign.campManager}</Card.Header>
                 <Card.Body>
                   <Card.Title as="h5">{campaign.name}</Card.Title>
                   <Card.Text>

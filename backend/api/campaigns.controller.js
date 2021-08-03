@@ -16,9 +16,9 @@ export default class CampaignsController {
             const start = req.body.start
             const end = req.body.end
             const genre = req.body.genre
-            const id = req.body.id
+            // const id = req.body.id
             const platform = req.body.platform
-            const accountExec = req.body.accountExec
+            // const accountExec = req.body.accountExec
             const campManager = req.body.campManager
             const clientContact = req.body.clientContact
             const artist = req.body.artist
@@ -31,9 +31,9 @@ export default class CampaignsController {
                 start,
                 end,
                 genre,
-                id,
+                // id,
                 platform,
-                accountExec,
+                // accountExec,
                 campManager,
                 clientContact,
                 artist,
@@ -123,10 +123,10 @@ export default class CampaignsController {
 // method that gets info from body, send over to db
 static async UpdateCampaign(req, res, next) {
     try {
-        const _id = req.body.campaignId
+        // const _id = req.body.campaignId
         const genre = req.body.genre
         const platform = req.body.platform
-        const accountExec = req.body.accountExec
+        // const accountExec = req.body.accountExec
         const campManager = req.body.campManager
         const clientContact = req.body.clientContact
         const artist = req.body.artist
@@ -134,11 +134,11 @@ static async UpdateCampaign(req, res, next) {
         const songLink = req.body.songLink
 
         const CampaignResponse = await CampaignsDAO.updateCampaign(
-            _id,
+            // _id,
             // req.body.user_id,
             genre,
             platform,
-            accountExec,
+            // accountExec,
             campManager,
             clientContact,
             artist,

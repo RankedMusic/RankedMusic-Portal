@@ -204,28 +204,24 @@ const Campaign = props => {
                           }
                           `}</style>
                       </Row>
-                    <Table style={{ borderColor: ""}} bordered hover >
+                    <Table style={{ borderColor: "", marginBottom:"4%"}} bordered hover >
                       <tbody>
                         <tr>
-                          <td><em>Campaign ID: </em>{campaign.id}</td> 
-                          <td><em>Client Contact: </em>{campaign.clientContact}</td>
-                        </tr>
-                        <tr>
-                          <td><em>Platform: </em>{campaign.platform}</td>
+                          {/* <td><em>Campaign ID: </em>{campaign.id}</td>  */}
+                          <td><em>Campaign Manager: </em>{campaign.campManager}</td>
                           <td><em>Artist: </em>{campaign.artist}</td>
-                          
                         </tr>
                         <tr>
-                        <td><em>Account Executive: </em>{campaign.accountExec}</td>
+                          <td><em>Client Contact: </em>{campaign.clientContact}</td>
                         <td><em>Song: </em>{campaign.song}</td>
                           
                         </tr>
                         <tr>
-                        <td><em>Campaign Manager: </em>{campaign.campManager}</td>
+                        {/* <td><em>Account Executive: </em>{campaign.accountExec}</td> */}
+                          <td><em>Platform: </em>{campaign.platform}</td>
                         <td> <em>AudioLink: </em>{campaign.songLink}</td>
-                          
-                          
                         </tr>
+                        
                       </tbody>
                     </Table>
                   <Row>

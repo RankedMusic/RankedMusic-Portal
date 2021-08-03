@@ -356,12 +356,12 @@ const CenteredTotal = ({ centerX, centerY }) => {
 }
     const renderPieChart = (
       <div>
-      { totalView > 1? (
-          <div style={{height: 650}}>
+      { totalView > 1 || !totalView ? (
+          <div style={{height: 575}}>
           <ResponsivePie
               data={ influencer_views_percent }
-              // width={1000} 
-              // height={500}
+              // width={800} 
+              // height={1000}
               id={influencer_views_percent.id}
               value={influencer_views_percent.value}
               margin={{ top: 40, right: 200, bottom: 40, left: 80 }}
@@ -369,7 +369,7 @@ const CenteredTotal = ({ centerX, centerY }) => {
               arcLabelsRadiusOffset={0.55}
               motionConfig= 'gentle'
               padAngle={0.8}
-              cornerRadius={5}
+              cornerRadius={3}
               activeOuterRadiusOffset={8}
               // colors={{ scheme: 'pink_yellowGreen' }}
               // colors={{ scheme: 'red_purple' }}
@@ -378,7 +378,7 @@ const CenteredTotal = ({ centerX, centerY }) => {
               colors={ colorsPallete3 }
               arcLinkLabelsOffset={2}
               borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.6 ] ] }}
-              arcLinkLabelsSkipAngle={3}
+              arcLinkLabelsSkipAngle={8}
               arcLinkLabelsTextColor="#333333"
               arcLinkLabelsThickness={2}
               // ******fix % on tooltip hover + add actual value on tooltip
@@ -386,14 +386,17 @@ const CenteredTotal = ({ centerX, centerY }) => {
               arcLinkLabelsColor={{ from: 'color' }}
               arcLabelsSkipAngle={10}        
               arcLabelsRadiusOffset={0.70}
-              arcLinkLabelsDiagonalLength={25}
-              arcLinkLabelsTextOffset={8}
-              arcLinkLabelsStraightLength={35}
+              arcLinkLabelsDiagonalLength={20}
+              // arcLinkLabelsTextOffset={40}
+              arcLinkLabelsStraightLength={25}
               // arcLabelsTextColor="#333333"
               arcLinkLabelsTextColor={{ from: 'color', modifiers: [] }}
               activeInnerRadiusOffset={8}
             // layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}
             // Make icon colors associated w pie
+            valueFormat={value =>
+              `${Number(value)}%`
+          }
             layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredTital, CenteredTotal]}
             arcLabelsComponent={({ datum, label, style, CenteredTital, CenteredTotal }) => (
               <animated.g transform={style.transform} style={{ pointerEvents: 'none' }}>
@@ -408,7 +411,7 @@ const CenteredTotal = ({ centerX, centerY }) => {
                           fontWeight: 800,
                       }}
                   >
-                      {label}%
+                      {label}
                   </text>
               </animated.g>
           )}
@@ -448,7 +451,7 @@ const CenteredTotal = ({ centerX, centerY }) => {
                       itemHeight: 20,
                       itemTextColor: '#999',
                       itemDirection: 'left-to-right',
-                      itemOpacity: 1,
+                      itemOpacity: .75,
                       itemsSpacing: 10,
                       symbolSize: 20,
                       symbolShape: 'circle'
